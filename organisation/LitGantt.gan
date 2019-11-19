@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2020-01-20" view-index="0" gantt-divider-location="680" resource-divider-location="300" version="2.8.10" locale="fr_FR">
+    <description/>
+    <view zooming-state="default:6" id="gantt-chart">
+        <field id="tpd3" name="Nom" width="155" order="0"/>
+        <field id="tpd4" name="Date de début" width="74" order="1"/>
+        <field id="tpd5" name="Date de fin" width="55" order="2"/>
+        <field id="tpd8" name="Responsable" width="97" order="3"/>
+        <field id="tpd13" name="Ressources" width="295" order="4"/>
+        <option id="color.recent"><![CDATA[#ff00ff #00cccc #cc33ff #009999 #33ffff #ccff00 #ffff33 #cccc00 #cc9900 #ffff00]]></option>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Nom" width="210" order="0"/>
+        <field id="1" name="Rôle par défaut" width="86" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+            <only-show-weekends value="true"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="0" name="Choix des composants" color="#ff0000" meeting="false" start="2019-11-19" duration="11" complete="0" thirdDate="2019-11-19" thirdDate-constraint="0" expand="true">
+            <depend id="16" type="2" difference="0" hardness="Strong"/>
+            <depend id="47" type="2" difference="0" hardness="Strong"/>
+            <depend id="61" type="2" difference="0" hardness="Strong"/>
+            <depend id="91" type="2" difference="0" hardness="Strong"/>
+            <depend id="94" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="3" name="Architecture mécanique définie" color="#8cb6ce" meeting="false" start="2019-11-19" duration="20" complete="0" thirdDate="2019-11-19" thirdDate-constraint="0" expand="true">
+            <depend id="61" type="2" difference="0" hardness="Strong"/>
+            <depend id="230" type="2" difference="0" hardness="Rubber"/>
+        </task>
+        <task id="16" name="On peut démarrer le moteur" color="#3399ff" meeting="false" start="2019-11-30" duration="16" complete="0" thirdDate="2019-11-18" thirdDate-constraint="0" expand="true">
+            <depend id="20" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="20" name="Envoi consigne de rotation moteur" color="#0066ff" meeting="false" start="2019-12-16" duration="7" complete="0" thirdDate="2019-11-18" thirdDate-constraint="0" expand="true">
+            <depend id="31" type="2" difference="0" hardness="Strong"/>
+            <depend id="221" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="24" name="La partie mobile est montée" color="#0033cc" meeting="false" start="2020-03-31" duration="1" complete="0" thirdDate="2019-11-18" thirdDate-constraint="0" expand="true">
+            <depend id="31" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="31" name="La partie mobile est en rotation" color="#0033ff" meeting="false" start="2020-04-01" duration="2" complete="0" thirdDate="2019-11-20" thirdDate-constraint="0" expand="true">
+            <depend id="37" type="2" difference="0" hardness="Strong"/>
+            <depend id="42" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="37" name="On mesure la vitesse de rotation" color="#66ccff" meeting="false" start="2020-04-03" duration="2" complete="0" thirdDate="2020-03-10" thirdDate-constraint="0" expand="true"/>
+        <task id="42" name="Signaux ON/OFF moteur depuis processeur" color="#6666ff" meeting="false" start="2020-04-03" duration="6" complete="0" thirdDate="2020-03-09" thirdDate-constraint="0" expand="true"/>
+        <task id="47" name="V1 Schémas PCB" color="#ff0000" meeting="false" start="2019-11-30" duration="36" complete="0" thirdDate="2019-11-08" thirdDate-constraint="0" expand="true">
+            <depend id="52" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="52" name="Version finale Schémas PCB" color="#ff6666" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2020-01-05" duration="19" complete="0" thirdDate="2019-12-30" thirdDate-constraint="0" expand="true">
+            <depend id="57" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="57" name="Routage fait" color="#ff3300" meeting="false" start="2020-01-24" duration="2" complete="0" thirdDate="2019-12-23" thirdDate-constraint="0" expand="true">
+            <depend id="69" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="61" name="Alimentation par induction réalisée" color="#cc0000" meeting="false" start="2019-12-09" duration="74" complete="0" thirdDate="2019-11-20" thirdDate-constraint="0" expand="true"/>
+        <task id="69" name="Attente des PCBs" color="#ff0066" meeting="false" start="2020-02-04" duration="56" complete="0" thirdDate="2020-02-04" thirdDate-constraint="1" expand="true">
+            <depend id="24" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="91" name="Architecture FPGA est faite" color="#99ff99" meeting="false" start="2019-11-30" duration="19" complete="0" thirdDate="2019-10-30" thirdDate-constraint="0" expand="true"/>
+        <task id="94" name="Linux installé et démarre" color="#99ff00" meeting="false" start="2019-11-30" duration="23" complete="0" thirdDate="2019-11-22" thirdDate-constraint="0" expand="true">
+            <depend id="99" type="2" difference="0" hardness="Strong"/>
+            <depend id="115" type="2" difference="0" hardness="Strong"/>
+            <depend id="255" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="99" name="On allume une couleur d'une LED" color="#00ff66" meeting="false" start="2019-12-23" duration="13" complete="0" thirdDate="2019-11-12" thirdDate-constraint="0" expand="true">
+            <depend id="104" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="104" name="On allume toutes les couleur d'une LED" color="#00cc00" meeting="false" start="2020-01-05" duration="10" complete="0" thirdDate="2019-12-03" thirdDate-constraint="0" expand="true">
+            <depend id="110" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="110" name="On allume chaque LED indépendamment" color="#99cc00" meeting="false" start="2020-01-15" duration="2" complete="0" thirdDate="2019-12-31" thirdDate-constraint="0" expand="true">
+            <depend id="119" type="2" difference="0" hardness="Strong"/>
+            <depend id="216" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="115" name="SD --&gt; RAM" color="#00cc66" meeting="false" start="2019-12-23" duration="33" complete="0" thirdDate="2019-12-31" thirdDate-constraint="0" expand="true">
+            <depend id="119" type="2" difference="0" hardness="Strong"/>
+            <depend id="269" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="119" name="Afficher image sans rotation" color="#00cc99" meeting="false" start="2020-01-25" duration="1" complete="0" thirdDate="2019-12-31" thirdDate-constraint="0" expand="true">
+            <depend id="123" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="123" name="Animation sans rotation" color="#339900" meeting="false" start="2020-01-26" duration="2" complete="0" thirdDate="2019-12-31" thirdDate-constraint="0" expand="true">
+            <depend id="221" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="216" name="Affichage texte 2D" color="#009900" meeting="false" start="2020-01-17" duration="76" complete="0" thirdDate="2020-01-26" thirdDate-constraint="0" expand="true">
+            <depend id="293" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="221" name="Affichage image 3D depuis RAM" color="#99ff00" meeting="false" start="2020-01-28" duration="71" complete="0" thirdDate="2019-12-30" thirdDate-constraint="0" expand="true">
+            <depend id="226" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="226" name="Affichage d'une animation depuis la RAM" color="#009966" meeting="false" start="2020-04-08" duration="2" complete="0" thirdDate="2019-12-30" thirdDate-constraint="0" expand="true">
+            <depend id="269" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="230" name="Simulateur image" color="#ff9900" meeting="false" start="2019-12-09" duration="12" complete="0" thirdDate="2019-12-30" thirdDate-constraint="0" expand="true">
+            <depend id="235" type="2" difference="0" hardness="Strong"/>
+            <depend id="239" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="235" name="Simulateur animation" color="#ffff00" meeting="false" start="2019-12-21" duration="2" complete="0" thirdDate="2019-11-11" thirdDate-constraint="0" expand="true"/>
+        <task id="286" name="Envoi d'une commande d'affichage texte depuis LitControl" color="#00cccc" meeting="false" start="2020-02-22" duration="7" complete="0" thirdDate="2020-01-27" thirdDate-constraint="0" expand="true">
+            <depend id="293" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="239" name="Générateur image 2D" color="#cc9900" meeting="false" start="2019-12-21" duration="56" complete="0" thirdDate="2019-11-11" thirdDate-constraint="0" expand="true">
+            <depend id="244" type="2" difference="0" hardness="Strong"/>
+            <depend id="248" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="244" name="Générateur animation 2D" color="#cccc00" meeting="false" start="2020-02-15" duration="1" complete="0" thirdDate="2019-12-09" thirdDate-constraint="0" expand="true"/>
+        <task id="248" name="Générateur image 3D" color="#ffff33" meeting="false" start="2020-02-15" duration="16" complete="0" thirdDate="2019-12-09" thirdDate-constraint="0" expand="true">
+            <depend id="252" type="2" difference="0" hardness="Strong"/>
+            <depend id="269" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="252" name="Générateur animation 3D" color="#ccff00" meeting="false" start="2020-03-02" duration="15" complete="0" thirdDate="2020-01-27" thirdDate-constraint="0" expand="true"/>
+        <task id="255" name="Hotspot Wifi + réception de trame en local" color="#00cccc" meeting="false" start="2019-12-23" duration="54" complete="0" thirdDate="2020-01-27" thirdDate-constraint="0" expand="true">
+            <depend id="259" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="259" name="Retour terminal debug implémenté" color="#33ffff" meeting="false" start="2020-02-15" duration="7" complete="0" thirdDate="2019-12-23" thirdDate-constraint="0" expand="true">
+            <depend id="263" type="2" difference="0" hardness="Strong"/>
+            <depend id="286" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="263" name="Sélection fichier" color="#009999" meeting="false" start="2020-02-22" duration="7" complete="0" thirdDate="2019-12-23" thirdDate-constraint="0" expand="true">
+            <depend id="269" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="293" name="Affichage du texte envoyé depuis LitControl" color="#ff00ff" meeting="false" start="2020-04-02" duration="3" complete="0" thirdDate="2020-01-27" thirdDate-constraint="0" expand="true"/>
+        <task id="269" name="Affichage d'une animation choisie depuis LitControl" color="#cc33ff" meeting="false" start="2020-04-10" duration="3" complete="0" thirdDate="2020-02-22" thirdDate-constraint="0" expand="true"/>
+    </tasks>
+    <resources>
+        <resource id="0" name="Romain Guilloteau" function="Default:1" contacts="romain.guilloteau@telecom-paris.fr" phone="0613107038"/>
+        <resource id="1" name="Nathan Claudel" function="Default:1" contacts="nathan.claudel@telecom-paris.fr" phone="0695066570"/>
+        <resource id="2" name="Salomé Thirot" function="Default:1" contacts="salome.thirot@telecom-paris.fr" phone="0625681874"/>
+        <resource id="3" name="Guillaume Janet" function="Default:1" contacts="guillaume.janet@telecom-paris.fr" phone="0605274366"/>
+    </resources>
+    <allocations>
+        <allocation task-id="0" resource-id="0" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="3" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="16" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="20" resource-id="0" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="24" resource-id="0" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="31" resource-id="0" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="42" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="47" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="52" resource-id="0" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="57" resource-id="0" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="91" resource-id="0" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="94" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="235" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="248" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="293" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="0" resource-id="1" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="3" resource-id="1" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="31" resource-id="1" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="37" resource-id="1" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="47" resource-id="1" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="52" resource-id="1" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="57" resource-id="1" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="91" resource-id="1" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="99" resource-id="1" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="110" resource-id="1" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="123" resource-id="1" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="226" resource-id="1" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="255" resource-id="1" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="286" resource-id="1" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="0" resource-id="2" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="3" resource-id="2" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="42" resource-id="2" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="47" resource-id="2" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="52" resource-id="2" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="57" resource-id="2" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="61" resource-id="2" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="104" resource-id="2" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="115" resource-id="2" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="216" resource-id="2" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="239" resource-id="2" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="252" resource-id="2" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="259" resource-id="2" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="269" resource-id="2" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="0" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="3" resource-id="3" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="16" resource-id="3" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="20" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="24" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="31" resource-id="3" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="37" resource-id="3" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="47" resource-id="3" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="52" resource-id="3" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="57" resource-id="3" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="61" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="119" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="221" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="230" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="244" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="263" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
+    </allocations>
+    <vacations/>
+    <previous/>
+    <roles roleset-name="Default"/>
+</project>
