@@ -4,10 +4,9 @@
 #include <QOpenGLWidget>
 #include <QTimer>
 #include <iostream>
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
 #include <cmath>
 #include <camera.h>
+#include <QPoint>
 
 
 class MyGLView : public QOpenGLWidget
@@ -21,27 +20,24 @@ protected:
     void initializeGL();
     void paintGL();
     void resizeGL(int w, int h);
-
     void keyPressEvent(QKeyEvent *event);
-    void keyReleaseEvent(QKeyEvent *event);
-
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void wheelEvent(QWheelEvent *event);
 
 private:
     QImage image;
-    int r,h;
+    int r = 0;
+    int h = 32;
     double theta;
     Camera camera;
-    glm::mat4 view;
     QTimer timer;
-    bool keyRight, keyLeft, keyUp, keyDown, keyShift, keyControl;
-    bool keyA, keyE, keyZ, keyQ, keyS, keyD;
-
-    void move_camera();
-
-
+    QPoint prev_mouse_pos;
+    float m_width, m_height;
 
 private slots:
     void get_file(QString path);
+    void h_changed(int h);
 
 
 signals:

@@ -20,3 +20,7 @@ MainWindow::~MainWindow()
 void MainWindow::receive_file(QString file){
     emit file_transmit(file);
 }
+
+void MainWindow::h_changed(int h){
+    emit new_h(h);
+}

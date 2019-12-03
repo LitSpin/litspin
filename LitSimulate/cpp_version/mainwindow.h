@@ -21,9 +21,11 @@ private:
 
 private slots:
     void receive_file(QString file);
+    void h_changed(int h);
 
 signals:
     void file_transmit(QString path);
+    void new_h(int h);
 };
 
 #endif // MAINWINDOW_H

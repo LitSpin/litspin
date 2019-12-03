@@ -4,202 +4,135 @@
 #include <QString>
 #include <cmath>
 
-MyGLView::MyGLView(QWidget * parent) : QOpenGLWidget(parent){
+MyGLView::MyGLView(QWidget * parent) : QOpenGLWidget(parent), camera(glm::vec3(0, 0, h/2))
+{
     connect(parent->parentWidget(), SIGNAL(file_transmit(QString)), this, SLOT(get_file(QString)));
+    connect(parent->parentWidget(), SIGNAL(new_h(int)), this, SLOT(h_changed(int)));
     setFocusPolicy(Qt::StrongFocus);
 
     connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
     timer.start(16);
 
-    keyUp = false;
-    keyDown = false;
-    keyLeft = false;
-    keyRight = false;
-
-    keyA = false;
-    keyZ = false;
-    keyE = false;
-    keyQ = false;
-    keyS = false;
-    keyD = false;
-    keyShift = false;
-    keyControl = false;
+    setMouseTracking(true);
 
     r=0;
     theta =0;
-    h=32;
-
-    setMouseTracking(true);
 }
 void MyGLView::initializeGL(){
     glClearColor(0,0,0,0);
     glEnable(GL_DEPTH_TEST);
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(90, 1, 0.01, 100);
     glMatrixMode(GL_MODELVIEW);
-    gluLookAt(0,50,h/2,0,0,0,0,0,1);
+    glLoadIdentity();
+
+    camera.setPosition(0,50,h/2);
+    camera.update(m_width, m_height);
 }
 
-void MyGLView::move_camera(){
-
-    if(keyZ)
-        glRotatef(1,1,0,0);
-    if(keyS)
-        glRotatef(1,-1,0,0);
-    if(keyQ)
-        glRotatef(1,0,1,0);
-    if(keyD)
-        glRotatef(1,0,-1,0);
-    if(keyA)
-        glRotatef(1,0,0,-1);
-    if(keyE)
-        glRotatef(1,0,0,1);
-    if(keyUp)
-        glTranslatef(0,-1,0);
-    if(keyDown)
-        glTranslatef(0,1,0);
-    if(keyLeft)
-        glTranslatef(1,0,0);
-    if(keyRight)
-        glTranslatef(-1,0,0);
-    if(keyShift)
-        glTranslatef(0,0,1);
-    if(keyControl)
-        glTranslatef(0,0,-1);
-
-
-
-}
-
-void MyGLView::paintGL(){
-
-    if (r!=0){
-        GLfloat viewmatrix[16];
-        glGetFloatv(GL_MODELVIEW_MATRIX, viewmatrix);
-        glLoadIdentity();
-        move_camera();
-        glMultMatrixf(viewmatrix);
+void MyGLView::paintGL()
+{
+    if (r!=0)
+    {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glPointSize(3);
-        glBegin(GL_POINTS);
-            for (int i=0; i<image.width(); i++){
-                for (int j=0; j<image.height(); j++){
-                    QRgb pixel = image.pixel(i,j);
-                    glColor3d(double(qRed(pixel))/255.0,double(qGreen(pixel))/255.0,double(qBlue(pixel))/255.0);
-                    glVertex3d((r-(j/h))*cos(i*theta), (r-(j/h))*sin(i*theta), h-j%h);
-                }
-            }
+        camera.update(m_width, m_height);
 
+
+        glBegin(GL_POINTS);
+        glPointSize(5);
+        for (int i=0; i<image.width(); i++)
+        {
+            for (int j=0; j<image.height(); j++)
+            {
+                QRgb pixel = image.pixel(i,j);
+                glColor3d(double(qRed(pixel))/255.0,double(qGreen(pixel))/255.0,double(qBlue(pixel))/255.0);
+                glVertex3d((r-(j/h))*cos(i*theta), (r-(j/h))*sin(i*theta), h-j%h);
+            }
+        }
         glEnd();
     }
-
 }
 
 
-void MyGLView::resizeGL(int w, int h){
+void MyGLView::resizeGL(int w, int h)
+{
     glViewport(0, 0, w, h);
+    m_width = w;
+    m_height = h;
 }
 
 void MyGLView::get_file(QString path){
     image.load(path);
     r = image.height()/h;
+
+    std::cout << "Open file " << r << std::endl;
+
     theta = 2*M_PI/double(image.width());
 
     emit update();
 
 }
 
+void MyGLView::h_changed(int new_h){
+    std::cout << h << std::endl;
+    h = new_h;
+    r = image.height()/h;
+}
+
 
 
 void MyGLView::keyPressEvent(QKeyEvent *event) {
 
-switch (event->key()) {
 
-case Qt::Key_Q:
-    keyQ = true;
-    break;
-case Qt::Key_D:
-    keyD = true;
-    break;
-case Qt::Key_Z:
-    keyZ = true;
-    break;
-case Qt::Key_S:
-    keyS = true;
-    break;
-case Qt::Key_A:
-    keyA = true;
-    break;
-case Qt::Key_E:
-    keyE = true;
-    break;
-case Qt::Key_Up:
-    keyUp = true;
-    break;
-case Qt::Key_Down:
-    keyDown = true;
-    break;
-case Qt::Key_Left:
-    keyLeft = true;
-    break;
-case Qt::Key_Right:
-    keyRight = true;
-    break;
-case Qt::Key_Shift:
-    keyShift = true;
-    break;
-case Qt::Key_Control:
-    keyControl = true;
-    break;
+    std::cout << "key press" << std::endl;
 
-}
-}
-
-void MyGLView::keyReleaseEvent(QKeyEvent *event) {
 
 switch (event->key()) {
 
 case Qt::Key_Q:
-    keyQ = false;
+    camera.moveTheta(-0.1f);
     break;
 case Qt::Key_D:
-    keyD = false;
+    camera.moveTheta(+0.1f);
     break;
 case Qt::Key_Z:
-    keyZ = false;
+    camera.movePhi(0.1f);
     break;
 case Qt::Key_S:
-    keyS = false;
+    camera.movePhi(-0.1f);
     break;
 case Qt::Key_A:
-    keyA = false;
+    camera.moveRadius(1.f);
     break;
 case Qt::Key_E:
-    keyE = false;
+    camera.moveRadius(-1.f);
     break;
-case Qt::Key_Up:
-    keyUp = false;
-    break;
-case Qt::Key_Down:
-    keyDown = false;
-    break;
-case Qt::Key_Left:
-    keyLeft = false;
-    break;
-case Qt::Key_Right:
-    keyRight = false;
-    break;
-case Qt::Key_Shift:
-    keyShift = false;
-    break;
-case Qt::Key_Control:
-    keyControl = false;
-    break;
-
 }
+}
+
+void MyGLView::mousePressEvent(QMouseEvent *event)
+{
+    if(event->buttons() & Qt::LeftButton)
+    {
+        prev_mouse_pos = event->pos();
+    }
+}
+
+void MyGLView::mouseMoveEvent(QMouseEvent *event)
+{
+    if(event->buttons() & Qt::LeftButton)
+    {
+        auto delta = event->pos() - prev_mouse_pos;
+        camera.moveTheta(-float(delta.x())/100.f);
+        camera.movePhi(float(delta.y())/100.f);
+
+        prev_mouse_pos = event->pos();
+    }
+}
+
+void MyGLView::wheelEvent(QWheelEvent *event)
+{
+    camera.moveRadius(event->angleDelta().y()/100.f);
 }
 
 
