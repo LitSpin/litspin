@@ -70,6 +70,36 @@
        </spacer>
       </item>
       <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Value of h:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="spinBox">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="value">
+         <number>32</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
        <widget class="QPushButton" name="pushButton">
         <property name="text">
          <string>Exit</string>
@@ -116,8 +146,8 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>521</x>
-     <y>469</y>
+     <x>598</x>
+     <y>501</y>
     </hint>
     <hint type="destinationlabel">
      <x>515</x>
@@ -125,5 +155,24 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>h_changed(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>415</x>
+     <y>492</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>462</x>
+     <y>486</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>h_changed(int)</slot>
+ </slots>
 </ui>

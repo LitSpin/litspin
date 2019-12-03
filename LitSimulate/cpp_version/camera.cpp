@@ -1,132 +1,61 @@
 #include "camera.h"
+#include <GL/glu.h>
 #include <iostream>
+#include <math.h>
 
-Camera::Camera() : m_phi(0.0), m_theta(0.0), m_orientation(), m_axeVertical(0, 0, 1), m_deplacementLateral(), m_position(), m_pointCible()
+Camera::Camera(glm::vec3 center) : m_center(center)
 {
-
-}
-Camera::Camera(glm::vec3 position, glm::vec3 pointCible, glm::vec3 axeVertical) : m_phi(0.0), m_theta(0.0), m_orientation(), m_axeVertical(axeVertical),
-                                                                          m_deplacementLateral(), m_position(position), m_pointCible(pointCible)
-{
-
-}
-Camera::~Camera()
-{
-
-}
-void Camera::orienter(int xRel, int yRel)
-{
-    // Récupération des angles
-
-    m_phi += -yRel * 0.5f;
-    m_theta += -xRel * 0.5f;
-
-
-    // Limitation de l'angle phi
-
-    if(m_phi > 89.0f)
-        m_phi = 89.0f;
-
-    else if(m_phi < -89.0f)
-        m_phi = -89.0;
-
-
-    // Conversion des angles en radian
-
-    float phiRadian = m_phi * float(M_PI) / 180;
-    float thetaRadian = m_theta * float(M_PI) / 180;
-
-
-    // Si l'axe vertical est l'axe X
-
-    if(m_axeVertical.x == 1.0f)
-    {
-        // Calcul des coordonnées sphériques
-
-        m_orientation.x = sinf(phiRadian);
-        m_orientation.y = cosf(phiRadian) * cosf(thetaRadian);
-        m_orientation.z = cosf(phiRadian) * sinf(thetaRadian);
-    }
-
-
-    // Si c'est l'axe Y
-
-    else if(m_axeVertical.y == 1.0f)
-    {
-        // Calcul des coordonnées sphériques
-
-        m_orientation.x = cosf(phiRadian) * sinf(thetaRadian);
-        m_orientation.y = sinf(phiRadian);
-        m_orientation.z = cosf(phiRadian) * cosf(thetaRadian);
-    }
-
-
-    // Sinon c'est l'axe Z
-
-    else
-    {
-        // Calcul des coordonnées sphériques
-
-        m_orientation.x = cosf(phiRadian) * cosf(thetaRadian);
-        m_orientation.y = cosf(phiRadian) * sinf(thetaRadian);
-        m_orientation.z = sinf(phiRadian);
-    }
-
-
-    // Calcul de la normale
-
-    m_deplacementLateral = cross(m_axeVertical, m_orientation);
-    m_deplacementLateral = normalize(m_deplacementLateral);
-
-
-    // Calcul du point ciblé pour OpenGL
-
-    m_pointCible = m_position + m_orientation;
+    setPositionSpherical(30, 0, 0);
 }
 
-void Camera::deplacer(QKeyEvent * event)
+void Camera::setPosition(float x, float y, float z)
 {
-
-        if(event->key() == Qt::Key_Z){
-            std::cout<<"z"<<std::endl;
-            m_position = m_position + m_orientation *0.5f;
-            m_pointCible = m_position + m_orientation;
-        }
-
-        // Recul de la caméra
-
-        if(event->key() == Qt::Key_S)
-        {
-            std::cout<<"s"<<std::endl;
-            m_position = m_position - m_orientation * 0.5f;
-            m_pointCible = m_position + m_orientation;
-        }
-
-
-        // Déplacement vers la gauche
-
-        if(event->key() == Qt::Key_Q)
-        {
-            std::cout<<"q"<<std::endl;
-            m_position = m_position + m_deplacementLateral * 0.5f;
-            m_pointCible = m_position + m_orientation;
-        }
-
-
-        // Déplacement vers la droite
-
-        if(event->key() == Qt::Key_D)
-        {
-            std::cout<<"d"<<std::endl;
-            m_position = m_position - m_deplacementLateral * 0.5f;
-            m_pointCible = m_position + m_orientation;
-        }
-
+    m_position.x = x;
+    m_position.y = y;
+    m_position.z = z;
 }
 
-void Camera::lookAt(glm::mat4 &modelview)
+void Camera::setPositionSpherical(float r, float theta, float phi)
 {
-    // Actualisation de la vue dans la matrice
+    if(r < 0) r = 0;
+    m_r = r;
+    m_theta = theta;
+    if(phi < - float(M_PI)/2) phi = - float(M_PI)/2;
+    if(phi >   float(M_PI)/2) phi =   float(M_PI)/2;
+    m_phi = phi;
 
-    modelview = glm::lookAt(m_position, m_pointCible, m_axeVertical);
+    setPosition(r * cos(theta) * cos(phi) + m_center.x,
+                r * sin(theta) * cos(phi) + m_center.y,
+                r * sin(phi)              + m_center.z);
 }
+
+void Camera::moveRadius(float delta)
+{
+    setPositionSpherical(m_r + delta, m_theta, m_phi);
+}
+
+void Camera::moveTheta(float delta)
+{
+    setPositionSpherical(m_r, m_theta + delta, m_phi);
+}
+
+void Camera::movePhi(float delta)
+{
+    setPositionSpherical(m_r, m_theta, m_phi + delta);
+}
+
+void Camera::update(float width, float height)
+{
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    gluPerspective(90, width/height, 0.01, 100);
+    gluLookAt(double(m_position.x),
+              double(m_position.y),
+              double(m_position.z),
+              double(m_center.x),
+              double(m_center.y),
+              double(m_center.z)
+              , 0, 0, 1);
+}
+

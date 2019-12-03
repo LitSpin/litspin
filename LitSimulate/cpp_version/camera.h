@@ -12,25 +12,25 @@ class Camera
 {
 public:
 
-    Camera();
-    Camera(glm::vec3 position, glm::vec3 pointCible, glm::vec3 axeVertical);
-    ~Camera();
+    Camera(glm::vec3 center);
 
-    void orienter(int xRel, int yRel);
-    void deplacer(QKeyEvent * event);
-    void lookAt(glm::mat4 &modelview);
+    void setPosition(float x, float y, float z);
+    void setPositionSpherical(float r, float theta, float phi);
+
+    void moveRadius(float delta);
+    void moveTheta(float delta);
+    void movePhi(float delta);
+
+    void update(float width, float height);
 
 
 private:
-    float m_phi;
-    float m_theta;
-    glm::vec3 m_orientation;
-
-    glm::vec3 m_axeVertical;
-    glm::vec3 m_deplacementLateral;
-
+    glm::vec3 m_center;
     glm::vec3 m_position;
-    glm::vec3 m_pointCible;
+
+    float m_r;
+    float m_theta;
+    float m_phi;
 };
 
 #endif // CAMERA_H
