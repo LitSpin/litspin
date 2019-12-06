@@ -1,12 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2020-01-20" view-index="0" gantt-divider-location="680" resource-divider-location="300" version="2.8.10" locale="fr_FR">
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2020-01-12" view-index="0" gantt-divider-location="685" resource-divider-location="300" version="2.8.10" locale="fr">
     <description/>
     <view zooming-state="default:6" id="gantt-chart">
-        <field id="tpd3" name="Nom" width="155" order="0"/>
-        <field id="tpd4" name="Date de début" width="74" order="1"/>
-        <field id="tpd5" name="Date de fin" width="55" order="2"/>
-        <field id="tpd8" name="Responsable" width="97" order="3"/>
-        <field id="tpd13" name="Ressources" width="295" order="4"/>
-        <option id="color.recent"><![CDATA[#ff00ff #00cccc #cc33ff #009999 #33ffff #ccff00 #ffff33 #cccc00 #cc9900 #ffff00]]></option>
+        <field id="tpd3" name="Nom" width="153" order="0"/>
+        <field id="tpd4" name="Date de début" width="73" order="1"/>
+        <field id="tpd5" name="Date de fin" width="91" order="2"/>
+        <field id="tpd8" name="Responsable" width="59" order="3"/>
+        <field id="tpd13" name="Ressources" width="290" order="4"/>
+        <option id="color.recent">
+            <![CDATA[#00cccc #ff00ff #cc33ff #009999 #33ffff #ccff00 #ffff33 #cccc00 #cc9900 #ffff00]]>
+        </option>
     </view>
     <view id="resource-table">
         <field id="0" name="Nom" width="210" order="0"/>
@@ -46,6 +48,10 @@
         <task id="3" name="Architecture mécanique définie" color="#8cb6ce" meeting="false" start="2019-11-19" duration="20" complete="0" thirdDate="2019-11-19" thirdDate-constraint="0" expand="true">
             <depend id="61" type="2" difference="0" hardness="Strong"/>
             <depend id="230" type="2" difference="0" hardness="Rubber"/>
+            <depend id="295" type="2" difference="0" hardness="Rubber"/>
+        </task>
+        <task id="295" name="Le principe et l'architecture de la transmission de puissance sont définis" color="#00cccc" meeting="false" start="2019-12-09" duration="5" complete="0" thirdDate="2019-11-17" thirdDate-constraint="0" expand="true">
+            <depend id="61" type="2" difference="0" hardness="Strong"/>
         </task>
         <task id="16" name="On peut démarrer le moteur" color="#3399ff" meeting="false" start="2019-11-30" duration="16" complete="0" thirdDate="2019-11-18" thirdDate-constraint="0" expand="true">
             <depend id="20" type="2" difference="0" hardness="Strong"/>
@@ -72,7 +78,7 @@
         <task id="57" name="Routage fait" color="#ff3300" meeting="false" start="2020-01-24" duration="2" complete="0" thirdDate="2019-12-23" thirdDate-constraint="0" expand="true">
             <depend id="69" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="61" name="Alimentation par induction réalisée" color="#cc0000" meeting="false" start="2019-12-09" duration="74" complete="0" thirdDate="2019-11-20" thirdDate-constraint="0" expand="true"/>
+        <task id="61" name="Alimentation réalisée" color="#cc0000" meeting="false" start="2019-12-14" duration="69" complete="0" thirdDate="2019-11-20" thirdDate-constraint="0" expand="true"/>
         <task id="69" name="Attente des PCBs" color="#ff0066" meeting="false" start="2020-02-04" duration="56" complete="0" thirdDate="2020-02-04" thirdDate-constraint="1" expand="true">
             <depend id="24" type="2" difference="0" hardness="Strong"/>
         </task>
@@ -208,6 +214,7 @@
         <allocation task-id="230" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="244" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="263" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="295" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
     </allocations>
     <vacations/>
     <previous/>
