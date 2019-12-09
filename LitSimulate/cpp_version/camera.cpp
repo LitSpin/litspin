@@ -49,7 +49,7 @@ void Camera::update(float width, float height)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    gluPerspective(90, width/height, 0.01, 100);
+    gluPerspective(90, double(width/height), 0.01, 1000);
     gluLookAt(double(m_position.x),
               double(m_position.y),
               double(m_position.z),
