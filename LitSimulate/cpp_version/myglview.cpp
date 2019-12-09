@@ -6,12 +6,15 @@
 
 MyGLView::MyGLView(QWidget * parent) : QOpenGLWidget(parent), camera(glm::vec3(0, 0, h/2))
 {
+    connect(parent->parentWidget(), SIGNAL(file_choice()), this, SLOT(file_explore()));
     connect(parent->parentWidget(), SIGNAL(file_transmit(QString)), this, SLOT(get_file(QString)));
     connect(parent->parentWidget(), SIGNAL(new_h(int)), this, SLOT(h_changed(int)));
+    connect(parent->parentWidget(), SIGNAL(mode_changed(int)), this, SLOT(change_mode(int)));
+    connect(parent->parentWidget(), SIGNAL(fps_changed(int)), this, SLOT(change_fps(int)));
     setFocusPolicy(Qt::StrongFocus);
 
-    connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
-    timer.start(16);
+    connect(&timer_gl, SIGNAL(timeout()), this, SLOT(update()));
+    connect(&timer_frame, SIGNAL(timeout()), this, SLOT(next_frame()));
 
     setMouseTracking(true);
 
@@ -37,7 +40,6 @@ void MyGLView::paintGL()
 
         camera.update(m_width, m_height);
 
-
         glBegin(GL_POINTS);
         glPointSize(5);
         for (int i=0; i<image.width(); i++)
@@ -50,6 +52,7 @@ void MyGLView::paintGL()
             }
         }
         glEnd();
+
     }
 }
 
@@ -61,30 +64,50 @@ void MyGLView::resizeGL(int w, int h)
     m_height = h;
 }
 
+void MyGLView::file_explore(){
+    timer_gl.stop();
+    timer_frame.stop();
+}
+
 void MyGLView::get_file(QString path){
-    image.load(path);
-    r = image.height()/h;
-
-    std::cout << "Open file " << r << std::endl;
-
-    theta = 2*M_PI/double(image.width());
-
-    emit update();
+    if (mode == IMAGE_MODE){
+        image.load(path);
+        r = image.height()/h;
+        theta = 2*M_PI/double(image.width());
+    }
+    else {
+        extract_frames(path.toUtf8().constData());
+        r = frames[0].height()/h;
+        theta = 2*M_PI/double(frames[0].width());
+        video_display_index = 0;
+        timer_frame.start(100);
+    }
+    timer_gl.start(33);
 
 }
 
 void MyGLView::h_changed(int new_h){
-    std::cout << h << std::endl;
     h = new_h;
     r = image.height()/h;
 }
 
+void MyGLView::change_mode(int m){
+    mode = m;
+    r = 0;
+    std::cout << mode << std::endl;
+}
 
+void MyGLView::next_frame(){
+    video_display_index++;
+    video_display_index %= frames.size();
+    image = frames[video_display_index];
+}
+
+void MyGLView::change_fps(int fps){
+    timer_frame.setInterval(int(1000.0f/float(fps)));
+}
 
 void MyGLView::keyPressEvent(QKeyEvent *event) {
-
-
-    std::cout << "key press" << std::endl;
 
 
 switch (event->key()) {
@@ -135,6 +158,47 @@ void MyGLView::wheelEvent(QWheelEvent *event)
     camera.moveRadius(event->angleDelta().y()/100.f);
 }
 
+/**
+ * Method taken from: https://stackoverflow.com/questions/17127762/cvmat-to-qimage-and-back
+ */
+
+QImage Mat2QImage(cv::Mat const& src)
+{
+     cv::Mat temp; // make the same cv::Mat
+     cvtColor(src, temp,CV_BGR2RGB); // cvtColor Makes a copt, that what i need
+     QImage dest((const uchar *) temp.data, temp.cols, temp.rows, temp.step, QImage::Format_RGB888);
+     dest.bits(); // enforce deep copy, see documentation
+     // of QImage::QImage ( const uchar * data, int width, int height, Format format )
+     return dest;
+}
+
+/**
+  * Method taken from: https://gist.github.com/itsrifat/66b253db2736b23f247c
+  */
+void MyGLView::extract_frames(const std::string &videoFilePath){
+
+    try{
+        //open the video file
+    cv::VideoCapture cap(videoFilePath); // open the video file
+    if(!cap.isOpened())  // check if we succeeded
+        CV_Error(CV_StsError, "Can not open Video file");
+
+    frames = std::vector<QImage>();
+
+    //cap.get(CV_CAP_PROP_FRAME_COUNT) contains the number of frames in the video;
+    for(int frameNum = 0; frameNum < cap.get(CV_CAP_PROP_FRAME_COUNT);frameNum++)
+    {
+        cv::Mat frame;
+        cap >> frame; // get the next frame from video
+        frames.push_back(Mat2QImage(frame));
+    }
+  }
+  catch( cv::Exception& e ){
+    std::cerr << e.msg << std::endl;
+    exit(1);
+  }
+
+}
 
 
 

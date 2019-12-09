@@ -22,6 +22,7 @@ private slots:
 
 signals:
     void file_chosen(QString path);
+    void file_choice();
 
 };
 

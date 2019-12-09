@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>706</width>
-    <height>513</height>
+    <width>830</width>
+    <height>572</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -100,6 +100,65 @@
        </spacer>
       </item>
       <item>
+       <widget class="QCheckBox" name="checkBox">
+        <property name="toolTip">
+         <string>Check it before loading file</string>
+        </property>
+        <property name="statusTip">
+         <string/>
+        </property>
+        <property name="whatsThis">
+         <string/>
+        </property>
+        <property name="text">
+         <string>Video mode</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>FPS:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="spinBox_2">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="value">
+         <number>10</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_6">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
        <widget class="QPushButton" name="pushButton">
         <property name="text">
          <string>Exit</string>
@@ -146,8 +205,8 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>598</x>
-     <y>501</y>
+     <x>740</x>
+     <y>560</y>
     </hint>
     <hint type="destinationlabel">
      <x>515</x>
@@ -162,8 +221,8 @@
    <slot>h_changed(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>415</x>
-     <y>492</y>
+     <x>325</x>
+     <y>561</y>
     </hint>
     <hint type="destinationlabel">
      <x>462</x>
@@ -171,8 +230,42 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>checkBox</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>change_mode(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>490</x>
+     <y>559</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>612</x>
+     <y>543</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_2</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>change_fps(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>592</x>
+     <y>554</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>661</x>
+     <y>557</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>h_changed(int)</slot>
+  <slot>change_mode(int)</slot>
+  <slot>change_fps(int)</slot>
  </slots>
 </ui>
