@@ -1,0 +1,19 @@
+[2017-10-26 20.40.12] Successfully created [AutoSave] backup [2017-10-26 20.40.11 - auto.zip] requested by [DESKTOP-D6MOGOB:alexis].
+[2017-11-12 13.42.14] Successfully created [AutoSave] backup [2017-11-12 13.42.14 - auto.zip] requested by [DESKTOP-D6MOGOB:alexis].
+[2017-11-12 14.20.53] Removing (by prune) [AutoSave] backup file [C:\t\Project_template\Default\ProjectBackup\backups\2017-10-26 20.40.11 - auto.zip].
+[2017-11-12 14.20.53] [AutoSave] backup file [Project_template\Default\ProjectBackup\backups\2017-10-26 20.40.11 - auto.zip] removed.
+[2017-11-12 14.20.53] Removing (by prune) [AutoSave] backup file [C:\t\Project_template\Default\ProjectBackup\backups\2017-11-12 13.42.14 - auto.zip].
+[2017-11-12 14.20.53] [AutoSave] backup file [Project_template\Default\ProjectBackup\backups\2017-11-12 13.42.14 - auto.zip] removed.
+[2017-11-12 14.28.48] Successfully created [AutoSave] backup [2017-11-12 14.28.47 - auto.zip] requested by [DESKTOP-D6MOGOB:alexis].
+[2017-11-12 14.30.41] Removing (by prune) [AutoSave] backup file [F:\Project_template\Default\ProjectBackup\backups\2017-11-12 14.28.47 - auto.zip].
+[2017-11-12 14.30.41] [AutoSave] backup file [\Project_template\Default\ProjectBackup\backups\2017-11-12 14.28.47 - auto.zip] removed.
+[2018-10-21 14.54.28] Migrating iCDB upgrade backups from directory [\PROJECT_TEMPLATE\Default\default.icdb\cdbback] to Project Backup format.
+[2018-10-21 14.54.28] Migrating iCDB upgrade backup file [2018-10-21 14.52.11-4396].
+[2018-10-21 14.54.29] Successfully created [Constraints Definition Upgrade] backup [2018-10-21 14.52.11 - consDefUpgr.zip] requested by [DESKTOP-D6MOGOB:alexis].
+[2018-10-21 14.54.29] Migrated iCDB content backup file [cdbback\2018-10-21 14.52.11-4396.zip] removed.
+[2018-10-21 14.54.29] Successfully migrated iCDB upgrade backup file [2018-10-21 14.52.11-4396] to Project Backup format [2018-10-21 14.52.11 - consDefUpgr.zip]
+[2018-10-21 14.54.29] Successfully created [AutoSave] backup [2018-10-21 14.54.29 - auto.zip] requested by [DESKTOP-D6MOGOB:alexis].
+[2019-08-15 02.48.52] Successfully created [Database Upgrade] backup [2019-08-15 02.48.51 - upgrade.zip] requested by [DESKTOP-D6MOGOB:alexis].
+[2019-08-15 02.48.52] Migrated iCDB content backup file [cdbback\2019-08-15 02.48.50-2864.zip] removed.
+[2019-08-15 02.48.53] Successfully created [AutoSave] backup [2019-08-15 02.48.52 - auto.zip] requested by [DESKTOP-D6MOGOB:alexis].
+[2019-10-24 02.39.00] Successfully created [AutoSave] backup [2019-10-24 02.38.59 - auto.zip] requested by [DESKTOP-D6MOGOB:alexis].

@@ -1,0 +1,31 @@
+[2019.10.24 02:38:58] [0000m.17s.320ms] [0] WELCOME
+[2019.10.24 02:38:58] [0000m.17s.332ms] [1] iCDB Database ver.2.205, p7PHx1plG7hopcdzjfjJnA, build:14468353 created 2019-08-02 06:04:01, sources stamp:p7PHx1plG7hopcdzjfjJnA
+[2019.10.24 02:38:58] [0000m.17s.332ms] [1] Copyright 2019 Mentor Graphics Corporation.  All Rights Reserved.
+[2019.10.24 02:38:58] [0000m.17s.332ms] [1] Base flow version [VX.2.5]
+[2019.10.24 02:38:58] [0000m.17s.332ms] [1] Install Id [1935766], Flow Id [X-ENTP VX.2.5], Full Flow Name [Xpedition Enterprise X-ENTP VX.2.5], Exact Access Date [2019/02/01]
+[2019.10.24 02:38:58] [0000m.17s.332ms] [1] Install Id [1935757], Flow Id [X-ENTP DCVX.2.5], Full Flow Name [Xpedition Enterprise X-ENTP VX.2.5], Exact Access Date [2019/02/01]
+[2019.10.24 02:38:58] [0000m.17s.332ms] [1] UPDATE Install Info, Install Id [2051161], UPDATE Name [Xpedition Enterprise X-ENTP VX.2.5 - Update 9]
+[2019.10.24 02:38:58] [0000m.17s.332ms] [1] Machine [DESKTOP-D6MOGOB]  IP [10.0.2.15,127.0.0.1,192.168.56.4]  User [alexis]  PID [7584]
+[2019.10.24 02:38:58] [0000m.17s.332ms] [1] Operating system [Microsoft Windows 8 Business Edition, 64-bit (build 9200)]
+[2019.10.24 02:38:58] [0000m.17s.332ms] [1] Current working dir [F:\Project_template\PCB]
+[2019.10.24 02:38:58] [0000m.17s.332ms] [1] PATH [C:\MentorGraphics\EEVX.2.5\SDD_HOME\xe\win32\lib;C:\MentorGraphics\EEVX.2.5\SDD_HOME\common\win32\bin;C:\MentorGraphics\EEVX.2.5\SDD_HOME\common\win32\lib;C:\MentorGraphics\EEVX.2.5\MGC_HOME.ixn\bin;C:\MentorGraphics\EEVX.2.5\MGC_HOME.ixn\lib;C:\MentorGraphics\EEVX.2.5\SDD_HOME\wg\win32\lib;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Users\alexi\AppData\Local\Microsoft\WindowsApps;C:\MentorGraphics\EEVX.2.5\SDD_HOME\common3D\win32\lib]
+[2019.10.24 02:38:58] [0000m.17s.332ms] [1] SDD_HOME [C:\MentorGraphics\EEVX.2.5\SDD_HOME] on file system [NTFS]
+[2019.10.24 02:38:58] [0000m.17s.332ms] [1] SDD_PLATFORM [win32]
+[2019.10.24 02:38:58] [0000m.17s.332ms] [1] WDIR [C:\Users\alexi\Documents\WDIR;C:\MentorGraphics\EEVX.2.5\SDD_HOME\standard;]
+[2019.10.24 02:38:58] [0000m.17s.332ms] [1] Local iCDB working dir [C:\Users\alexi\Documents\WDIR\iCDB] on file system [NTFS]
+[2019.10.24 02:38:58] [0000m.17s.332ms] [3] WARNING: Database [F:\Project_template\Default\default.icdb\icdb.dat] was manually copied
+[2019.10.24 02:38:58] [0000m.17s.332ms] [3] File change time:        [2019-10-23 10.18.51]
+[2019.10.24 02:38:58] [0000m.17s.332ms] [3] File modification time:  [2019-10-23 10.18.51]
+[2019.10.24 02:38:58] [0000m.17s.332ms] [3] Last change time:        [2019-08-15 03.49.55]
+[2019.10.24 02:38:58] [0000m.17s.332ms] [3] Last database open information:
+[2019.10.24 02:38:58] [0000m.17s.332ms] [3] Time:             [2019-08-15 03.49.44]
+[2019.10.24 02:38:58] [0000m.17s.332ms] [3] Location:         [Y:\Project_template\Default\default.icdb\icdb.dat]
+[2019.10.24 02:38:58] [0000m.17s.332ms] [3] Machine:          [DESKTOP-D6MOGOB]
+[2019.10.24 02:38:58] [0000m.17s.332ms] [3] User:             [alexis]
+[2019.10.24 02:38:58] [0000m.17s.332ms] [3] PID:              [8036]
+[2019.10.24 02:38:58] [0000m.17s.332ms] [3] Application:      [iCDB Server]
+[2019.10.24 02:38:58] [0000m.17s.332ms] [3] Operating system: [Microsoft Windows 10 Business Edition, 64-bit (build 17134)]
+[2019.10.24 02:38:58] [0000m.17s.332ms] [3] WARNING: Regenerating database GUID
+[2019.10.24 02:38:58] [0000m.17s.332ms] [3] Previous database GUID [9140-11c0-49f8-437e-2fba-45d7-fba4-5d50-a205-66b5-b253-92bb]
+[2019.10.24 02:38:58] [0000m.17s.332ms] [3] Current database GUID  [3eb4-1a55-b5e0-788e-2a2f-0bd7-a2f0-bd50-a5b6-66b5-b253-92bb]
+[2019.10.24 02:38:58] [0000m.17s.332ms] [0] .

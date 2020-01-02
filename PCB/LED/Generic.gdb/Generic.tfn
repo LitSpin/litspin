@@ -1,0 +1,6 @@
+Flat_Net_ID	Flat_Net_Name
+1	GND
+5	RSTn
+3	SWCLK
+4	SWDAT
+2	VCC
