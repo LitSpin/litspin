@@ -159,8 +159,8 @@ def display_visible_points(visible_left, left, visible_right = None, right = Non
     pypl.scatter([left.x], [left.y], color = "blue")
     if not right is None:
         pypl.scatter([right.x], [right.y], color = "red")
-    pypl.xlim(-300, 300)
-    pypl.ylim(-400,300)
+    pypl.xlim(-150, 150)
+    pypl.ylim(-200,150)
     pypl.axis("scaled")
     pypl.show()
 
@@ -184,7 +184,7 @@ def display_config(led_list, view, pcb_list):
     for pcb in pcb_list:
         pypl.plot([pcb.a.x, pcb.b.x], [pcb.a.y, pcb.b.y], color="green")
     ax=pypl.gca()
-    ax.add_artist(pypl.Circle((0, 0), 260, color = "black", fill=False))
+    ax.add_artist(pypl.Circle((0, 0), 260/2, color = "black", fill=False))
     pypl.axis("scaled")
     pypl.xlim(-300, 300)
     pypl.ylim(-400,300)

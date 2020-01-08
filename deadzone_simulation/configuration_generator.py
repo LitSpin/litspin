@@ -2,20 +2,23 @@ import numpy as np
 from deadzone_simulation import *
 
 PCB_WIDTH = 8 #mm
-LED_ELEVATION = .1 #mm
+LED_ELEVATION = 1.9 #mm
+L_WIDTH   = 5 #mm
 
-def generate_configuration(pcb_position_list, polar, double_side = False):
+def generate_configuration(pcb_position_list, polar, double_side = False, L_enabled = False):
     '''
     Generates segments and leds from a PCB position list (x, y , angle)
     '''
     led_list = []
     pcb_list = []
+    coord_list = []
     for x, y, theta in pcb_position_list:
         if polar:
             r = x
             t = y * np.pi / 180
             x = r * np.cos(t)
             y = r * np.sin(t)
+        coord_list.append((x, y, theta))
         theta = theta * np.pi / 180
         c, s = np.cos(theta), np.sin(theta)
         a = Point(x - c * PCB_WIDTH / 2, y - s * PCB_WIDTH / 2)
@@ -30,6 +33,15 @@ def generate_configuration(pcb_position_list, polar, double_side = False):
             led = Led(x + s * LED_ELEVATION, y - c * LED_ELEVATION, theta + np.pi * 3/2)
             led_list.append(led)
 
+        if L_enabled:
+            ll_a = Point(a.x - s * L_WIDTH / 2, a.y + c * L_WIDTH / 2)
+            ll_b = Point(a.x + s * L_WIDTH / 2, a.y - c * L_WIDTH / 2)
+            lr_a = Point(b.x - s * L_WIDTH / 2, b.y + c * L_WIDTH / 2)
+            lr_b = Point(b.x + s * L_WIDTH / 2, b.y - c * L_WIDTH / 2)
+            pcb_list.append(Segment(ll_a, ll_b))
+            pcb_list.append(Segment(lr_a, lr_b))
+
+    print(coord_list)
     return led_list, pcb_list
 
 def stairs(nb_pcb : int, diameter : float):
@@ -76,6 +88,6 @@ def asymmetric_spiral_const_dist(nb_pcb : int, diameter : float, dist : float):
 
 def modulo_forest(nb_pcb : int, diameter : float, gap : int):
     angle = 360 / nb_pcb
-    dist = diameter / nb_pcb
+    dist = (diameter / 2) / nb_pcb
     pcb_position_list = [[n * dist + dist / 2, n * gap * angle, n * gap * angle + 90] for n in range(nb_pcb)]
-    return generate_configuration(pcb_position_list, True, True)
+    return generate_configuration(pcb_position_list, True, True, True)
