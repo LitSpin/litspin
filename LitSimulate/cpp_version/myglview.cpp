@@ -4,7 +4,10 @@
 #include <QString>
 #include <cmath>
 
-MyGLView::MyGLView(QWidget * parent) : QOpenGLWidget(parent), camera(glm::vec3(0, 0, h/2))
+#define DELTA_VOXEL_Z 0.3
+#define DELTA_VOXEL_R 0.641
+
+MyGLView::MyGLView(QWidget * parent) : QOpenGLWidget(parent), camera(glm::vec3(0, 0, DELTA_VOXEL_Z * h/2))
 {
     connect(parent->parentWidget(), SIGNAL(file_choice()), this, SLOT(file_explore()));
     connect(parent->parentWidget(), SIGNAL(file_transmit(QString)), this, SLOT(get_file(QString)));
@@ -28,7 +31,7 @@ void MyGLView::initializeGL(){
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    camera.setPosition(0,50,h/2);
+    camera.setPosition(0,50*float(DELTA_VOXEL_R),float(DELTA_VOXEL_Z) * h/2);
     camera.update(m_width, m_height);
 }
 
@@ -41,14 +44,16 @@ void MyGLView::paintGL()
         camera.update(m_width, m_height);
 
         glBegin(GL_POINTS);
-        glPointSize(5);
+        glPointSize(1);
         for (int i=0; i<image.width(); i++)
         {
             for (int j=0; j<image.height(); j++)
             {
                 QRgb pixel = image.pixel(i,j);
+                if (qRed(pixel)!=0 || qBlue(pixel)!=0 || qGreen(pixel)!=0){
                 glColor3d(double(qRed(pixel))/255.0,double(qGreen(pixel))/255.0,double(qBlue(pixel))/255.0);
-                glVertex3d((r-(j/h))*cos(i*theta), (r-(j/h))*sin(i*theta), 0.5*(h-j%h));
+                glVertex3d(DELTA_VOXEL_R*(r-(j/h)-0.5)*cos(i*theta), DELTA_VOXEL_R*(r-(j/h)-0.5)*sin(i*theta), (h-j%h)*DELTA_VOXEL_Z);
+                }
             }
         }
         glEnd();
