@@ -48,7 +48,7 @@ void MyGLView::paintGL()
             {
                 QRgb pixel = image.pixel(i,j);
                 glColor3d(double(qRed(pixel))/255.0,double(qGreen(pixel))/255.0,double(qBlue(pixel))/255.0);
-                glVertex3d((r-(j/h))*cos(i*theta), (r-(j/h))*sin(i*theta), h-j%h);
+                glVertex3d((r-(j/h))*cos(i*theta), (r-(j/h))*sin(i*theta), 0.5*(h-j%h));
             }
         }
         glEnd();
