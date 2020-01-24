@@ -53,7 +53,7 @@ ObjReader::ObjReader(std::string fname): filename(fname) {
     }
   }
   else {
-    std::cout << "obj file cannot be opened" <<  std::endl;
+    std::cerr << "obj file cannot be opened" <<  std::endl;
   }
   infile.close();
   //parsing of mtl file
@@ -65,6 +65,7 @@ ObjReader::ObjReader(std::string fname): filename(fname) {
     while (std::getline(infile, line)) {
       if (line.substr(0,6) == "newmtl") {
         std::size_t found = line.find_first_of(" ");
+        mtl_name = line.substr(found+1,std::string::npos);
       }
       else if (line.substr(0,2) == "Kd") {
         //get the RGB components
@@ -73,7 +74,6 @@ ObjReader::ObjReader(std::string fname): filename(fname) {
         std::vector<double> rgb;
         std::size_t next = line.size();
         while (found!=std::string::npos) {
-          std::cout << line.substr(found+1, next-found-1) << std::endl;
           rgb.insert(rgb.begin(), stod(line.substr(found+1, next-found-1)));
           next = found;
           found = line.find_last_of(" ", next-1);
@@ -83,11 +83,9 @@ ObjReader::ObjReader(std::string fname): filename(fname) {
     }
   }
   else {
-    std::cout << "mtl file cannot be opened" <<  std::endl;
+    std::cerr << "mtl file cannot be opened" <<  std::endl;
   }
-  for (auto it=colors.begin(); it!= colors.end(); it++) {
-    std::cout << it->first << " " << it->second[0] << std::endl;
-  }
+
   infile.close();
 
 }
