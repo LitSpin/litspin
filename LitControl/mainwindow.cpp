@@ -6,8 +6,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-    QPushButton * fileExplorer = this->findChild<FileExplorer *>();
+    QPushButton * fileExplorer = this->findChild<QWidget *>("simulateTab")->findChild<FileExplorer *>();
+    std::cout << fileExplorer->objectName().toStdString() << std::endl;
     connect(fileExplorer, SIGNAL(file_chosen(QString)), this, SLOT(receive_file(QString)));
     connect(fileExplorer, SIGNAL(file_choice()), this, SLOT(file_explore()));
 

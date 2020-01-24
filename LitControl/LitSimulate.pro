@@ -1,14 +1,22 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2020-01-24T11:21:37
+# Project created by QtCreator 2019-11-27T15:53:41
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui opengl
+
+INCLUDEPATH += -I/usr/local/include/opencv
+
+LIBS     += -lglut -lGLU -lm -lopencv_core -lopencv_imgproc -lopencv_videoio
+
+
+
+
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = LitControl
+TARGET = LitSimulate
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -27,25 +35,23 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    main.cpp \
+    myglview.cpp \
+    fileexplorer.cpp \
+    camera.cpp \
     src/objreader.cpp \
     src/voxelizer.cpp \
     src/vector3d.cpp \
-    src/face.cpp \
-    myglwindow.cpp \
-    myglview.cpp \
-    fileexplorer.cpp \
-    camera.cpp
+    src/face.cpp
 
 HEADERS += \
         mainwindow.h \
+    myglview.h \
+    fileexplorer.h \
+    camera.h \
     src/include/voxelizer.h \
     src/include/vector3d.h \
     src/include/objreader.h \
-    src/include/face.h \
-    myglview.h \
-    fileexplorer.h \
-    camera.h
+    src/include/face.h
 
 FORMS += \
         mainwindow.ui
@@ -54,3 +60,5 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES +=

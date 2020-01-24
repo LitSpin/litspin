@@ -3,6 +3,7 @@
 #include <GL/glut.h>
 #include <QString>
 #include <cmath>
+#include "src/include/voxelizer.h"
 
 #define DELTA_VOXEL_Z 0.3
 #define DELTA_VOXEL_R 0.641
@@ -75,13 +76,20 @@ void MyGLView::file_explore(){
 }
 
 void MyGLView::get_file(QString path){
+    QString file_path = path;
+    std::cerr << "bleh" << std::endl;
     if (mode == IMAGE_MODE){
-        image.load(path);
+        if(file_path.right(4) == ".obj"){
+            file_path.chop(4);
+            Voxelizer::voxelize(file_path.toStdString());
+            file_path.append(".ppm");
+        }
+        image.load(file_path);
         r = image.height()/h;
         theta = 2*M_PI/double(image.width());
     }
     else {
-        extract_frames(path.toUtf8().constData());
+        extract_frames(file_path.toUtf8().constData());
         r = frames[0].height()/h;
         theta = 2*M_PI/double(frames[0].width());
         video_display_index = 0;

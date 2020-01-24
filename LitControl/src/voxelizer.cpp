@@ -165,6 +165,8 @@ void Voxelizer::voxelize(string fileName){
   std::cout << "writing to " + fileName + ".ppm" <<std::endl;
   std::ofstream myfile;
   myfile.open (fileName + ".ppm");
+  if(!myfile.is_open())
+    std::cerr << "error opening file " + fileName + ".ppm" << std::endl;
   myfile << "P3\n";
   myfile << ANG_SUBDIVISIONS << " " << NB_CIRCLES*32 << "\n";
   myfile << "255\n";

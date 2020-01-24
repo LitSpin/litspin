@@ -53,7 +53,7 @@ ObjReader::ObjReader(std::string fname): filename(fname) {
     }
   }
   else {
-    std::cerr << "obj file cannot be opened" <<  std::endl;
+    std::cerr << filename + ".obj " + "file cannot be opened" <<  std::endl;
   }
   infile.close();
   //parsing of mtl file

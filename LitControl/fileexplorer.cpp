@@ -13,7 +13,7 @@ QString FileExplorer::get_file_name(){
 
 void FileExplorer::choose_file(){
     emit file_choice();
-    filename = QFileDialog::getOpenFileName(this, "Open Image", "/home", "Image and Video Files (*.png *.jpg *.bmp *.gif *.mp4)");
+    filename = QFileDialog::getOpenFileName(this, "Open Image", "/home", "Image and Video Files (*.png *.ppm *.obj *.gif *.mp4)");
     if (filename.size()){
         emit file_chosen(filename);
     }
