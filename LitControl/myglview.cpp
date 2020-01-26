@@ -10,6 +10,7 @@
 
 MyGLView::MyGLView(QWidget * parent) : QOpenGLWidget(parent), camera(glm::vec3(0, 0, DELTA_VOXEL_Z * h/2))
 {
+    std::cout << parent->accessibleName().toStdString() << std::endl;
     connect(parent->parentWidget(), SIGNAL(file_choice()), this, SLOT(file_explore()));
     connect(parent->parentWidget(), SIGNAL(file_transmit(QString)), this, SLOT(get_file(QString)));
     connect(parent->parentWidget(), SIGNAL(new_h(int)), this, SLOT(h_changed(int)));

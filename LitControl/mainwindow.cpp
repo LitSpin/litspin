@@ -10,7 +10,6 @@ MainWindow::MainWindow(QWidget *parent) :
     std::cout << fileExplorer->objectName().toStdString() << std::endl;
     connect(fileExplorer, SIGNAL(file_chosen(QString)), this, SLOT(receive_file(QString)));
     connect(fileExplorer, SIGNAL(file_choice()), this, SLOT(file_explore()));
-
 }
 
 MainWindow::~MainWindow()
