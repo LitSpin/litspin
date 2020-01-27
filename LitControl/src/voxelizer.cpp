@@ -15,9 +15,9 @@
 
 #define PI 3.14159
 
-void Voxelizer::voxelize(string fileName){
+void Voxelizer::voxelize(std::string fileName){
+  std::cerr<<fileName << std::endl;
   ObjReader * objr = new ObjReader(fileName);
-
   // 32 nb of leds to drive
   double voxels[NB_CIRCLES*32][ANG_SUBDIVISIONS][3] = {};
 
@@ -92,6 +92,10 @@ void Voxelizer::voxelize(string fileName){
             std::string mtl = test.getMtl();
             std::vector<double> rgb = obj_color[mtl];
             voxels[(NB_CIRCLES-ray-1)*32+z][ang][0] = rgb[0];
+            if(rgb[0] != 0){
+                std::cerr << (NB_CIRCLES-ray-1)*32+z << std::endl;
+                std::cerr << ang << std::endl;
+            }
             voxels[(NB_CIRCLES-ray-1)*32+z][ang][1] = rgb[1];
             voxels[(NB_CIRCLES-ray-1)*32+z][ang][2] = rgb[2];
           }
@@ -130,7 +134,7 @@ void Voxelizer::voxelize(string fileName){
         for (long unsigned int k = 0; k!=intersectPts.size(); k++) {
           double x = intersectPts[k].getX();
           double y = intersectPts[k].getY();
-          // convert back to cylindric
+          // convert back to cylindrical
           double r = sqrt(pow(x,2)+pow(y,2));
           // theta between -PI/2 and PI/2
           double theta = atan(y/x);

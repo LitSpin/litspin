@@ -10,7 +10,7 @@
 
 MyGLView::MyGLView(QWidget * parent) : QOpenGLWidget(parent), camera(glm::vec3(0, 0, DELTA_VOXEL_Z * h/2))
 {
-    std::cout << parent->accessibleName().toStdString() << std::endl;
+    std::cerr << parent->parentWidget()->accessibleName().toStdString() << std::endl;
     connect(parent->parentWidget(), SIGNAL(file_choice()), this, SLOT(file_explore()));
     connect(parent->parentWidget(), SIGNAL(file_transmit(QString)), this, SLOT(get_file(QString)));
     connect(parent->parentWidget(), SIGNAL(new_h(int)), this, SLOT(h_changed(int)));
@@ -77,20 +77,19 @@ void MyGLView::file_explore(){
 }
 
 void MyGLView::get_file(QString path){
-    QString file_path = path;
-    std::cerr << "bleh" << std::endl;
     if (mode == IMAGE_MODE){
-        if(file_path.right(4) == ".obj"){
-            file_path.chop(4);
-            Voxelizer::voxelize(file_path.toStdString());
-            file_path.append(".ppm");
+        if(path.right(4) == ".obj"){
+            path.chop(4);
+            Voxelizer::voxelize("data/carapuce");
+            path.append(".ppm");
         }
-        image.load(file_path);
+        std::cerr << "bleh" << std::endl;
+        image.load(path);
         r = image.height()/h;
         theta = 2*M_PI/double(image.width());
     }
     else {
-        extract_frames(file_path.toUtf8().constData());
+        extract_frames(path.toUtf8().constData());
         r = frames[0].height()/h;
         theta = 2*M_PI/double(frames[0].width());
         video_display_index = 0;

@@ -23,8 +23,8 @@ bool RayIntersectsTriangle(Vector3D rayOrigin,
                            Vector3D& outIntersectionPoint);
 
 int main (int argc, char *argv[]) {
-
-  std::string filename = "cube";
+  std::string filename = argv[1];
+  std::cout << filename << std::endl;
   ObjReader * objr = new ObjReader(filename);
 
   // 32 nb of leds to drive
@@ -244,5 +244,6 @@ void text_to_vox(std::string text) {
   else {
     std::cerr << "error opening font file" << std::endl;
   }
-*/
 }
+*/
+

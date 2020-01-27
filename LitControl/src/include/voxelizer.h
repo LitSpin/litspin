@@ -1,13 +1,12 @@
 #ifndef VOXELIZER_H
 #define VOXELIZER_H
 #include "vector3d.h"
-
-using namespace std;
+#include <string>
 
 class Voxelizer{
 
   public :
-    static void voxelize(string fileName);
+    static void voxelize(std::string fileName);
 
   private :
     static bool RayIntersectsTriangle(Vector3D rayOrigin,
