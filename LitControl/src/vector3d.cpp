@@ -1,12 +1,24 @@
 #include <iostream>
 #include <cmath>
+#include <sstream>
 #include "include/vector3d.h"
 
 #define PI atan(1)*4
 
-Vector3D::Vector3D(double x, double y, double z): m_x(x), m_y(y), m_z(z) {};
+Vector3D::Vector3D(double x, double y, double z):
+    m_x(x),
+    m_y(y),
+    m_z(z)
+{};
 
 Vector3D::Vector3D() {}
+
+std::string Vector3D::hashKey(Vector3D &v)
+{
+    std::stringstream ss;
+    ss << v.m_x << ',' << v.m_y << ',' << v.m_z;
+    return ss.str();
+}
 
 Vector3D * Vector3D::createFromCyl(double r, double theta, double z) {
   return new Vector3D(r*cos(theta*(PI/180)), r*sin(theta*(PI/180)), z);
