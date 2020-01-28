@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cmath>
 #include <algorithm>
+#include <unordered_set>
 #include "include/objreader.h"
 #include "include/face.h"
 #include "include/voxelizer.h"
@@ -211,11 +212,11 @@ void Voxelizer::voxelize(std::string fileName)
     myfile.close();
 }
 
-bool Voxelizer::RayIntersectsTriangle(Vector3D rayOrigin,
-                                      Vector3D rayVector,
-                                      Vector3D p0,
-                                      Vector3D p1,
-                                      Vector3D p2,
+bool Voxelizer::RayIntersectsTriangle(const Vector3D &rayOrigin,
+                                      const Vector3D &rayVector,
+                                      const Vector3D &p0,
+                                      const Vector3D &p1,
+                                      const Vector3D &p2,
                                       Vector3D& outIntersectionPoint)
 {
     const float EPSILON = 0.0000001;

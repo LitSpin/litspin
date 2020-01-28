@@ -11,11 +11,11 @@ class Voxelizer{
     static void voxelize(std::string fileName);
 
   private :
-    static bool RayIntersectsTriangle(Vector3D rayOrigin,
-                               Vector3D rayVector,
-                               Vector3D p0,
-                               Vector3D p1,
-                               Vector3D p2,
+    static bool RayIntersectsTriangle(const Vector3D &rayOrigin,
+                               const Vector3D &rayVector,
+                               const Vector3D &p0,
+                               const Vector3D &p1,
+                               const Vector3D &p2,
                                Vector3D& outIntersectionPoint);
 };
 
