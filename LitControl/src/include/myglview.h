@@ -5,11 +5,12 @@
 #include <QTimer>
 #include <iostream>
 #include <cmath>
-#include <camera.h>
 #include <QPoint>
 #include <opencv2/opencv.hpp>
 #include <vector>
 #include <string>
+
+#include "camera.h"
 
 const int IMAGE_MODE = 0;
 const int VIDEO_MODE = 2;

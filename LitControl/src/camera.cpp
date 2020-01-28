@@ -1,7 +1,8 @@
-#include "camera.h"
 #include <GL/glu.h>
 #include <iostream>
 #include <math.h>
+
+#include "include/camera.h"
 
 Camera::Camera(glm::vec3 center) : m_center(center)
 {

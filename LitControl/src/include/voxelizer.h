@@ -1,7 +1,9 @@
 #ifndef VOXELIZER_H
 #define VOXELIZER_H
-#include "vector3d.h"
+
 #include <string>
+
+#include "vector3d.h"
 
 class Voxelizer{
 

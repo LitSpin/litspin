@@ -5,8 +5,8 @@
 #include <cmath>
 #include <opencv2/imgproc/types_c.h>
 #include <opencv2/videoio/legacy/constants_c.h>
-#include "src/include/voxelizer.h"
-#include "myglview.h"
+#include "include/voxelizer.h"
+#include "include/myglview.h"
 
 #define DELTA_VOXEL_Z 0.3
 #define DELTA_VOXEL_R 0.641

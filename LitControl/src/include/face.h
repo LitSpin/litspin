@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+
 #include "vector3d.h"
 
 // representation of a face with its associated texture

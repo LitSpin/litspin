@@ -4,7 +4,6 @@
 #include <QPushButton>
 #include <QString>
 
-
 class FileExplorer : public QPushButton
 {
     Q_OBJECT

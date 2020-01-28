@@ -206,12 +206,12 @@
   <customwidget>
    <class>MyGLView</class>
    <extends>QOpenGLWidget</extends>
-   <header>myglview.h</header>
+   <header>src/include/myglview.h</header>
   </customwidget>
   <customwidget>
    <class>FileExplorer</class>
    <extends>QPushButton</extends>
-   <header>fileexplorer.h</header>
+   <header>src/include/fileexplorer.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
