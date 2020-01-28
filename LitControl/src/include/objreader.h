@@ -1,13 +1,13 @@
 #ifndef OBJREADER_H
 #define OBJREADER_H
 
-#include<string>
-#include<array>
-#include<vector>
-#include<map>
+#include <string>
+#include <array>
+#include <vector>
+#include <map>
 
-#include"vector3d.h"
-#include"face.h"
+#include "vector3d.h"
+#include "face.h"
 
 // obj and mtl file parser
 class ObjReader {

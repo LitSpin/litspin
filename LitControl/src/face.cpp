@@ -10,3 +10,9 @@ std::vector<Vector3D> Face::getAngles() {
 std::string Face::getMtl() {
   return m_mtl;
 }
+
+void Face::display(){
+    for(auto angle : m_angles){
+        angle.display();
+    }
+}

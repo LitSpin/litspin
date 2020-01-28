@@ -35,7 +35,7 @@ double Vector3D::getZ() const {
 }
 
 void Vector3D::display() {
-  std::cout << m_x << " " << m_y << " " << m_z << std::endl;
+  printf("%lf %lf %lf\n", m_x, m_y, m_z);
 }
 
 Vector3D operator + (const Vector3D &v1, const Vector3D &v2) {

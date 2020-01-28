@@ -1,7 +1,9 @@
-#include "include/mainwindow.h"
+
 #include <QApplication>
 #include <GL/freeglut.h>
+
 #include "src/include/voxelizer.h"
+#include "include/mainwindow.h"
 
 int main(int argc, char *argv[])
 {

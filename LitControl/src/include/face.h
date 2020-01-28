@@ -16,6 +16,7 @@ public:
   Face(std::vector<Vector3D> angles, std::string mtl);
   std::vector<Vector3D> getAngles();
   std::string getMtl();
+  void display();
 
 };
 

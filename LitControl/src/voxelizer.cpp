@@ -26,6 +26,10 @@ void Voxelizer::voxelize(std::string fileName)
 
     std::vector<Face> faces = objr->getFaces();
     std::cout << "starting voxelization" << std::endl;
+    /*for(auto face : faces){
+        std::cout << "new face" << std::endl;
+        face.display();
+    }*/
     for (int i = 0; i < NB_CIRCLES; i++)
     {
         for (int k = 0; k < ANG_SUBDIVISIONS; k++)
@@ -110,11 +114,6 @@ void Voxelizer::voxelize(std::string fileName)
                         std::string mtl = test.getMtl();
                         std::vector<double> rgb = obj_color[mtl];
                         voxels[(NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z][ang][0] = rgb[0];
-                        if(rgb[0] != 0)
-                        {
-                            std::cerr << (NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z << std::endl;
-                            std::cerr << ang << std::endl;
-                        }
                         voxels[(NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z][ang][1] = rgb[1];
                         voxels[(NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z][ang][2] = rgb[2];
                     }
@@ -219,9 +218,9 @@ bool Voxelizer::RayIntersectsTriangle(const Vector3D &rayOrigin,
                                       const Vector3D &p2,
                                       Vector3D& outIntersectionPoint)
 {
-    const float EPSILON = 0.0000001;
+    const double EPSILON = 0.0000001;
     Vector3D edge1, edge2, h, s, q;
-    float a,f,u,v;
+    double a,f,u,v;
     edge1 = p1 - p0;
     edge2 = p2 - p0;
     h = rayVector.crossProduct(edge2);
@@ -238,7 +237,7 @@ bool Voxelizer::RayIntersectsTriangle(const Vector3D &rayOrigin,
     if (v < 0.0 || u + v > 1.0)
         return false;
     // At this stage we can compute t to find out where the intersection point is on the line.
-    float t = f * edge2.dotProduct(q);
+    double t = f * edge2.dotProduct(q);
     if (t > EPSILON && t < 1 - EPSILON) // ray intersection
     {
         outIntersectionPoint = rayOrigin + rayVector * t;
