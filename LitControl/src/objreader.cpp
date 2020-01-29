@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include <locale>
+#include <tuple>
 
 #include "include/objreader.h"
 
@@ -16,18 +17,32 @@ ObjReader::ObjReader(std::string fname): filename(fname) {
         // line currently processed
         std::string line;
         // list of every vertex (so that they can be accessed easily)
-        std::vector<std::string> vertex;
+        std::vector<std::string> s_vertex;
+        std::vector<std::tuple<Vector3D, Vector3D, Vector3D>> vertex;
         // to link the material to the face number
         std::string mtl_name;
-        while (std::getline(infile, line)) {
-            if (line[0]=='v') {
-                vertex.push_back(line);
+        while(std::getline(infile, line) && line[0]!='v');
+        do{
+            s_vertex.push_back(line);
+        }while (std::getline(infile, line) && line[0]=='v');
+        std::size_t found = line.find_last_of(" ");
+        std::size_t next = line.size();
+        for(std::string v_line : s_vertex){
+            std::vector<double> v_coor;
+            next = v_line.size();
+            found = v_line.find_last_of(" ");
+            while (found!=std::string::npos) {
+                v_coor.push_back(stod(v_line.substr(found+1, next-found-1)));
+                next = found;
+                found = v_line.find_last_of(" ", next-1);
             }
-            else if (line.substr(0,6)=="usemtl") {
+        }
+        do{
+            if (line.substr(0,6)=="usemtl") {
                 std::size_t found = line.find_first_of(" ");
                 mtl_name = line.substr(found+1,std::string::npos);
             }
-            else if (line[0]=='f') {
+            else if(line[0]=='f'){
                 std::size_t found = line.find_last_of(" ");
                 // list of the 3 Vertex3D objects that define the face
                 std::vector<Vector3D> coord;
@@ -47,9 +62,7 @@ ObjReader::ObjReader(std::string fname): filename(fname) {
                     next = v_line.size();
                     found = v_line.find_last_of(" ");
                     while (found!=std::string::npos) {
-                        std::cout << v_line.substr(found+1, next-found-1) << std::endl;
-                        printf("%f\n",strtod(v_line.substr(found+1, next-found-1).c_str(), NULL));
-                        v_coor.push_back(strtod(v_line.substr(found+1, next-found-1).c_str(), NULL));
+                        v_coor.push_back(stod(v_line.substr(found+1, next-found-1)));
                         next = found;
                         found = v_line.find_last_of(" ", next-1);
                     }
@@ -57,7 +70,7 @@ ObjReader::ObjReader(std::string fname): filename(fname) {
                 }
                 faces.push_back(Face(coord, mtl_name));
             }
-        }
+        }while(std::getline(infile, line));
     }
     else {
         std::cerr << filename + ".obj " + "file cannot be opened" <<  std::endl;

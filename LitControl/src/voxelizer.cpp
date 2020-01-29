@@ -35,11 +35,11 @@ void Voxelizer::voxelize(std::string fileName)
         for (int k = 0; k < ANG_SUBDIVISIONS; k++)
         {
             // creating vertical ray
-            Vector3D * orig = Vector3D::createFromCyl((double)((2*i+1)*((double)RADIUS/(2*(double)NB_CIRCLES))), (double)k*(360/(double)ANG_SUBDIVISIONS), (double)2*HEIGHT);
+            Vector3D * orig = Vector3D::createFromCyl(double((2*i+1)*(double(RADIUS)/(2*double(NB_CIRCLES)))), double(k*(360/double(ANG_SUBDIVISIONS))), double(2*HEIGHT));
             Vector3D * dir = new Vector3D(0,0,-1);
             std::vector<Vector3D> intersectPts;
             // to keep track of which face will be intersected
-            std::vector<int> ind_face;
+            std::vector<unsigned long> ind_face;
             // check intersection with every face of the object
             Vector3D res;
             for (long unsigned int l=0; l<faces.size(); l++)
@@ -79,7 +79,7 @@ void Voxelizer::voxelize(std::string fileName)
                 {
                     theta = theta + 2*PI;
                 }
-                theta = (int)(theta * (180/PI));
+                theta = int(theta * (180/PI));
                 if (intersectPts.size()%2)
                 {
                     intersectPts.pop_back();
@@ -88,30 +88,28 @@ void Voxelizer::voxelize(std::string fileName)
                 std::map<std::string, std::vector<double>> obj_color = objr->getColors();
                 for (long unsigned int j = 0; j!= intersectPts.size(); j = j+2)
                 {
-                    int ang = (int)(theta*128)/360;
-                    if ((theta*128)/360-(int)(theta*128)/360 > 0.5)
+                    int ang = int((theta*128)/360);
+                    if (((theta*128)/360-int((theta*128)/360) > 0.5))
                     {
                         ang ++;
                     }
-                    int ray = (int)((r*(double)NB_CIRCLES)/(double)RADIUS);
-                    int z_start = (-(int)((intersectPts[j].getZ()*NB_LEDS_VERTICAL)/(double)HEIGHT))+16;
-                    int z_end = (-(int)((intersectPts[j+1].getZ()*NB_LEDS_VERTICAL)/(double)HEIGHT))+16;
+                    int ray = int((r*double(NB_CIRCLES))/double(RADIUS));
+                    int z_start = (-int((intersectPts[j].getZ()*NB_LEDS_VERTICAL)/double(HEIGHT)))+16;
+                    int z_end = (-int((intersectPts[j+1].getZ()*NB_LEDS_VERTICAL)/double(HEIGHT)))+16;
                     //z_start is higher than z_end because higher z have lower idexes in the output file
                     for (int z = z_end; z!=z_start+1; z++)
                     {
-                        int ind;
+                        unsigned long ind;
                         if (abs(z-z_start)<abs(z-z_end))
                         {
-                            ind = j;
+                            ind = static_cast<unsigned long>(j);
                         }
                         else
                         {
-                            ind = j+1;
+                            ind = static_cast<unsigned long>(j+1);
                         }
                         // get the color of the face crossed
-                        int bouh = ind_face[ind];
-                        Face test = faces[bouh];
-                        std::string mtl = test.getMtl();
+                        std::string mtl = faces[ind_face[ind]].getMtl();
                         std::vector<double> rgb = obj_color[mtl];
                         voxels[(NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z][ang][0] = rgb[0];
                         voxels[(NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z][ang][1] = rgb[1];
@@ -126,10 +124,10 @@ void Voxelizer::voxelize(std::string fileName)
     {
         for (int i = 0; i < ANG_SUBDIVISIONS/2; i++)
         {
-            Vector3D * orig = Vector3D::createFromCyl(RADIUS, (double)i*(360/(double)ANG_SUBDIVISIONS), (double)(j*((double)HEIGHT/NB_LEDS_VERTICAL)));
-            Vector3D * dir = Vector3D::createFromCyl(RADIUS*2, (double)i*(360/(double)ANG_SUBDIVISIONS)+180, 0);
+            Vector3D * orig = Vector3D::createFromCyl(RADIUS, double(i*(360/double(ANG_SUBDIVISIONS))), double((j*(double(HEIGHT/NB_LEDS_VERTICAL)))));
+            Vector3D * dir = Vector3D::createFromCyl(RADIUS*2, double(i*(360/double(ANG_SUBDIVISIONS))+180), 0);
             std::vector<Vector3D> intersectPts;
-            std::vector<int> ind_face;
+            std::vector<unsigned long> ind_face;
             Vector3D res;
             for (long unsigned int l=0; l<faces.size(); l++) {
                 Face cur_face = faces[l];
@@ -171,14 +169,12 @@ void Voxelizer::voxelize(std::string fileName)
                         theta = theta + 2*PI;
                     }
                     // in degrees
-                    theta = (int)(theta * (180/PI));
-                    int ray = (int)((r*(double)NB_CIRCLES)/(double)RADIUS);
-                    int ang = (int)(theta*128)/360;
-                    int z = (-(int)((intersectPts[k].getZ()*NB_LEDS_VERTICAL)/(double)HEIGHT))+16;
+                    theta = int(theta * (180/PI));
+                    int ray = int(((r*double(NB_CIRCLES))/double(RADIUS)));
+                    int ang = int((theta*128)/360);
+                    int z = (-int(((intersectPts[k].getZ()*NB_LEDS_VERTICAL)/double(HEIGHT))))+16;
                     // get the color of the face crossed
-                    int bouh = ind_face[k];
-                    Face test = faces[bouh];
-                    std::string mtl = test.getMtl();
+                    std::string mtl = faces[ind_face[k]].getMtl();
                     std::vector<double> rgb = obj_color[mtl];
                     voxels[(NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z][ang][0] = rgb[0];
                     voxels[(NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z][ang][1] = rgb[1];
@@ -218,7 +214,6 @@ bool Voxelizer::RayIntersectsTriangle(const Vector3D &rayOrigin,
                                       const Vector3D &p2,
                                       Vector3D& outIntersectionPoint)
 {
-    const double EPSILON = 0.0000001;
     Vector3D edge1, edge2, h, s, q;
     double a,f,u,v;
     edge1 = p1 - p0;

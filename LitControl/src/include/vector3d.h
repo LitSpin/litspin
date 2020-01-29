@@ -2,6 +2,7 @@
 #define VECTOR3D_H
 
 #include <string>
+#define EPSILON 0.0000001
 
 // cartesian representation of a 3D vector
 class Vector3D
@@ -28,6 +29,7 @@ public:
     friend Vector3D operator + (const Vector3D &v1, const Vector3D &v2);
     friend Vector3D operator - (const Vector3D &v1, const Vector3D &v2);
     friend Vector3D operator * (const Vector3D &v, double d);
+    void operator = (const Vector3D &v);
     friend bool operator == (const Vector3D &v1, const Vector3D &v2);
 
     double dotProduct(const Vector3D &v) const;

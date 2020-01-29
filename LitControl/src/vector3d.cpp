@@ -51,7 +51,13 @@ Vector3D operator * (const Vector3D &v1, double d) {
 }
 
 bool operator == (const Vector3D &v1, const Vector3D &v2) {
-  return v1.m_x==v2.m_x && v1.m_y==v2.m_y && v1.m_z==v2.m_z;
+  return fabs(v1.m_x-v2.m_x)<EPSILON && fabs(v1.m_y-v2.m_y)<EPSILON && fabs(v1.m_z-v2.m_z)<EPSILON;
+}
+
+void Vector3D::operator =(const Vector3D &v){
+    m_x = v.getX();
+    m_y = v.getY();
+    m_z = v.getZ();
 }
 
 double Vector3D::dotProduct(const Vector3D &v) const {
