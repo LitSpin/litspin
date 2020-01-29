@@ -12,8 +12,6 @@
 #define NB_CIRCLES 20
 #define ANG_SUBDIVISIONS 128
 #define NB_LEDS_VERTICAL 32
-#define HEIGHT 0.10
-#define RADIUS 0.12
 
 #define PI 3.14159
 

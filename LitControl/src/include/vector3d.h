@@ -3,6 +3,9 @@
 
 #include <string>
 #define EPSILON 0.0000001
+#define HEIGHT 0.10
+#define RADIUS 0.12
+
 
 // cartesian representation of a 3D vector
 class Vector3D
