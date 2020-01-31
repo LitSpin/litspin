@@ -42,7 +42,6 @@ ObjReader::ObjReader(std::string fname): filename(fname) {
     else {
         std::cerr << filename + ".obj " + "file cannot be opened" <<  std::endl;
     }
-    getFacesFromFile();
 }
 
 
@@ -154,19 +153,34 @@ double ObjReader::getResizeFactor(){
     //find the factor for adjusting the proportions.
     double radius = DBL_MIN;
     double min_Z = DBL_MAX, max_Z = DBL_MIN;
-    double height = max_Z - min_Z;
     for(Vector3D vector : vectors){
         min_Z = fmin(min_Z, vector.getZ());
         max_Z = fmax(max_Z, vector.getZ());
     }
+    double height = max_Z - min_Z;
     for(Vector3D& vector : vectors){
        radius = fmax(pow(vector.getX(), 2) + pow(vector.getY(), 2), radius);
     }
-    double fact = 1/fmax(height/HEIGHT, radius/RADIUS);
+    double fact = fmax(height/HEIGHT, radius/RADIUS);
     return fact;
 }
 
 void ObjReader::resize(double resize_factor){
     for(Vector3D &vector : vectors)
-        vector = vector*resize_factor;
+        vector = vector*(1/resize_factor)*0.999;//TODO : remove 0.999 factor when voxel is fixed
+}
+
+std::pair<Vector3D, Vector3D> ObjReader::getExtremes(){
+    double min_X = DBL_MAX, max_X = DBL_MIN;
+    double min_Y = DBL_MAX, max_Y = DBL_MIN;
+    double min_Z = DBL_MAX, max_Z = DBL_MIN;
+    for(Vector3D vector : vectors){
+        min_X = fmin(min_X, vector.getX());
+        min_Y = fmin(min_Y, vector.getY());
+        min_Z = fmin(min_Z, vector.getZ());
+        max_X = fmax(max_X, vector.getX());
+        max_Y = fmax(max_Y, vector.getY());
+        max_Z = fmax(max_Z, vector.getZ());
+    }
+    return std::make_pair(Vector3D(min_X, min_Y, min_Z), Vector3D(max_X, max_Y, max_Z));
 }

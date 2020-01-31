@@ -35,3 +35,13 @@ void MainWindow::change_mode(int mode){
 void MainWindow::change_fps(int fps){
     emit fps_changed(fps);
 }
+
+void MainWindow::center_mode(int mode)
+{
+    emit center_mode_set(mode);
+}
+
+void MainWindow::resize_mode(int mode)
+{
+    emit resize_mode_set(mode);
+}
