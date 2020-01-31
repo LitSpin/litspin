@@ -1,8 +1,12 @@
-#include "myglview.h"
+
 #include <GL/glu.h>
 #include <GL/glut.h>
 #include <QString>
 #include <cmath>
+#include <opencv2/imgproc/types_c.h>
+#include <opencv2/videoio/legacy/constants_c.h>
+#include "include/voxelizer.h"
+#include "include/myglview.h"
 
 #define DELTA_VOXEL_Z 0.3
 #define DELTA_VOXEL_R 0.641
@@ -77,6 +81,12 @@ void MyGLView::file_explore(){
 
 void MyGLView::get_file(QString path){
     if (mode == IMAGE_MODE){
+        if(path.right(4) == ".obj"){
+            path.chop(4);
+            Voxelizer::voxelize(path.toStdString());
+            path.append(".ppm");
+        }
+        std::cerr << "bleh" << std::endl;
         image.load(path);
         r = image.height()/h;
         theta = 2*M_PI/double(image.width());
