@@ -14,12 +14,18 @@ class ObjReader {
 
 private:
   std::string filename;
+  std::vector<Vector3D> vectors;
   std::vector<Face> faces;
   std::map<std::string, std::vector<double>> colors;
 
 public:
   ObjReader(std::string fname);
   std::vector<Face> getFaces();
+  Vector3D getCenterVector();
+  double getResizeFactor();
+  void center(Vector3D center_vector);
+  void resize(double resize_factor);
+  void getFacesFromFile();
   std::map<std::string, std::vector<double>> getColors();
 
 };

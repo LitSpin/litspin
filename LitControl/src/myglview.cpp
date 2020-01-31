@@ -5,7 +5,7 @@
 #include <cmath>
 #include <opencv2/imgproc/types_c.h>
 #include <opencv2/videoio/legacy/constants_c.h>
-#include "include/voxelizer.h"
+#include "include/imagevoxelizer.h"
 #include "include/myglview.h"
 
 #define DELTA_VOXEL_Z 0.3
@@ -80,14 +80,14 @@ void MyGLView::file_explore(){
 }
 
 void MyGLView::get_file(QString path){
+    QString file = path;
     if (mode == IMAGE_MODE){
-        if(path.right(4) == ".obj"){
-            path.chop(4);
-            Voxelizer::voxelize(path.toStdString());
-            path.append(".ppm");
+        if(file.right(4) == ".obj"){
+            file.chop(4);
+            ImageVoxelizer::voxelize(file.toStdString(), true, true);
+            file.append(".ppm");
         }
-        std::cerr << "bleh" << std::endl;
-        image.load(path);
+        image.load(file);
         r = image.height()/h;
         theta = 2*M_PI/double(image.width());
     }

@@ -41,7 +41,8 @@ SOURCES += \
     src/objreader.cpp \
     src/voxelizer.cpp \
     src/vector3d.cpp \
-    src/face.cpp
+    src/face.cpp \
+    src/imagevoxelizer.cpp
 
 HEADERS += \
     src/include/camera.h \
@@ -51,7 +52,8 @@ HEADERS += \
     src/include/voxelizer.h \
     src/include/vector3d.h \
     src/include/objreader.h \
-    src/include/face.h
+    src/include/face.h \
+    src/include/imagevoxelizer.h
 
 FORMS += \
         mainwindow.ui
