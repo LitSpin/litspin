@@ -30,7 +30,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-CONFIG += c++11
+CONFIG += c++17
 
 SOURCES += \
     src/camera.cpp \
@@ -42,7 +42,8 @@ SOURCES += \
     src/voxelizer.cpp \
     src/vector3d.cpp \
     src/face.cpp \
-    src/imagevoxelizer.cpp
+    src/imagevoxelizer.cpp \
+    src/videovoxelizer.cpp
 
 HEADERS += \
     src/include/camera.h \
@@ -53,7 +54,8 @@ HEADERS += \
     src/include/vector3d.h \
     src/include/objreader.h \
     src/include/face.h \
-    src/include/imagevoxelizer.h
+    src/include/imagevoxelizer.h \
+    src/include/videovoxelizer.h
 
 FORMS += \
         mainwindow.ui

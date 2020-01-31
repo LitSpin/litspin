@@ -5,7 +5,7 @@
 
 class ImageVoxelizer{
 public:
-    static void voxelize(std::string filename, bool center, bool resize);
+    static void voxelize(std::string filename, int center, int resize);
 
 };
 

@@ -173,12 +173,12 @@ void Voxelizer::voxelize(std::vector<Face> faces, std::map<std::string, std::vec
     std::cout << "voxelization over" <<std::endl;
 
     // write in ppm file
-    std::cout << "writing to " + outputFile + ".ppm" <<std::endl;
+    std::cout << "writing to " + outputFile <<std::endl;
     std::ofstream myfile;
-    myfile.open (outputFile + ".ppm");
+    myfile.open (outputFile);
     if(!myfile.is_open())
     {
-        std::cerr << "error opening file " + outputFile + ".ppm" << std::endl;
+        std::cerr << "error opening file " + outputFile<< std::endl;
     }
     myfile << "P3\n";
     myfile << ANG_SUBDIVISIONS << " " << NB_CIRCLES*NB_LEDS_VERTICAL << "\n";

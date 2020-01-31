@@ -70,19 +70,22 @@
        </spacer>
       </item>
       <item>
-       <widget class="QLabel" name="label">
+       <widget class="QCheckBox" name="checkBox_3">
         <property name="text">
-         <string>Value of h:</string>
+         <string>Center</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+        <property name="tristate">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox">
-        <property name="minimum">
-         <number>1</number>
-        </property>
-        <property name="value">
-         <number>32</number>
+       <widget class="QCheckBox" name="checkBox_2">
+        <property name="text">
+         <string>Resize</string>
         </property>
        </widget>
       </item>
@@ -223,28 +226,12 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>740</x>
-     <y>560</y>
+     <x>768</x>
+     <y>478</y>
     </hint>
     <hint type="destinationlabel">
      <x>515</x>
      <y>456</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>spinBox</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>h_changed(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>325</x>
-     <y>561</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>462</x>
-     <y>486</y>
     </hint>
    </hints>
   </connection>
@@ -256,7 +243,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>490</x>
-     <y>559</y>
+     <y>477</y>
     </hint>
     <hint type="destinationlabel">
      <x>612</x>
@@ -271,12 +258,44 @@
    <slot>change_fps(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>592</x>
-     <y>554</y>
+     <x>630</x>
+     <y>479</y>
     </hint>
     <hint type="destinationlabel">
      <x>661</x>
      <y>557</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_2</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>resize_mode(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>302</x>
+     <y>475</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>293</x>
+     <y>553</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_3</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>center_mode(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>225</x>
+     <y>467</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>218</x>
+     <y>535</y>
     </hint>
    </hints>
   </connection>
@@ -285,5 +304,7 @@
   <slot>h_changed(int)</slot>
   <slot>change_mode(int)</slot>
   <slot>change_fps(int)</slot>
+  <slot>center_mode(int)</slot>
+  <slot>resize_mode(int)</slot>
  </slots>
 </ui>

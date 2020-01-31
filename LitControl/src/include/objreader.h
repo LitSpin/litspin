@@ -5,7 +5,6 @@
 #include <array>
 #include <vector>
 #include <map>
-
 #include "vector3d.h"
 #include "face.h"
 
@@ -13,7 +12,7 @@
 class ObjReader {
 
 private:
-  std::string filename;
+  const std::string filename;
   std::vector<Vector3D> vectors;
   std::vector<Face> faces;
   std::map<std::string, std::vector<double>> colors;
@@ -21,6 +20,8 @@ private:
 public:
   ObjReader(std::string fname);
   std::vector<Face> getFaces();
+  std::string getPath(){return filename;}
+  std::pair<Vector3D, Vector3D> getExtremes();
   Vector3D getCenterVector();
   double getResizeFactor();
   void center(Vector3D center_vector);
