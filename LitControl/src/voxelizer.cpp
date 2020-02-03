@@ -15,9 +15,9 @@
 
 #define PI 3.14159
 
-void Voxelizer::voxelize(std::vector<Face> faces, std::map<std::string, std::vector<double>> obj_colors, std::string outputFile)
+int Voxelizer::voxelize(std::vector<Face> faces, std::map<std::string, std::vector<double>> obj_colors, std::string outputFile)
 {
-
+    int ret = 0;
     double voxels[NB_CIRCLES * NB_LEDS_VERTICAL][ANG_SUBDIVISIONS][3] = {};
     for (int i = 0; i < NB_CIRCLES; i++)
     {
@@ -76,15 +76,24 @@ void Voxelizer::voxelize(std::vector<Face> faces, std::map<std::string, std::vec
                 // convert back to polar, and then to our grid coordinates
                 for (long unsigned int j = 0; j!= intersectPts.size(); j = j+2)
                 {
-                    int ang = int((theta*128)/360);
-                    if (((theta*128)/360-int((theta*128)/360) > 0.5))
+                    int ang = int((theta*double(ANG_SUBDIVISIONS))/360);
+                    if (((theta*double(ANG_SUBDIVISIONS))/360-int((theta*double(ANG_SUBDIVISIONS))/360) > 0.5))
                     {
                         ang ++;
                     }
                     int ray = int((r*double(NB_CIRCLES))/double(RADIUS));
-                    int z_start = (-int((intersectPts[j].getZ()*NB_LEDS_VERTICAL)/double(HEIGHT)))+16;
-                    int z_end = (-int((intersectPts[j+1].getZ()*NB_LEDS_VERTICAL)/double(HEIGHT)))+16;
-                    //z_start is higher than z_end because higher z have lower idexes in the output file
+                    // handle z
+                    int tmp = int(floor((intersectPts[j].getZ()*NB_LEDS_VERTICAL)/double(HEIGHT)));
+                    if (tmp == 16) {
+                        tmp --;
+                    }
+                    int z_start = 15-tmp;
+                    tmp = int(floor((intersectPts[j+1].getZ()*NB_LEDS_VERTICAL)/double(HEIGHT)));
+                    if (tmp == 16) {
+                        tmp --;
+                    }
+                    int z_end = 15-tmp;
+                    // z_start is higher than z_end because higher z have lower indexes in the output file
                     for (int z = z_end; z!=z_start+1; z++)
                     {
                         unsigned long ind;
@@ -96,24 +105,32 @@ void Voxelizer::voxelize(std::vector<Face> faces, std::map<std::string, std::vec
                         {
                             ind = static_cast<unsigned long>(j+1);
                         }
-                        // get the color of the face crossed
-                        std::string mtl = faces[ind_face[ind]].getMtl();
-                        std::vector<double> rgb = obj_colors[mtl];
-                        voxels[(NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z][ang][0] = rgb[0];
-                        voxels[(NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z][ang][1] = rgb[1];
-                        voxels[(NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z][ang][2] = rgb[2];
+                        if (z<0 || z>=NB_LEDS_VERTICAL || ang<0 || ang>=ANG_SUBDIVISIONS || ray>=NB_CIRCLES || ray <0) {
+                            std::cerr << "bad access, z: " << z << " ang = " << ang << " ray = " << ray << std::endl;
+                            ret = 1;
+                        }
+                        else {
+                            // get the color of the face crossed
+                            std::string mtl = faces[ind_face[ind]].getMtl();
+                            std::vector<double> rgb = obj_colors[mtl];
+                            voxels[(NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z][ang][0] = rgb[0];
+                            voxels[(NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z][ang][1] = rgb[1];
+                            voxels[(NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z][ang][2] = rgb[2];
+                        }
                     }
                 }
             }
         }
     }
+
     // same thing with horizontal rays
+    std::cout << "round 2" << std::endl;
     for (int j = -16; j<16; j++)
     {
         for (int i = 0; i < ANG_SUBDIVISIONS/2; i++)
         {
             Vector3D * orig = Vector3D::createFromCyl(RADIUS, double(i*(360/double(ANG_SUBDIVISIONS))), double((j*(double(HEIGHT/NB_LEDS_VERTICAL)))));
-            Vector3D * dir = Vector3D::createFromCyl(RADIUS*2, double(i*(360/double(ANG_SUBDIVISIONS))+180), 0);
+            Vector3D * dir = Vector3D::createFromCyl(2*RADIUS, double(i*(360/double(ANG_SUBDIVISIONS))+180), 0);
             std::vector<Vector3D> intersectPts;
             std::vector<unsigned long> ind_face;
             Vector3D res;
@@ -158,14 +175,30 @@ void Voxelizer::voxelize(std::vector<Face> faces, std::map<std::string, std::vec
                     // in degrees
                     theta = int(theta * (180/PI));
                     int ray = int(((r*double(NB_CIRCLES))/double(RADIUS)));
-                    int ang = int((theta*128)/360);
-                    int z = (-int(((intersectPts[k].getZ()*NB_LEDS_VERTICAL)/double(HEIGHT))))+16;
-                    // get the color of the face crossed
-                    std::string mtl = faces[ind_face[k]].getMtl();
-                    std::vector<double> rgb = obj_colors[mtl];
-                    voxels[(NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z][ang][0] = rgb[0];
-                    voxels[(NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z][ang][1] = rgb[1];
-                    voxels[(NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z][ang][2] = rgb[2];
+                    if (ray >19 || ray <0) {
+                        std::cerr << "bad value for ray: " << ray << std::endl;
+                    }
+                    int ang = int((theta*double(ANG_SUBDIVISIONS))/360);
+                    if (((theta*double(ANG_SUBDIVISIONS))/360-int((theta*double(ANG_SUBDIVISIONS))/360) > 0.5))
+                    {
+                        ang ++;
+                    }
+                    // handle z
+                    // the z position of the intersection point in the subdivision is always equal to j
+                    int z = 15-j;
+                    printf("z: %d\n", z);
+                    if (z<0 || z>=NB_LEDS_VERTICAL || ang<0 || ang>=ANG_SUBDIVISIONS || ray>=NB_CIRCLES || ray <0) {
+                        std::cerr << "bad value for z = " << z << " ang = " << ang << " ray = " << ray << std::endl;
+                        ret = 1;
+                    }
+                    else {
+                        // get the color of the face crossed
+                        std::string mtl = faces[ind_face[k]].getMtl();
+                        std::vector<double> rgb = obj_colors[mtl];
+                        voxels[(NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z][ang][0] = rgb[0];
+                        voxels[(NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z][ang][1] = rgb[1];
+                        voxels[(NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z][ang][2] = rgb[2];
+                    }
                 }
             }
         }
@@ -180,18 +213,21 @@ void Voxelizer::voxelize(std::vector<Face> faces, std::map<std::string, std::vec
     {
         std::cerr << "error opening file " + outputFile<< std::endl;
     }
-    myfile << "P3\n";
-    myfile << ANG_SUBDIVISIONS << " " << NB_CIRCLES*NB_LEDS_VERTICAL << "\n";
-    myfile << "255\n";
-    for (int i = 0; i < NB_CIRCLES*NB_LEDS_VERTICAL; i++)
-    {
-        for (int j = 0; j < ANG_SUBDIVISIONS; j++)
+    else {
+        myfile << "P3\n";
+        myfile << ANG_SUBDIVISIONS << " " << NB_CIRCLES*NB_LEDS_VERTICAL << "\n";
+        myfile << "255\n";
+        for (int i = 0; i < NB_CIRCLES*NB_LEDS_VERTICAL; i++)
         {
-            myfile << int(voxels[i][j][0] * 255.) << " " << int(voxels[i][j][1] * 255.) << " " << int(voxels[i][j][2] * 255.) << "\n";
+            for (int j = 0; j < ANG_SUBDIVISIONS; j++)
+            {
+                myfile << int(voxels[i][j][0] * 255.) << " " << int(voxels[i][j][1] * 255.) << " " << int(voxels[i][j][2] * 255.) << "\n";
+            }
         }
     }
     myfile.flush();
     myfile.close();
+    return ret;
 }
 
 bool Voxelizer::RayIntersectsTriangle(const Vector3D &rayOrigin,
@@ -207,8 +243,9 @@ bool Voxelizer::RayIntersectsTriangle(const Vector3D &rayOrigin,
     edge2 = p2 - p0;
     h = rayVector.crossProduct(edge2);
     a = edge1.dotProduct(h);
-    if (a > -EPSILON && a < EPSILON)
+    if (a > -EPSILON && a < EPSILON) {
         return false;    // This ray is parallel to this triangle.
+    }
     f = 1.0/a;
     s = rayOrigin - p0;
     u = f * s.dotProduct(h);
@@ -225,6 +262,7 @@ bool Voxelizer::RayIntersectsTriangle(const Vector3D &rayOrigin,
         outIntersectionPoint = rayOrigin + rayVector * t;
         return true;
     }
-    else // This means that there is a line intersection but not a ray intersection.
+    else { // This means that there is a line intersection but not a ray intersection.
         return false;
+    }
 }
