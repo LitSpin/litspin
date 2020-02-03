@@ -8,7 +8,8 @@
 #include "include/objreader.h"
 namespace fs = std::filesystem;
 
-void VideoVoxelizer::voxelize(std::string folder, int center, int resize){
+int VideoVoxelizer::voxelize(std::string folder, int center, int resize){
+    int out = 0;
     std::vector<ObjReader *> readers;
     for(const auto& file : std::filesystem::directory_iterator(folder)){
         std::string path = file.path();
@@ -44,6 +45,7 @@ void VideoVoxelizer::voxelize(std::string folder, int center, int resize){
     }
     for(ObjReader* obj : readers){
         obj->getFacesFromFile();
-        Voxelizer::voxelize(obj->getFaces(), obj->getColors(), obj->getPath() + ".ppm");
+        out += Voxelizer::voxelize(obj->getFaces(), obj->getColors(), obj->getPath() + ".ppm");
     }
+    return out;
 }

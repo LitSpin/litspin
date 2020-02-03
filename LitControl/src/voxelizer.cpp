@@ -186,7 +186,6 @@ int Voxelizer::voxelize(std::vector<Face> faces, std::map<std::string, std::vect
                     // handle z
                     // the z position of the intersection point in the subdivision is always equal to j
                     int z = 15-j;
-                    printf("z: %d\n", z);
                     if (z<0 || z>=NB_LEDS_VERTICAL || ang<0 || ang>=ANG_SUBDIVISIONS || ray>=NB_CIRCLES || ray <0) {
                         std::cerr << "bad value for z = " << z << " ang = " << ang << " ray = " << ray << std::endl;
                         ret = 1;

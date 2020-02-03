@@ -49,6 +49,7 @@ private:
     std::vector<QImage> frames;
     unsigned long video_display_index;
 
+    void getFramesFromFolder(QString folderName);
     void extract_frames(const std::string &videoFilePath);
 
 private slots:
