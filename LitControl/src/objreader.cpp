@@ -159,15 +159,18 @@ double ObjReader::getResizeFactor(){
     }
     double height = max_Z - min_Z;
     for(Vector3D& vector : vectors){
-       radius = fmax(pow(vector.getX(), 2) + pow(vector.getY(), 2), radius);
+       radius = fmax(sqrt(pow(vector.getX(), 2) + pow(vector.getY(), 2)), radius);
     }
     double fact = fmax(height/HEIGHT, radius/RADIUS);
+    std::cerr << filename + " : " + std::to_string(fact) << std::endl;
     return fact;
 }
 
 void ObjReader::resize(double resize_factor){
     for(Vector3D &vector : vectors)
-        vector = vector*(1/resize_factor)*0.999;//TODO : remove 0.999 factor when voxel is fixed
+        vector = vector*(1/resize_factor);
+   // for(Vector3D &vector : vectors)
+     //   vector.display();
 }
 
 std::pair<Vector3D, Vector3D> ObjReader::getExtremes(){

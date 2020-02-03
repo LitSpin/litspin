@@ -9,7 +9,7 @@ int ImageVoxelizer::voxelize(std::string filename, int center, int resize){
         objr->center(objr->getCenterVector());
     }
     if(resize == 2){
-
+        std::cerr << objr->getResizeFactor() << std::endl;
         objr->resize(objr->getResizeFactor());
     }
     objr->getFacesFromFile();

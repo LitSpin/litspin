@@ -19,39 +19,40 @@ Vector3D::Vector3D(const Vector3D &v) : Vector3D(v.m_x, v.m_y, v.m_z)
 }
 
 Vector3D * Vector3D::createFromCyl(double r, double theta, double z) {
-  return new Vector3D(r*cos(theta*(PI/180)), r*sin(theta*(PI/180)), z);
+    return new Vector3D(r*cos(theta*(PI/180)), r*sin(theta*(PI/180)), z);
 }
 
 double Vector3D::getX() const {
-  return m_x;
+    return m_x;
 }
 
 double Vector3D::getY() const {
-  return m_y;
+    return m_y;
 }
 
 double Vector3D::getZ() const {
-  return m_z;
+    return m_z;
 }
 
 void Vector3D::display() const {
-  printf("%lf %lf %lf\n", m_x, m_y, m_z);
+    if(fabs(m_z)>0.05)
+        printf("%lf %lf %lf\n", m_x, m_y, m_z);
 }
 
 Vector3D operator + (const Vector3D &v1, const Vector3D &v2) {
-  return Vector3D(v1.m_x + v2.m_x, v1.m_y + v2.m_y, v1.m_z + v2.m_z);
+    return Vector3D(v1.m_x + v2.m_x, v1.m_y + v2.m_y, v1.m_z + v2.m_z);
 }
 
 Vector3D operator - (const Vector3D &v1, const Vector3D &v2) {
-  return Vector3D(v1.m_x - v2.m_x, v1.m_y - v2.m_y, v1.m_z - v2.m_z);
+    return Vector3D(v1.m_x - v2.m_x, v1.m_y - v2.m_y, v1.m_z - v2.m_z);
 }
 
 Vector3D operator * (const Vector3D &v1, double d) {
-  return Vector3D(v1.m_x*d, v1.m_y*d, v1.m_z*d);
+    return Vector3D(v1.m_x*d, v1.m_y*d, v1.m_z*d);
 }
 
 bool operator == (const Vector3D &v1, const Vector3D &v2) {
-  return fabs(v1.m_x-v2.m_x)<EPSILON && fabs(v1.m_y-v2.m_y)<EPSILON && fabs(v1.m_z-v2.m_z)<EPSILON;
+    return fabs(v1.m_x-v2.m_x)<EPSILON && fabs(v1.m_y-v2.m_y)<EPSILON && fabs(v1.m_z-v2.m_z)<EPSILON;
 }
 
 void Vector3D::operator =(const Vector3D &v){
@@ -61,26 +62,26 @@ void Vector3D::operator =(const Vector3D &v){
 }
 
 double Vector3D::dotProduct(const Vector3D &v) const {
-  return m_x*v.getX() + m_y*v.getY() + m_z*v.getZ();
+    return m_x*v.getX() + m_y*v.getY() + m_z*v.getZ();
 }
 
 Vector3D Vector3D::crossProduct(const Vector3D &v) const {
-  double cX = m_y*v.getZ() - m_z*v.getY();
-  double cY = m_z*v.getX() - m_x*v.getZ();
-  double cZ = m_x*v.getY() - m_y*v.getX();
-  return Vector3D(cX, cY, cZ);
+    double cX = m_y*v.getZ() - m_z*v.getY();
+    double cY = m_z*v.getX() - m_x*v.getZ();
+    double cZ = m_x*v.getY() - m_y*v.getX();
+    return Vector3D(cX, cY, cZ);
 }
 
 bool Vector3D::compareZ(const Vector3D &v1, const Vector3D &v2) {
-  return v1.getZ() < v2.getZ();
+    return v1.getZ() < v2.getZ();
 }
 
 bool Vector3D::compareX(const Vector3D &v1, const Vector3D &v2) {
-  return v1.getX() < v2.getX();
+    return v1.getX() < v2.getX();
 }
 
 double Vector3D::distanceTo(const Vector3D &v) const {
-  return sqrt(pow(m_x-v.getX(),2)+pow(m_y-v.getY(),2)+pow(m_z-v.getZ(),2));
+    return sqrt(pow(m_x-v.getX(),2)+pow(m_y-v.getY(),2)+pow(m_z-v.getZ(),2));
 }
 
 size_t Vector3D::hash::operator()(Vector3D &v)
