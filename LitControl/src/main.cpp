@@ -7,7 +7,6 @@
 
 int main(int argc, char *argv[])
 {
-    //VideoVoxelizer::voxelize("/home/guillaume/Rose_workspace/LitSpin/voxelizer/data/cat", 2, 2);
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
