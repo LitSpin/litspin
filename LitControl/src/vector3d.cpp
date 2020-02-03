@@ -34,7 +34,7 @@ double Vector3D::getZ() const {
   return m_z;
 }
 
-void Vector3D::display() {
+void Vector3D::display() const {
   printf("%lf %lf %lf\n", m_x, m_y, m_z);
 }
 

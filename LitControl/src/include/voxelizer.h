@@ -9,7 +9,7 @@
 class Voxelizer{
 
 public:
-    static void voxelize(std::vector<Face> faces, std::map<std::string, std::vector<double>> obj_colors, std::string outputFile);
+    static int voxelize(std::vector<Face> faces, std::map<std::string, std::vector<double>> obj_colors, std::string outputFile);
 private :
     static bool RayIntersectsTriangle(const Vector3D &rayOrigin,
                                       const Vector3D &rayVector,

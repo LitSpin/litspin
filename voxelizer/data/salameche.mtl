@@ -1,10 +1,10 @@
-# Blender MTL File: 'salameche.blend'
+# Blender MTL File: 'None'
 # Material Count: 1
 
 newmtl Material.001
 Ns 225.000000
 Ka 1.000000 1.000000 1.000000
-Kd 0.800000 0.000834 0.004591
+Kd 0.800000 0.105578 0.079439
 Ks 0.500000 0.500000 0.500000
 Ke 0.0 0.0 0.0
 Ni 1.450000
