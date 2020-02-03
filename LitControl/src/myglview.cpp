@@ -4,6 +4,7 @@
 #include <QString>
 #include <QMessageBox>
 #include <cmath>
+#include <QThread>
 #include <fstream>
 #include <opencv2/imgproc/types_c.h>
 #include <opencv2/videoio/legacy/constants_c.h>
@@ -89,7 +90,8 @@ void MyGLView::get_file(QString path){
     if (mode == IMAGE_MODE){
         if(file.right(4) == ".obj"){
             file.chop(4);
-            if(ImageVoxelizer::voxelize(file.toStdString(), center, resize)==1){  QMessageBox msgBox;
+            if(ImageVoxelizer::voxelize(file.toStdString(), center, resize)==1){
+                QMessageBox msgBox;
                 msgBox.setText("The given obj file does not fit in the boundaries. The object will be cut to fit.\nTo make the object fit, click the resize box");
                 msgBox.exec();
             }
@@ -103,6 +105,9 @@ void MyGLView::get_file(QString path){
         if(file.endsWith(".obj")){
             file.chop(4);
             file.append(".ppm");
+            QMessageBox msgBox0;
+            msgBox0.setText("Voxelizing a video may take a few minutes. it will be automatically displayed when voxelizing is done.");
+            msgBox0.exec();
             if(VideoVoxelizer::voxelize(path.chopped(path.size()-path.lastIndexOf("/")).toStdString(), center, resize)){
                 QMessageBox msgBox;
                 msgBox.setText("The given video does not fit in the boundaries. The video will be cut to fit.\nTo make the object fit, click the resize box");
@@ -127,7 +132,6 @@ void MyGLView::h_changed(int new_h){
 void MyGLView::change_mode(int m){
     mode = m;
     r = 0;
-    std::cout << mode << std::endl;
 }
 
 void MyGLView::change_center_mode(int mode){
@@ -243,7 +247,7 @@ void MyGLView::extract_frames(const std::string &videoFilePath){
 void MyGLView::getFramesFromFolder(QString firstFrame){
     QString framePath = firstFrame;
     std::string curr_path = firstFrame.toStdString();
-    int i = 1;
+    int i = stoi(framePath.chopped(4).right(6).toStdString());
     frames = std::vector<QImage>();
     std::ifstream infile (curr_path);
     std::string int_string;

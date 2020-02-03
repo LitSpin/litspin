@@ -2,6 +2,7 @@
 #include <filesystem>
 #include <cfloat>
 #include <cmath>
+#include <QThreadPool>
 
 #include "include/voxelizer.h"
 #include "include/videovoxelizer.h"
@@ -11,12 +12,12 @@ namespace fs = std::filesystem;
 int VideoVoxelizer::voxelize(std::string folder, int center, int resize){
     int out = 0;
     std::vector<ObjReader *> readers;
+    //find obj files in given folder
     for(const auto& file : std::filesystem::directory_iterator(folder)){
         std::string path = file.path();
-        if(path.substr(path.size()-4, 4) == ".obj"){
+        //see if found file are obj files.
+        if(path.substr(path.size()-4, 4) == ".obj")
             readers.push_back(new ObjReader(path.substr(0, path.size()-4)));
-        }
-
     }
     if(center == 2){
         double min_X = DBL_MAX, max_X = DBL_MIN;
@@ -43,9 +44,13 @@ int VideoVoxelizer::voxelize(std::string folder, int center, int resize){
         for(ObjReader* obj : readers)
             obj->resize(fact);
     }
+    QThreadPool voxel_pool = QThreadPool();
+    voxel_pool.setMaxThreadCount(4);
+    voxel_pool.setExpiryTimeout(100000);
     for(ObjReader* obj : readers){
         obj->getFacesFromFile();
-        out += Voxelizer::voxelize(obj->getFaces(), obj->getColors(), obj->getPath() + ".ppm");
+        voxel_pool.start(new Voxelizer(obj->getFaces(), obj->getColors(), obj->getPath() + ".ppm"));
     }
+    voxel_pool.waitForDone();
     return out;
 }

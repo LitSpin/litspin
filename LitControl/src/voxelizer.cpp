@@ -15,6 +15,12 @@
 
 #define PI 3.14159
 
+Voxelizer::Voxelizer(std::vector<Face> _faces, std::map<std::string, std::vector<double>> _obj_colors, std::string _outputFile){
+    faces = _faces;
+    obj_colors = _obj_colors;
+    outputFile = _outputFile;
+}
+
 int Voxelizer::voxelize(std::vector<Face> faces, std::map<std::string, std::vector<double>> obj_colors, std::string outputFile)
 {
     int ret = 0;
@@ -264,4 +270,8 @@ bool Voxelizer::RayIntersectsTriangle(const Vector3D &rayOrigin,
     else { // This means that there is a line intersection but not a ray intersection.
         return false;
     }
+}
+
+void Voxelizer::run(){
+    voxelize(faces, obj_colors, outputFile);
 }
