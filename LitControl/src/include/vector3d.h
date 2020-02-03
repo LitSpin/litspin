@@ -25,7 +25,7 @@ public:
     };
 
     static Vector3D * createFromCyl(double r, double theta, double z);
-    void display();
+    void display() const;
     double getX() const;
     double getY() const;
     double getZ() const;
