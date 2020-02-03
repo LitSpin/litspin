@@ -6,7 +6,6 @@
 class ImageVoxelizer{
 public:
     static int voxelize(std::string filename, int center, int resize);
-
 };
 
 #endif // IMAGEVOXELIZER_H

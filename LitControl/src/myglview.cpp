@@ -4,7 +4,6 @@
 #include <QString>
 #include <QMessageBox>
 #include <cmath>
-#include <QThread>
 #include <fstream>
 #include <opencv2/imgproc/types_c.h>
 #include <opencv2/videoio/legacy/constants_c.h>
@@ -142,6 +141,7 @@ void MyGLView::change_resize_mode(int mode){
     resize = mode;
 }
 
+
 void MyGLView::next_frame(){
     video_display_index++;
     video_display_index %= frames.size();
@@ -265,4 +265,3 @@ void MyGLView::getFramesFromFolder(QString firstFrame){
     }
 
 }
-

@@ -9,10 +9,11 @@ int ImageVoxelizer::voxelize(std::string filename, int center, int resize){
         objr->center(objr->getCenterVector());
     }
     if(resize == 2){
-        std::cout << objr->getResizeFactor() << std::endl;
+
         objr->resize(objr->getResizeFactor());
     }
     objr->getFacesFromFile();
+
     return Voxelizer::voxelize(objr->getFaces(), objr->getColors(), filename + ".ppm");
 }
 

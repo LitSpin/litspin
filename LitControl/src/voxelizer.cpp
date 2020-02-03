@@ -89,16 +89,41 @@ int Voxelizer::voxelize(std::vector<Face> faces, std::map<std::string, std::vect
                     }
                     int ray = int((r*double(NB_CIRCLES))/double(RADIUS));
                     // handle z
-                    int tmp = int(floor((intersectPts[j].getZ()*NB_LEDS_VERTICAL)/double(HEIGHT)));
-                    if (tmp == 16) {
-                        tmp --;
+                    int z_start = 0;
+                    double a = (intersectPts[j].getZ()*NB_LEDS_VERTICAL)/double(HEIGHT);
+                    if (a<=16 && a>=-16) {
+                        int cmpt = 0;
+                        int dec = 15;
+                        while (cmpt<32) {
+                            if (a>dec) {
+                                z_start = cmpt;
+                                break;
+                            }
+                            else {
+                                dec --;
+                                cmpt ++;
+                            }
+                        }
                     }
-                    int z_start = 15-tmp;
-                    tmp = int(floor((intersectPts[j+1].getZ()*NB_LEDS_VERTICAL)/double(HEIGHT)));
-                    if (tmp == 16) {
-                        tmp --;
+                    a = (intersectPts[j+1].getZ()*NB_LEDS_VERTICAL)/double(HEIGHT);
+                    int z_end = 0;
+                    if (a<=16 && a>=-16) {
+                        int cmpt = 0;
+                        int dec = 15;
+                        while (cmpt<32) {
+                            if (a>dec) {
+                                z_end = cmpt;
+                                break;
+                            }
+                            else {
+                                dec --;
+                                cmpt ++;
+                            }
+                        }
                     }
-                    int z_end = 15-tmp;
+                    else {
+                        std::cerr << "wrong value for z" << std::endl;
+                    }
                     // z_start is higher than z_end because higher z have lower indexes in the output file
                     for (int z = z_end; z!=z_start+1; z++)
                     {
@@ -274,4 +299,5 @@ bool Voxelizer::RayIntersectsTriangle(const Vector3D &rayOrigin,
 
 void Voxelizer::run(){
     voxelize(faces, obj_colors, outputFile);
+
 }
