@@ -3,9 +3,10 @@
 #include <GL/glut.h>
 #include <QString>
 #include <cmath>
+#include <fstream>
 #include <opencv2/imgproc/types_c.h>
 #include <opencv2/videoio/legacy/constants_c.h>
-#include "include/voxelizer.h"
+#include "include/imagevoxelizer.h"
 #include "include/myglview.h"
 
 #define DELTA_VOXEL_Z 0.3
@@ -19,6 +20,8 @@ MyGLView::MyGLView(QWidget * parent) : QOpenGLWidget(parent), camera(glm::vec3(0
     connect(parent->parentWidget(), SIGNAL(new_h(int)), this, SLOT(h_changed(int)));
     connect(parent->parentWidget(), SIGNAL(mode_changed(int)), this, SLOT(change_mode(int)));
     connect(parent->parentWidget(), SIGNAL(fps_changed(int)), this, SLOT(change_fps(int)));
+    connect(parent->parentWidget(), SIGNAL(center_mode_set(int)), this, SLOT(change_center_mode(int)));
+    connect(parent->parentWidget(), SIGNAL(resize_mode_set(int)), this, SLOT(change_resize_mode(int)));
     setFocusPolicy(Qt::StrongFocus);
 
     connect(&timer_gl, SIGNAL(timeout()), this, SLOT(update()));
@@ -80,19 +83,37 @@ void MyGLView::file_explore(){
 }
 
 void MyGLView::get_file(QString path){
+    QString file = path;
     if (mode == IMAGE_MODE){
-        if(path.right(4) == ".obj"){
-            path.chop(4);
-            Voxelizer::voxelize(path.toStdString());
-            path.append(".ppm");
+        if(file.right(4) == ".obj"){
+            file.chop(4);
+            ImageVoxelizer::voxelize(file.toStdString(), center, resize);
+            file.append(".ppm");
         }
-        std::cerr << "bleh" << std::endl;
-        image.load(path);
+        image.load(file);
         r = image.height()/h;
         theta = 2*M_PI/double(image.width());
     }
     else {
-        extract_frames(path.toUtf8().constData());
+        std::string curr_path = path.toStdString();
+        int i = 1;
+        frames = std::vector<QImage>();
+        std::ifstream infile (curr_path);
+        std::string int_string;
+        std::stringstream ss;
+        while(infile.is_open()){
+            frames.push_back(QImage(file));
+            ss<<std::setw(6) << std::setfill('0') << ++i;
+            int_string = ss.str();
+            ss.clear();
+            ss.str(std::string());
+            file.chop(10);
+            file.append((int_string + ".ppm").c_str());
+            curr_path = file.toStdString();
+            std::cerr << i << std::endl;
+            std::cerr << curr_path << std::endl;
+            infile = std::ifstream(curr_path);
+        }
         r = frames[0].height()/h;
         theta = 2*M_PI/double(frames[0].width());
         video_display_index = 0;
@@ -111,6 +132,14 @@ void MyGLView::change_mode(int m){
     mode = m;
     r = 0;
     std::cout << mode << std::endl;
+}
+
+void MyGLView::change_center_mode(int mode){
+    center = mode;
+}
+
+void MyGLView::change_resize_mode(int mode){
+    resize = mode;
 }
 
 void MyGLView::next_frame(){
@@ -213,8 +242,5 @@ void MyGLView::extract_frames(const std::string &videoFilePath){
     std::cerr << e.msg << std::endl;
     exit(1);
   }
-
 }
-
-
 

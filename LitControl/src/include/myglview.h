@@ -37,6 +37,8 @@ private:
     QImage image;
     int r = 0;
     int h = 32;
+    int center = 0;
+    int resize = 0;
     double theta;
     Camera camera;
     QTimer timer_gl;
@@ -56,6 +58,9 @@ private slots:
     void change_mode(int m);
     void next_frame();
     void change_fps(int fps);
+    void change_center_mode(int mode);
+    void change_resize_mode(int mode);
+
 
 
 signals:

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <cmath>
 #include <algorithm>
-#include <unordered_set>
+
 #include "include/objreader.h"
 #include "include/face.h"
 #include "include/voxelizer.h"
@@ -15,19 +15,10 @@
 
 #define PI 3.14159
 
-void Voxelizer::voxelize(std::string fileName)
+void Voxelizer::voxelize(std::vector<Face> faces, std::map<std::string, std::vector<double>> obj_colors, std::string outputFile)
 {
-    std::cerr<<fileName << std::endl;
-    ObjReader * objr = new ObjReader(fileName);
-    // NB_LEDS_VERTICAL nb of leds to drive
-    double voxels[NB_CIRCLES * NB_LEDS_VERTICAL][ANG_SUBDIVISIONS][3] = {};
 
-    std::vector<Face> faces = objr->getFaces();
-    std::cout << "starting voxelization" << std::endl;
-    /*for(auto face : faces){
-        std::cout << "new face" << std::endl;
-        face.display();
-    }*/
+    double voxels[NB_CIRCLES * NB_LEDS_VERTICAL][ANG_SUBDIVISIONS][3] = {};
     for (int i = 0; i < NB_CIRCLES; i++)
     {
         for (int k = 0; k < ANG_SUBDIVISIONS; k++)
@@ -83,7 +74,6 @@ void Voxelizer::voxelize(std::string fileName)
                     intersectPts.pop_back();
                 }
                 // convert back to polar, and then to our grid coordinates
-                std::map<std::string, std::vector<double>> obj_color = objr->getColors();
                 for (long unsigned int j = 0; j!= intersectPts.size(); j = j+2)
                 {
                     int ang = int((theta*128)/360);
@@ -108,7 +98,7 @@ void Voxelizer::voxelize(std::string fileName)
                         }
                         // get the color of the face crossed
                         std::string mtl = faces[ind_face[ind]].getMtl();
-                        std::vector<double> rgb = obj_color[mtl];
+                        std::vector<double> rgb = obj_colors[mtl];
                         voxels[(NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z][ang][0] = rgb[0];
                         voxels[(NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z][ang][1] = rgb[1];
                         voxels[(NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z][ang][2] = rgb[2];
@@ -149,7 +139,6 @@ void Voxelizer::voxelize(std::string fileName)
             {
                 sort(intersectPts.begin(), intersectPts.end(), Vector3D::compareX);
                 // convert back to polar, and then to our grid coordinates
-                std::map<std::string, std::vector<double>> obj_color = objr->getColors();
                 for (long unsigned int k = 0; k!=intersectPts.size(); k++) {
                     double x = intersectPts[k].getX();
                     double y = intersectPts[k].getY();
@@ -173,7 +162,7 @@ void Voxelizer::voxelize(std::string fileName)
                     int z = (-int(((intersectPts[k].getZ()*NB_LEDS_VERTICAL)/double(HEIGHT))))+16;
                     // get the color of the face crossed
                     std::string mtl = faces[ind_face[k]].getMtl();
-                    std::vector<double> rgb = obj_color[mtl];
+                    std::vector<double> rgb = obj_colors[mtl];
                     voxels[(NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z][ang][0] = rgb[0];
                     voxels[(NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z][ang][1] = rgb[1];
                     voxels[(NB_CIRCLES-ray-1)*NB_LEDS_VERTICAL+z][ang][2] = rgb[2];
@@ -184,12 +173,12 @@ void Voxelizer::voxelize(std::string fileName)
     std::cout << "voxelization over" <<std::endl;
 
     // write in ppm file
-    std::cout << "writing to " + fileName + ".ppm" <<std::endl;
+    std::cout << "writing to " + outputFile <<std::endl;
     std::ofstream myfile;
-    myfile.open (fileName + ".ppm");
+    myfile.open (outputFile);
     if(!myfile.is_open())
     {
-        std::cerr << "error opening file " + fileName + ".ppm" << std::endl;
+        std::cerr << "error opening file " + outputFile<< std::endl;
     }
     myfile << "P3\n";
     myfile << ANG_SUBDIVISIONS << " " << NB_CIRCLES*NB_LEDS_VERTICAL << "\n";
