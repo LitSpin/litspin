@@ -4,7 +4,7 @@ SIM_GUI = vsim
 
 TB_SRC = $(wildcard ../tb_src/*.sv)
 SRC    = $(wildcard ../src/*.sv)
-TOP    = tb_led_band_controller
+TOP    = tb_synchronizer
 
 sim: compile
 	$(SIM) $(TOP) 
