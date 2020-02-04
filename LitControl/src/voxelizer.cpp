@@ -15,6 +15,8 @@
 
 #define PI 3.14159
 
+//TODO: gérer les couleurs
+
 Voxelizer::Voxelizer(std::vector<Face> _faces, std::map<std::string, std::vector<double>> _obj_colors, std::string _outputFile){
     faces = _faces;
     obj_colors = _obj_colors;
@@ -42,7 +44,7 @@ int Voxelizer::voxelize(std::vector<Face> faces, std::map<std::string, std::vect
                 Face cur_face = faces[l];
                 if (RayIntersectsTriangle(*orig, *dir, cur_face.getAngles()[0], cur_face.getAngles()[1], cur_face.getAngles()[2], res))
                 {
-                    // checks for duplicate (in case of crossing two faces at once)
+                    // check for duplicates (in case of crossing two faces at once)
                     int ok=1;
                     for (long unsigned int tmp = 0; tmp!=intersectPts.size(); tmp++)
                     {
@@ -89,13 +91,13 @@ int Voxelizer::voxelize(std::vector<Face> faces, std::map<std::string, std::vect
                     }
                     int ray = int((r*double(NB_CIRCLES))/double(RADIUS));
                     // handle z
-                    int z_start = 0;
+                    int z_start = -1;
                     double a = (intersectPts[j].getZ()*NB_LEDS_VERTICAL)/double(HEIGHT);
                     if (a<=16 && a>=-16) {
                         int cmpt = 0;
                         int dec = 15;
                         while (cmpt<32) {
-                            if (a>dec) {
+                            if (a>=dec) {
                                 z_start = cmpt;
                                 break;
                             }
@@ -104,11 +106,17 @@ int Voxelizer::voxelize(std::vector<Face> faces, std::map<std::string, std::vect
                                 cmpt ++;
                             }
                         }
+                        if(cmpt == 32) {
+                            // this line should not be reached
+                            std::cerr << "error: " << a << std::endl;
+                        }
+                    }
+                    else {
+                        std::cerr << "wrong value for a, getZ() = " << intersectPts[j+1].getZ() << std::endl;
                     }
                     a = (intersectPts[j+1].getZ()*NB_LEDS_VERTICAL)/double(HEIGHT);
-                    int z_end = 0;
+                    int z_end = -1;
                     if (a<=16 && a>=-16) {
-
                         int cmpt = 0;
                         int dec = 15;
                         while (cmpt<32) {
@@ -121,11 +129,21 @@ int Voxelizer::voxelize(std::vector<Face> faces, std::map<std::string, std::vect
                                 cmpt ++;
                             }
                         }
+                        if (cmpt == 32) {
+                            // this line should not be reached
+                            std::cerr << "error: " << a << std::endl;
+                        }
                     }
                     else {
-                        std::cerr << "wrong value for z" << std::endl;
+                        std::cerr << "wrong value for a: getZ() = " << intersectPts[j+1].getZ() << std::endl;
                     }
                     // z_start is higher than z_end because higher z have lower indexes in the output file
+                    // to make sure that when one of them has the wrong value the program won't enter the for loop
+                    if (z_start == -1 || z_end == -1) {
+                        z_start = -1;
+                        z_end = -1;
+                        ret = 1;
+                    }
                     for (int z = z_end; z<z_start+1; z++)
                     {
                         unsigned long ind;
@@ -138,7 +156,6 @@ int Voxelizer::voxelize(std::vector<Face> faces, std::map<std::string, std::vect
                             ind = static_cast<unsigned long>(j+1);
                         }
                         if (z<0 || z>=NB_LEDS_VERTICAL || ang<0 || ang>=ANG_SUBDIVISIONS || ray>=NB_CIRCLES || ray <0) {
-                            std::cerr << "bad access, z: " << z << " ang = " << ang << " ray = " << ray << std::endl;
                             ret = 1;
                         }
                         else {
@@ -156,12 +173,12 @@ int Voxelizer::voxelize(std::vector<Face> faces, std::map<std::string, std::vect
     }
 
     // same thing with horizontal rays
-    std::cout << "round 2" << std::endl;
     for (int j = -16; j<16; j++)
     {
         for (int i = 0; i < ANG_SUBDIVISIONS/2; i++)
         {
-            Vector3D * orig = Vector3D::createFromCyl(RADIUS, double(i*(360/double(ANG_SUBDIVISIONS))), double((j*(double(HEIGHT/NB_LEDS_VERTICAL)))));
+            // HEIGHT *0.998 to avoid rounding errors
+            Vector3D * orig = Vector3D::createFromCyl(RADIUS, double(i*(360/double(ANG_SUBDIVISIONS))), double((j*(double((HEIGHT*0.998)/NB_LEDS_VERTICAL)))));
             Vector3D * dir = Vector3D::createFromCyl(2*RADIUS, double(i*(360/double(ANG_SUBDIVISIONS))+180), 0);
             std::vector<Vector3D> intersectPts;
             std::vector<unsigned long> ind_face;
@@ -207,9 +224,6 @@ int Voxelizer::voxelize(std::vector<Face> faces, std::map<std::string, std::vect
                     // in degrees
                     theta = int(theta * (180/PI));
                     int ray = int(((r*double(NB_CIRCLES))/double(RADIUS)));
-                    if (ray >19 || ray <0) {
-                        std::cerr << "bad value for ray: " << ray << std::endl;
-                    }
                     int ang = int((theta*double(ANG_SUBDIVISIONS))/360);
                     if (((theta*double(ANG_SUBDIVISIONS))/360-int((theta*double(ANG_SUBDIVISIONS))/360) > 0.5))
                     {
@@ -219,7 +233,6 @@ int Voxelizer::voxelize(std::vector<Face> faces, std::map<std::string, std::vect
                     // the z position of the intersection point in the subdivision is always equal to j
                     int z = 15-j;
                     if (z<0 || z>=NB_LEDS_VERTICAL || ang<0 || ang>=ANG_SUBDIVISIONS || ray>=NB_CIRCLES || ray <0) {
-                        std::cerr << "bad value for z = " << z << " ang = " << ang << " ray = " << ray << std::endl;
                         ret = 1;
                     }
                     else {
@@ -239,25 +252,21 @@ int Voxelizer::voxelize(std::vector<Face> faces, std::map<std::string, std::vect
     // write in ppm file
     std::cout << "writing to " + outputFile <<std::endl;
     std::ofstream myfile;
+    myfile.exceptions ( std::ofstream::failbit | std::ofstream::badbit );
     myfile.open (outputFile);
-    if(!myfile.is_open())
+    myfile << "P3\n";
+    myfile << ANG_SUBDIVISIONS << " " << NB_CIRCLES*NB_LEDS_VERTICAL << "\n";
+    myfile << "255\n";
+    for (int i = 0; i < NB_CIRCLES*NB_LEDS_VERTICAL; i++)
     {
-        std::cerr << "error opening file " + outputFile<< std::endl;
-    }
-    else {
-        myfile << "P3\n";
-        myfile << ANG_SUBDIVISIONS << " " << NB_CIRCLES*NB_LEDS_VERTICAL << "\n";
-        myfile << "255\n";
-        for (int i = 0; i < NB_CIRCLES*NB_LEDS_VERTICAL; i++)
+        for (int j = 0; j < ANG_SUBDIVISIONS; j++)
         {
-            for (int j = 0; j < ANG_SUBDIVISIONS; j++)
-            {
-                myfile << int(voxels[i][j][0] * 255.) << " " << int(voxels[i][j][1] * 255.) << " " << int(voxels[i][j][2] * 255.) << "\n";
-            }
+            myfile << int(voxels[i][j][0] * 255.) << " " << int(voxels[i][j][1] * 255.) << " " << int(voxels[i][j][2] * 255.) << "\n";
         }
     }
     myfile.flush();
     myfile.close();
+
     return ret;
 }
 
