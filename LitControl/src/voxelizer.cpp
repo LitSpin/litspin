@@ -15,8 +15,11 @@
 
 #define PI 3.14159
 
-//TODO: gérer les couleurs
-//TODO: bug cube
+Voxelizer::Voxelizer(std::vector<Face> _faces, std::map<std::string, std::vector<double>> _obj_colors, std::string _outputFile){
+    faces = _faces;
+    obj_colors = _obj_colors;
+    outputFile = _outputFile;
+}
 
 int Voxelizer::voxelize(std::vector<Face> faces, std::map<std::string, std::vector<double>> obj_colors, std::string outputFile)
 {
@@ -105,6 +108,7 @@ int Voxelizer::voxelize(std::vector<Face> faces, std::map<std::string, std::vect
                     a = (intersectPts[j+1].getZ()*NB_LEDS_VERTICAL)/double(HEIGHT);
                     int z_end = 0;
                     if (a<=16 && a>=-16) {
+
                         int cmpt = 0;
                         int dec = 15;
                         while (cmpt<32) {
@@ -122,7 +126,7 @@ int Voxelizer::voxelize(std::vector<Face> faces, std::map<std::string, std::vect
                         std::cerr << "wrong value for z" << std::endl;
                     }
                     // z_start is higher than z_end because higher z have lower indexes in the output file
-                    for (int z = z_end; z!=z_start+1; z++)
+                    for (int z = z_end; z<z_start+1; z++)
                     {
                         unsigned long ind;
                         if (abs(z-z_start)<abs(z-z_end))
@@ -257,6 +261,7 @@ int Voxelizer::voxelize(std::vector<Face> faces, std::map<std::string, std::vect
     return ret;
 }
 
+
 bool Voxelizer::RayIntersectsTriangle(const Vector3D &rayOrigin,
                                       const Vector3D &rayVector,
                                       const Vector3D &p0,
@@ -292,4 +297,8 @@ bool Voxelizer::RayIntersectsTriangle(const Vector3D &rayOrigin,
     else { // This means that there is a line intersection but not a ray intersection.
         return false;
     }
+}
+
+void Voxelizer::run(){
+    voxelize(faces, obj_colors, outputFile);
 }

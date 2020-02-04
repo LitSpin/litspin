@@ -2,11 +2,13 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 #include <QString>
+#include <QMessageBox>
 #include <cmath>
 #include <fstream>
 #include <opencv2/imgproc/types_c.h>
 #include <opencv2/videoio/legacy/constants_c.h>
 #include "include/imagevoxelizer.h"
+#include "include/videovoxelizer.h"
 #include "include/myglview.h"
 
 #define DELTA_VOXEL_Z 0.3
@@ -59,8 +61,8 @@ void MyGLView::paintGL()
             {
                 QRgb pixel = image.pixel(i,j);
                 if (qRed(pixel)!=0 || qBlue(pixel)!=0 || qGreen(pixel)!=0){
-                glColor3d(double(qRed(pixel))/255.0,double(qGreen(pixel))/255.0,double(qBlue(pixel))/255.0);
-                glVertex3d(DELTA_VOXEL_R*(r-(j/h)-0.5)*cos(i*theta), DELTA_VOXEL_R*(r-(j/h)-0.5)*sin(i*theta), (h-j%h)*DELTA_VOXEL_Z);
+                    glColor3d(double(qRed(pixel))/255.0,double(qGreen(pixel))/255.0,double(qBlue(pixel))/255.0);
+                    glVertex3d(DELTA_VOXEL_R*(r-(j/h)-0.5)*cos(i*theta), DELTA_VOXEL_R*(r-(j/h)-0.5)*sin(i*theta), (h-j%h)*DELTA_VOXEL_Z);
                 }
             }
         }
@@ -87,7 +89,11 @@ void MyGLView::get_file(QString path){
     if (mode == IMAGE_MODE){
         if(file.right(4) == ".obj"){
             file.chop(4);
-            ImageVoxelizer::voxelize(file.toStdString(), center, resize);
+            if(ImageVoxelizer::voxelize(file.toStdString(), center, resize)==1){
+                QMessageBox msgBox;
+                msgBox.setText("The given obj file does not fit in the boundaries. The object will be cut to fit.\nTo make the object fit, click the resize box");
+                msgBox.exec();
+            }
             file.append(".ppm");
         }
         image.load(file);
@@ -95,25 +101,19 @@ void MyGLView::get_file(QString path){
         theta = 2*M_PI/double(image.width());
     }
     else {
-        std::string curr_path = path.toStdString();
-        int i = 1;
-        frames = std::vector<QImage>();
-        std::ifstream infile (curr_path);
-        std::string int_string;
-        std::stringstream ss;
-        while(infile.is_open()){
-            frames.push_back(QImage(file));
-            ss<<std::setw(6) << std::setfill('0') << ++i;
-            int_string = ss.str();
-            ss.clear();
-            ss.str(std::string());
-            file.chop(10);
-            file.append((int_string + ".ppm").c_str());
-            curr_path = file.toStdString();
-            std::cerr << i << std::endl;
-            std::cerr << curr_path << std::endl;
-            infile = std::ifstream(curr_path);
+        if(file.endsWith(".obj")){
+            file.chop(4);
+            file.append(".ppm");
+            QMessageBox msgBox0;
+            msgBox0.setText("Voxelizing a video may take a few minutes. it will be automatically displayed when voxelizing is done.");
+            msgBox0.exec();
+            if(VideoVoxelizer::voxelize(path.chopped(path.size()-path.lastIndexOf("/")).toStdString(), center, resize)){
+                QMessageBox msgBox;
+                msgBox.setText("The given video does not fit in the boundaries. The video will be cut to fit.\nTo make the object fit, click the resize box");
+                msgBox.exec();
+            }
         }
+        getFramesFromFolder(file);
         r = frames[0].height()/h;
         theta = 2*M_PI/double(frames[0].width());
         video_display_index = 0;
@@ -131,7 +131,6 @@ void MyGLView::h_changed(int new_h){
 void MyGLView::change_mode(int m){
     mode = m;
     r = 0;
-    std::cout << mode << std::endl;
 }
 
 void MyGLView::change_center_mode(int mode){
@@ -141,6 +140,7 @@ void MyGLView::change_center_mode(int mode){
 void MyGLView::change_resize_mode(int mode){
     resize = mode;
 }
+
 
 void MyGLView::next_frame(){
     video_display_index++;
@@ -155,27 +155,27 @@ void MyGLView::change_fps(int fps){
 void MyGLView::keyPressEvent(QKeyEvent *event) {
 
 
-switch (event->key()) {
+    switch (event->key()) {
 
-case Qt::Key_Q:
-    camera.moveTheta(-0.1f);
-    break;
-case Qt::Key_D:
-    camera.moveTheta(+0.1f);
-    break;
-case Qt::Key_Z:
-    camera.movePhi(0.1f);
-    break;
-case Qt::Key_S:
-    camera.movePhi(-0.1f);
-    break;
-case Qt::Key_A:
-    camera.moveRadius(1.f);
-    break;
-case Qt::Key_E:
-    camera.moveRadius(-1.f);
-    break;
-}
+    case Qt::Key_Q:
+        camera.moveTheta(-0.1f);
+        break;
+    case Qt::Key_D:
+        camera.moveTheta(+0.1f);
+        break;
+    case Qt::Key_Z:
+        camera.movePhi(0.1f);
+        break;
+    case Qt::Key_S:
+        camera.movePhi(-0.1f);
+        break;
+    case Qt::Key_A:
+        camera.moveRadius(1.f);
+        break;
+    case Qt::Key_E:
+        camera.moveRadius(-1.f);
+        break;
+    }
 }
 
 void MyGLView::mousePressEvent(QMouseEvent *event)
@@ -209,12 +209,12 @@ void MyGLView::wheelEvent(QWheelEvent *event)
 
 QImage Mat2QImage(cv::Mat const& src)
 {
-     cv::Mat temp; // make the same cv::Mat
-     cvtColor(src, temp,CV_BGR2RGB); // cvtColor Makes a copt, that what i need
-     QImage dest((const uchar *) temp.data, temp.cols, temp.rows, temp.step, QImage::Format_RGB888);
-     dest.bits(); // enforce deep copy, see documentation
-     // of QImage::QImage ( const uchar * data, int width, int height, Format format )
-     return dest;
+    cv::Mat temp; // make the same cv::Mat
+    cvtColor(src, temp,CV_BGR2RGB); // cvtColor Makes a copt, that what i need
+    QImage dest((const uchar *) temp.data, temp.cols, temp.rows, temp.step, QImage::Format_RGB888);
+    dest.bits(); // enforce deep copy, see documentation
+    // of QImage::QImage ( const uchar * data, int width, int height, Format format )
+    return dest;
 }
 
 /**
@@ -224,23 +224,44 @@ void MyGLView::extract_frames(const std::string &videoFilePath){
 
     try{
         //open the video file
-    cv::VideoCapture cap(videoFilePath); // open the video file
-    if(!cap.isOpened())  // check if we succeeded
-        CV_Error(CV_StsError, "Can not open Video file");
+        cv::VideoCapture cap(videoFilePath); // open the video file
+        if(!cap.isOpened())  // check if we succeeded
+            CV_Error(CV_StsError, "Can not open Video file");
 
-    frames = std::vector<QImage>();
+        frames = std::vector<QImage>();
 
-    //cap.get(CV_CAP_PROP_FRAME_COUNT) contains the number of frames in the video;
-    for(int frameNum = 0; frameNum < cap.get(CV_CAP_PROP_FRAME_COUNT);frameNum++)
-    {
-        cv::Mat frame;
-        cap >> frame; // get the next frame from video
-        frames.push_back(Mat2QImage(frame));
+        //cap.get(CV_CAP_PROP_FRAME_COUNT) contains the number of frames in the video;
+        for(int frameNum = 0; frameNum < cap.get(CV_CAP_PROP_FRAME_COUNT);frameNum++)
+        {
+            cv::Mat frame;
+            cap >> frame; // get the next frame from video
+            frames.push_back(Mat2QImage(frame));
+        }
     }
-  }
-  catch( cv::Exception& e ){
-    std::cerr << e.msg << std::endl;
-    exit(1);
-  }
+    catch( cv::Exception& e ){
+        std::cerr << e.msg << std::endl;
+        exit(1);
+    }
 }
 
+void MyGLView::getFramesFromFolder(QString firstFrame){
+    QString framePath = firstFrame;
+    std::string curr_path = firstFrame.toStdString();
+    int i = stoi(framePath.chopped(4).right(6).toStdString());
+    frames = std::vector<QImage>();
+    std::ifstream infile (curr_path);
+    std::string int_string;
+    std::stringstream ss;
+    while(infile.is_open()){
+        frames.push_back(QImage(framePath));
+        ss<<std::setw(6) << std::setfill('0') << ++i;
+        int_string = ss.str();
+        ss.clear();
+        ss.str(std::string());
+        framePath.chop(10);
+        framePath.append((int_string + ".ppm").c_str());
+        curr_path = framePath.toStdString();
+        infile = std::ifstream(curr_path);
+    }
+
+}

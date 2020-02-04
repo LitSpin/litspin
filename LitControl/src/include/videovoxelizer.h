@@ -4,7 +4,8 @@
 
 class VideoVoxelizer{
 public:
-     static void voxelize(std::string filename, int center, int resize);
+     static int voxelize(std::string filename, int center, int resize);
+
 };
 
 #endif // VIDEOVOXELIZER_H
