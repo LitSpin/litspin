@@ -11,6 +11,9 @@ logic clk;
 logic rst;
 logic turn_tick;
 logic force_fc;
+logic hps_override;
+logic hps_SCLK;
+logic hps_LAT;
 wire GCLK;
 wire SCLK;
 wire LAT;
@@ -51,16 +54,23 @@ sync
     .row_en(row_en),
     .led_row(led_row),
     .color(color),
-    .bit_sel(bit_sel)
+    .bit_sel(bit_sel),
+    .hps_override(hps_override),
+    .hps_SCLK(hps_SCLK),
+    .hps_LAT(hps_LAT)
 );
 
 initial begin: TESTBENCH
-turn_tick = 0;
-force_fc = 0;
-clk = 0;
-rst = 1;
-@(posedge clk)
-rst = 0;
+
+    hps_override = 0;
+    hps_SCLK = 0;
+    hps_LAT = 0;
+    turn_tick = 0;
+    force_fc = 0;
+    clk = 0;
+    rst = 1;
+    @(posedge clk)
+    rst = 0;
 
 end
 

@@ -18,14 +18,22 @@ module synchronizer
     row_en,
     led_row,
     color,
-    bit_sel
+    bit_sel,
+
+    hps_override,
+    hps_SCLK,
+    hps_LAT
 );
 
 input clk;
 input rst;
+input hps_override;
 
 // Clock generator
-output logic SCLK, GCLK;
+input hps_SCLK;
+wire gen_SCLK;
+output wire SCLK, GCLK;
+assign SCLK = hps_override ? hps_SCLK : gen_SCLK;
 clkgen
 #(
     .SCLK_FACTOR(SCLK_FACTOR),
@@ -35,7 +43,7 @@ clkgen_i
 (
     .clk(clk),
     .rst(rst),
-    .SCLK(SCLK),
+    .SCLK(gen_SCLK),
     .GCLK(GCLK)
 );
 
@@ -112,7 +120,8 @@ multiplexing_LUT_i
 );
 
 // LAT multiplexer
+input hps_LAT;
 output LAT;
-assign LAT = FC_en ? FC_LAT : GS_LAT;
+assign LAT = hps_override ? hps_LAT : (FC_en ? FC_LAT : GS_LAT);
 
 endmodule
