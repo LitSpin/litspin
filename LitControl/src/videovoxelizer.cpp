@@ -53,7 +53,7 @@ int VideoVoxelizer::voxelize(std::string folder, int center, int resize){
     }
     //make computing video
     QThreadPool voxel_pool = QThreadPool();
-    voxel_pool.setMaxThreadCount(4);
+    voxel_pool.setMaxThreadCount(8);
     voxel_pool.setExpiryTimeout(100000);
     //add processes to the threadpool queue
     for(ObjReader* obj : readers){
