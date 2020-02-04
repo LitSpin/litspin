@@ -39,7 +39,7 @@ int VideoVoxelizer::voxelize(std::string folder, int center, int resize){
         }
         Vector3D delta = Vector3D(max_X - min_X, max_Y - min_Y, max_Z - min_Z)*0.5 + Vector3D(min_X, min_Y, min_Z);
         for(ObjReader* obj : readers)
-            obj->center(obj->getCenterVector());
+            obj->center(delta);
     }
     if(resize == 2){
         double fact = DBL_MIN;
@@ -47,7 +47,6 @@ int VideoVoxelizer::voxelize(std::string folder, int center, int resize){
             fact = fmax(fact, obj->getResizeFactor());
         for(ObjReader* obj : readers)
             obj->resize(fact);
-        std::cerr << fact << std::endl;
     }
     QThreadPool voxel_pool = QThreadPool();
     voxel_pool.setMaxThreadCount(4);

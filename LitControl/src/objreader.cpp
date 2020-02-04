@@ -157,12 +157,10 @@ double ObjReader::getResizeFactor(){
         min_Z = fmin(min_Z, vector.getZ());
         max_Z = fmax(max_Z, vector.getZ());
     }
-    double height = max_Z - min_Z;
     for(Vector3D& vector : vectors){
        radius = fmax(sqrt(pow(vector.getX(), 2) + pow(vector.getY(), 2)), radius);
     }
-    double fact = fmax(height/HEIGHT, radius/RADIUS);
-    std::cerr << filename + " : " + std::to_string(fact) << std::endl;
+    double fact = fmax(fmax(2*fabs(max_Z)/HEIGHT, 2*fabs(min_Z)/HEIGHT), radius/RADIUS);
     return fact;
 }
 
