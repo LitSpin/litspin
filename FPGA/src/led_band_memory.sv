@@ -1,3 +1,4 @@
+`default_nettype none
 /*
  * Memory module containing the data of a full 2D cylinder.
  * It has to be inferred as a double channel double clock RAM.
@@ -23,13 +24,13 @@ module led_band_memory#(
                       );
 
 
-input         r_clk, read;
-input        [R_ADDR_WIDTH-1:0] r_addr;
-output logic [R_DATA_WIDTH-1:0] r_data;
+input  wire                        r_clk, read;
+input  wire     [R_ADDR_WIDTH-1:0] r_addr;
+output logic [R_DATA_WIDTH-1:0]    r_data;
 
-input w_clk, write;
-input [W_ADDR_WIDTH-1:0] w_addr;
-input [W_DATA_WIDTH-1:0] w_data;
+input wire w_clk, write;
+input wire [W_ADDR_WIDTH-1:0] w_addr;
+input wire [W_DATA_WIDTH-1:0] w_data;
 
 localparam RATIO_WIDTH = W_DATA_WIDTH / R_DATA_WIDTH;
 localparam W_WORDS_NB = 2**W_ADDR_WIDTH;

@@ -1,3 +1,5 @@
+`default_nettype none
+
 module GS_state_machine
 #(
     parameter NB_ANGLES = 128,
@@ -17,11 +19,11 @@ module GS_state_machine
     FC_en
 );
 
-input clk;
-input rst;
-input FC_en;
+input wire clk;
+input wire rst;
+input wire FC_en;
 
-input SCLK;
+input wire SCLK;
 logic prev_SCLK;
 wire  posedge_SCLK = SCLK & ~prev_SCLK;
 always_ff@(posedge clk)
@@ -29,7 +31,7 @@ always_ff@(posedge clk)
 
 // New angle detection
 localparam ANGLE_WIDTH = $clog2(NB_ANGLES);
-input [ANGLE_WIDTH - 1 : 0] angle;
+input wire [ANGLE_WIDTH - 1 : 0] angle;
 logic [ANGLE_WIDTH - 1 : 0] prev_angle;
 wire new_angle = angle != prev_angle;
 always_ff@(posedge clk)
@@ -112,7 +114,7 @@ begin
     endcase
 end
 
-output LAT;
+output wire LAT;
 wire LAT_WRTGS = end_led & end_color;
 wire LAT_LATGS = end_led & end_bit_sel;
 assign LAT = LAT_WRTGS | LAT_LATGS;

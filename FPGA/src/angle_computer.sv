@@ -1,3 +1,5 @@
+`default_nettype none
+
 module angle_computer
 #(
     parameter COUNTER_WIDTH = 128, // sets the turn_turn_counter max value
@@ -10,9 +12,9 @@ module angle_computer
     angle
 );
 
-input clk;
-input rst;
-input turn_tick;
+input wire clk;
+input wire rst;
+input wire turn_tick;
 
 logic previous_turn_tick;
 wire negedge_turn_tick = ~turn_tick && previous_turn_tick;

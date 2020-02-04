@@ -1,13 +1,15 @@
+`default_nettype none
+
 module clkgen
 #(
     parameter SCLK_FACTOR = 8, // SCLK division factor TODO choose value
     parameter GCLK_FACTOR = 4  // GCLK division factor  TODO choose value
 )
 (
-    input clk,
-    input rst,
-    output SCLK,
-    output GCLK
+    input wire  clk,
+    input wire  rst,
+    output wire SCLK,
+    output wire GCLK
 );
 
 clk_divider

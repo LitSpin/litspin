@@ -1,3 +1,5 @@
+`default_nettype none
+
 module led_band_controller #(
     parameter NB_LED_COLUMN = 32,
     parameter BIT_PER_COLOR = 8,
@@ -45,22 +47,22 @@ localparam ANGLE_WIDTH =   $clog2(NB_ANGLES);
 localparam ROW_WIDTH =     $clog2(NB_LED_COLUMN);
 localparam BIT_SEL_WIDTH = $clog2(BIT_PER_COLOR + NB_0_LSB);
 
-input rst, clk;
+input wire rst, clk;
 
-input SCLK, LAT;
-input [ANGLE_WIDTH - 1:0] angle;
-input [ROW_WIDTH - 1:0] row;
-input [1:0] color;
-input [BIT_SEL_WIDTH - 1:0] bit_sel;
+input wire SCLK, LAT;
+input wire [ANGLE_WIDTH - 1:0] angle;
+input wire [ROW_WIDTH - 1:0] row;
+input wire [1:0] color;
+input wire [BIT_SEL_WIDTH - 1:0] bit_sel;
 
-input [W_ADDR_WIDTH-2:0] w_addr_input;
-input [W_DATA_WIDTH-1:0] w_data;
-input w_clk, write;
+input wire [W_ADDR_WIDTH-2:0] w_addr_input;
+input wire [W_DATA_WIDTH-1:0] w_data;
+input wire w_clk, write;
 
-output SOUT;
-input new_frame;
+output wire SOUT;
+input wire new_frame;
 
-input hps_override, hps_SOUT, hps_fc_clk, hps_fc_data;
+input wire hps_override, hps_SOUT, hps_fc_clk, hps_fc_data;
 
 wire [R_DATA_WIDTH-1 : 0] r_data;
 wire r_clk;

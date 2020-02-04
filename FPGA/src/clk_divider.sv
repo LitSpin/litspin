@@ -1,3 +1,5 @@
+`default_nettype none
+
 // Clock divider
 // Generates a clock of period o_clk = i_clk / PARAMETER.
 // PARAMETER can only be a multiple of 2.
@@ -7,8 +9,8 @@ module clk_divider
     parameter FACTOR = 2 // division factor.
 )
 (
-    input clk,
-    input rst,
+    input wire   clk,
+    input wire   rst,
     output logic o_clk
 );
 

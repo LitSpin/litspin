@@ -1,3 +1,5 @@
+`default_nettype none
+
 module synchronizer
 #(
     parameter SCLK_FACTOR = 4,            //SCLK clock division factor (must be even)
@@ -25,12 +27,12 @@ module synchronizer
     hps_LAT
 );
 
-input clk;
-input rst;
-input hps_override;
+input wire clk;
+input wire rst;
+input wire hps_override;
 
 // Clock generator
-input hps_SCLK;
+input wire hps_SCLK;
 wire gen_SCLK;
 output wire SCLK, GCLK;
 assign SCLK = hps_override ? hps_SCLK : gen_SCLK;
@@ -49,7 +51,7 @@ clkgen_i
 
 // Angle computer
 localparam ANGLE_WIDTH = $clog2(NB_ANGLES);
-input turn_tick;
+input wire turn_tick;
 wire [ANGLE_WIDTH - 1 : 0] angle;
 angle_computer
 #(
@@ -65,7 +67,7 @@ angle_computer_i
 );
 
 // Function control state machine
-input force_fc;
+input wire force_fc;
 wire FC_LAT;
 wire FC_en;
 FC_state_machine FC_state_machine_i
@@ -106,7 +108,7 @@ GS_state_machine_i
 
 // Multiplexing LookUp Table
 localparam LED_ROW_WIDTH = $clog2(NB_LED_ROWS);
-output [LED_ROW_WIDTH - 1 : 0] led_row;
+output wire [LED_ROW_WIDTH - 1 : 0] led_row;
 multiplexing_LUT
 #(
     .NB_LEDS_PER_GROUP(NB_LEDS_PER_GROUP),
@@ -120,8 +122,8 @@ multiplexing_LUT_i
 );
 
 // LAT multiplexer
-input hps_LAT;
-output LAT;
+input  wire hps_LAT;
+output wire LAT;
 assign LAT = hps_override ? hps_LAT : (FC_en ? FC_LAT : GS_LAT);
 
 endmodule

@@ -25,11 +25,11 @@ module FC_state_machine
  *    One low LAT cycle at the end and beginning
  */   
 
-input clk;
-input rst;
+input wire clk;
+input wire rst;
 
 // Posedge SCLK detector
-input SCLK;
+input wire SCLK;
 logic prev_SCLK;
 wire posedge_SCLK = SCLK & ~prev_SCLK;
 always@(posedge clk)
@@ -38,7 +38,7 @@ always@(posedge clk)
 // The counter counts from 0 to 64 (relevant values)
 // Increases at each posedge of SCLK
 // Is reset on force_fc and rst
-input force_fc;
+input wire force_fc;
 logic [6:0] counter;
 always@(posedge clk)
     if(rst)
@@ -62,7 +62,7 @@ always@(posedge clk)
             en <= 0;
 
 // LAT is the conjonction of WRTFC (5 cycles) and FCWRTEN (15 cycles)
-output LAT;
+output wire LAT;
 wire LAT_FCWRTEN = (1 <= counter) & (counter <= 15);
 wire LAT_WRTFC   = (59 <= counter) & (counter <= 63);
 assign LAT = LAT_FCWRTEN | LAT_WRTFC;

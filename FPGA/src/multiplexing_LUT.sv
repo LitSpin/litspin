@@ -1,3 +1,5 @@
+`default_nettype none
+
 module multiplexing_LUT
 #(
     parameter NB_LEDS_PER_GROUP = 16,
@@ -22,7 +24,7 @@ localparam [0 : 3][0 : NB_LEDS_PER_GROUP - 1][LED_ROW_WIDTH - 1 : 0] mux_table =
 
 // mux_row_nb is the number of the currently active multiplexing row.
 // unspecified behaviour when the number of active rows is not 1.
-input [3:0] row_en;
+input wire [3:0] row_en;
 logic [1:0] mux_row_nb;
 always_comb
     case(row_en)
@@ -33,8 +35,8 @@ always_comb
     endcase
 
 localparam LED_WIDTH = $clog2(NB_LEDS_PER_GROUP);
-input [LED_WIDTH - 1 : 0] led;
-output [LED_ROW_WIDTH - 1 : 0] led_row;
+input  wire [LED_WIDTH - 1 : 0] led;
+output wire [LED_ROW_WIDTH - 1 : 0] led_row;
 assign led_row = mux_table[mux_row_nb][led];
 
 endmodule

@@ -1,3 +1,5 @@
+`default_nettype none
+
 module led_band_FC_setter#(
                             parameter [47:0] default_FC = 48'h5c0201008048
                           )
@@ -12,13 +14,13 @@ module led_band_FC_setter#(
                               spi_data
                           );
 
-input rst;
-input clk;
-input SCLK;
-output SOUT;
-input LAT;
-input spi_clk;
-input spi_data;
+input wire  rst;
+input wire  clk;
+input wire  SCLK;
+output wire SOUT;
+input wire  LAT;
+input wire  spi_clk;
+input wire  spi_data;
 
 /* Initialization: writing the settings in the driver.
  * This module detects the FCWRTEN signal and initiates
