@@ -21,6 +21,7 @@ module synchronizer
     led_row,
     color,
     bit_sel,
+    angle,
 
     hps_override,
     hps_SCLK,
@@ -52,7 +53,7 @@ clkgen_i
 // Angle computer
 localparam ANGLE_WIDTH = $clog2(NB_ANGLES);
 input wire turn_tick;
-wire [ANGLE_WIDTH - 1 : 0] angle;
+output wire [ANGLE_WIDTH - 1 : 0] angle;
 angle_computer
 #(
     .COUNTER_WIDTH(ANGLE_COUNTER_WIDTH),
