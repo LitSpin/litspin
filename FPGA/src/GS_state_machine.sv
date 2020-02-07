@@ -71,16 +71,16 @@ output logic [3:0] bit_sel;
 wire end_bit_sel = bit_sel == 0;
 always@(posedge clk)
     if(rst)
-        bit_sel <= 4'h9;
+        bit_sel <= 4'h8;
     else
         if(FC_en | new_angle)
-            bit_sel <= 4'h9;
+            bit_sel <= 4'h8;
         else 
             if(posedge_SCLK & end_led & end_color)
             begin
                 bit_sel <= bit_sel - 1;
                 if(bit_sel == 0)
-                    bit_sel <= 4'h9;
+                    bit_sel <= 4'h8;
             end
 
 
