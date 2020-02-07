@@ -39,8 +39,11 @@ input wire  [47:0] hps_fc_data;
 
 
 always_ff@(posedge clk)
-    if(hps_fc_write)
-        FC <= hps_fc_data;
+    if (rst)
+        FC <= default_FC;
+    else
+        if(hps_fc_write)
+            FC <= hps_fc_data;
 
 
 logic prev_SCLK;
