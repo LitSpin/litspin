@@ -1,3 +1,5 @@
+`default_nettype none
+
 module tb_led_band_controller;
 
 logic clk, rst;
@@ -7,12 +9,12 @@ logic [127:0] w_data;
 wire [47:0] FC = $random;
 logic [9:0] w_addr;
 logic write;
-wire w_clk;
 
 logic hps_override;
 logic hps_SOUT;
-logic hps_fc_clk;
-logic hps_fc_data;
+logic hps_fc_write;
+logic hps_fc_addr;
+logic [47:0] hps_fc_data;
 
 logic [4:0] row;
 logic [6:0] angle;
@@ -39,7 +41,6 @@ led_band_controller lbc(
 
     .w_addr_input(w_addr),
     .w_data(w_data),
-    .w_clk(w_clk),
     .write(write),
 
     .SOUT(SOUT),
@@ -47,14 +48,15 @@ led_band_controller lbc(
 
     .hps_override(hps_override),
     .hps_SOUT(hps_SOUT),
-    .hps_fc_clk(hps_fc_clk),
-    .hps_fc_data(hps_fc_data)
+    .hps_fc_write(hps_fc_write),
+    .hps_fc_data(hps_fc_data),
+    .hps_fc_addr(hps_fc_addr)
+
 
 );
 
 always #10ns clk = ~clk;
 
-assign w_clk = clk;
 
 logic success = 1;
 
@@ -81,8 +83,9 @@ initial begin: TESTBENCH
     write = 0;
     hps_override = 0;
     hps_SOUT = 0;
-    hps_fc_clk = 0;
     hps_fc_data = 0;
+    hps_fc_addr = 0;
+    hps_fc_write = 0;
     row = 0;
     angle = 0;
     color = 0;
@@ -106,15 +109,11 @@ initial begin: TESTBENCH
 
     //Test FC setting from HPS
 
-    for (i = 47; i>=0; i--) begin
-        hps_fc_data = FC[i];
-        @(posedge clk);
-        hps_fc_clk = 1;
-        @(posedge clk);
-        hps_fc_clk = 0;
-        end
-
+    hps_fc_write = 1;
+    hps_fc_data = FC;
+    @(posedge clk);
     @(negedge clk);
+    hps_fc_write = 0;
 
 
     assert (FC==lbc.f0.FC) $display("FC written from HPS passed");
@@ -127,7 +126,7 @@ initial begin: TESTBENCH
     begin
         w_data=data[i];
         w_addr = i;
-        @(posedge w_clk);
+        @(posedge clk);
     end
 
     new_frame = 1;
@@ -138,7 +137,7 @@ initial begin: TESTBENCH
     begin
         w_data=data[i+768];
         w_addr = i;
-        @(posedge w_clk);
+        @(posedge clk);
     end
 
     @(posedge clk);
@@ -251,8 +250,8 @@ initial begin: TESTBENCH
     begin
         w_data=data[i];
         w_addr = i;
-        @(posedge w_clk);
-        @(negedge w_clk);
+        @(posedge clk);
+        @(negedge clk);
         assert (data[i]==lbc.m0.mem[i])
             else   begin $error("Data writing test failed for index %d.\nexpected: %h\nvalue  : %h", i, data[i], lbc.m0.mem[i]); success = 0; end
     end

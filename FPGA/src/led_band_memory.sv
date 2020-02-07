@@ -13,22 +13,23 @@ module led_band_memory#(
                         parameter R_DATA_WIDTH=8
                       )
                       (
-                        r_clk,
+                        clk,
+
                         read,
                         r_addr,
                         r_data ,
                         w_addr ,
                         w_data ,
-                        w_clk  ,
                         write
                       );
 
+input wire                         clk;
 
-input  wire                        r_clk, read;
+input  wire                        read;
 input  wire     [R_ADDR_WIDTH-1:0] r_addr;
 output logic [R_DATA_WIDTH-1:0]    r_data;
 
-input wire w_clk, write;
+input wire write;
 input wire [W_ADDR_WIDTH-1:0] w_addr;
 input wire [W_DATA_WIDTH-1:0] w_data;
 
@@ -37,12 +38,12 @@ localparam W_WORDS_NB = 2**W_ADDR_WIDTH;
 
 logic [RATIO_WIDTH-1 : 0][R_DATA_WIDTH -1 : 0] mem [0:W_WORDS_NB-1];
 
-always@(posedge r_clk)
+always@(posedge clk)
+begin
     if(read)
-    r_data <= mem[r_addr/16][r_addr%16];
-
-always@(posedge w_clk)
+      r_data <= mem[r_addr/16][r_addr%16];
     if(write)
-        mem[w_addr] <= w_data;
+      mem[w_addr] <= w_data;
+end
 
 endmodule

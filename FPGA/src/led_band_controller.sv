@@ -24,7 +24,6 @@ module led_band_controller #(
 
         w_addr_input,
         w_data,
-        w_clk,
         write,
         
         SOUT,
@@ -32,12 +31,14 @@ module led_band_controller #(
 
         hps_override,
         hps_SOUT,
-        hps_fc_clk,
-        hps_fc_data
+
+        hps_fc_addr,
+        hps_fc_data,
+        hps_fc_write
     );
 
 localparam W_WORDS_NB = 2*3*BIT_PER_COLOR*NB_LED_COLUMN*NB_ANGLES/W_DATA_WIDTH;
-localparam W_ADDR_WIDTH = $clog2(W_WORDS_NB);
+parameter W_ADDR_WIDTH = $clog2(W_WORDS_NB);
 
 localparam R_DATA_WIDTH = BIT_PER_COLOR;
 localparam R_WORDS_NB = 2*3*NB_LED_COLUMN*NB_ANGLES;
@@ -57,15 +58,16 @@ input wire [BIT_SEL_WIDTH - 1:0] bit_sel;
 
 input wire [W_ADDR_WIDTH-2:0] w_addr_input;
 input wire [W_DATA_WIDTH-1:0] w_data;
-input wire w_clk, write;
+input wire write;
 
 output wire SOUT;
 input wire new_frame;
 
-input wire hps_override, hps_SOUT, hps_fc_clk, hps_fc_data;
+input wire hps_override, hps_SOUT, hps_fc_write;
+input wire hps_fc_addr;
+input wire [47:0] hps_fc_data;
 
 wire [R_DATA_WIDTH-1 : 0] r_data;
-wire r_clk;
 wire SOUT_GS, SOUT_FC;
 
 wire  [W_ADDR_WIDTH-1:0] w_addr;
@@ -96,7 +98,6 @@ assign w_addr[W_ADDR_WIDTH-1]   = buffer_choice;
 assign r_addr[R_ADDR_WIDTH-1]   = ~buffer_choice;
 
 
-assign r_clk = clk;
 assign read = en;
 
 led_band_GS_controller#(
@@ -118,14 +119,14 @@ led_band_memory#(
     )
     m0
     (
-    .r_clk(r_clk),
+    .clk(clk),
+
     .read(read),
     .r_addr(r_addr),
     .r_data(r_data),
 
-    .w_addr(w_addr),
     .w_data(w_data),
-    .w_clk(w_clk),
+    .w_addr(w_addr),
     .write(write)
 );
 
@@ -139,8 +140,9 @@ led_band_FC_setter#
     .en(en),
     .SOUT(SOUT_FC),
     .LAT(LAT),
-    .spi_clk(hps_fc_clk),
-    .spi_data(hps_fc_data)
+    .hps_fc_addr(hps_fc_addr),
+    .hps_fc_data(hps_fc_data),
+    .hps_fc_write(hps_fc_write)
 );
 
 address_computer #(
