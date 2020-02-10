@@ -53,18 +53,18 @@ always@(posedge clk)
                 R: color <= B;
             endcase
 
-// Led goes from 0 to 15 each time color has completed a B,G,R cycle
+// Led goes from 15 to 0 each time color has completed a B,G,R cycle
 localparam LED_WIDTH = $clog2(NB_LEDS_PER_GROUP);
 output logic [LED_WIDTH - 1 : 0] led;
-wire end_led = led == {LED_WIDTH{1'b1}};
+wire end_led = led == '0;
 always@(posedge clk)
     if(rst)
-        led <= 0;
+        led <= {LED_WIDTH{1'b1}};
     else
         if(FC_en | new_angle)
-            led <= 0;
+            led <= {LED_WIDTH{1'b1}};
         else if(posedge_SCLK & end_color)
-            led <= led + 1;
+            led <= led - 1;
 
 
 output logic [3:0] bit_sel; 
