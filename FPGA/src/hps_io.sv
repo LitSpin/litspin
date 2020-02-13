@@ -1,3 +1,5 @@
+`default_nettype none
+
 module hps_io
 #(
     parameter W_ADDR_WIDTH = 2,
@@ -41,13 +43,13 @@ localparam HPS_OVERRIDE_BIT = 3;
 output wire hps_override;
 localparam HPS_SOUT_BIT = 4;
 output wire [NB_LED_BAND - 1 : 0] hps_SOUT;
-localparam HPS_LAT_BIT = 24;
+localparam HPS_LAT_BIT = 4;
 output wire hps_LAT;
-localparam HPS_SCLK_BIT = 25;
+localparam HPS_SCLK_BIT = 5;
 output wire hps_SCLK;
-localparam HPS_TURN_TICK_BIT = 26;
+localparam HPS_TURN_TICK_BIT = 6;
 output wire hps_turn_tick;
-localparam PD_BIT = 27;
+localparam PD_BIT = 7;
 output wire PD;
 // The output turn_tick_IRQ is high after the negedge of turn_tick
 // until 1 is written to the CLEAR_TURN_TICK_IRQ_BIT
