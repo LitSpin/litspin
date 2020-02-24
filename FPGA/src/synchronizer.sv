@@ -54,7 +54,6 @@ clkgen_i
 localparam ANGLE_WIDTH = $clog2(NB_ANGLES);
 input wire turn_tick;
 output wire [ANGLE_WIDTH - 1 : 0] angle;
-
 angle_computer
 #(
     .COUNTER_WIDTH(ANGLE_COUNTER_WIDTH),

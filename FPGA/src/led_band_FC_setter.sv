@@ -39,7 +39,7 @@ input wire  [47:0] hps_fc_data;
 
 
 always_ff@(posedge clk)
-    if(rst)
+    if (rst)
         FC <= default_FC;
     else
         if(hps_fc_write)
@@ -48,6 +48,7 @@ always_ff@(posedge clk)
 
 logic prev_SCLK;
 wire posedge_SCLK = SCLK & ~prev_SCLK;
+wire negedge_SCLK = ~SCLK & prev_SCLK;
 always_ff@(posedge clk)
     prev_SCLK <= SCLK;
 
@@ -83,13 +84,15 @@ always_ff@(posedge clk)
     end
 
 // Counter goes from 47 to 0 while the FC is being written 
+// It is updated on SCLK negedge to present new data on SCLK posedge
 logic [5:0] counter;
 assign SOUT = FC[counter];
 always_ff@(posedge clk)
     if(rst)
         counter <= 6'h2f;
     else
-        if(posedge_SCLK && ~en)
+        if(negedge_SCLK && ~en)
             counter <= counter - 1;
+
 
 endmodule
