@@ -106,6 +106,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="pushButton_3">
+        <property name="text">
+         <string>Remote</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="horizontalSpacer_5">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -189,18 +196,34 @@
  <resources/>
  <connections>
   <connection>
-   <sender>pushButton</sender>
-   <signal>clicked()</signal>
+   <sender>spinBox_2</sender>
+   <signal>valueChanged(int)</signal>
    <receiver>MainWindow</receiver>
-   <slot>close()</slot>
+   <slot>change_fps(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>768</x>
-     <y>478</y>
+     <x>630</x>
+     <y>479</y>
     </hint>
     <hint type="destinationlabel">
-     <x>515</x>
-     <y>456</y>
+     <x>661</x>
+     <y>557</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_3</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>center_mode(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>225</x>
+     <y>467</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>218</x>
+     <y>535</y>
     </hint>
    </hints>
   </connection>
@@ -221,22 +244,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>spinBox_2</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>change_fps(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>630</x>
-     <y>479</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>661</x>
-     <y>557</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>checkBox_2</sender>
    <signal>stateChanged(int)</signal>
    <receiver>MainWindow</receiver>
@@ -253,18 +260,18 @@
    </hints>
   </connection>
   <connection>
-   <sender>checkBox_3</sender>
-   <signal>stateChanged(int)</signal>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>center_mode(int)</slot>
+   <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>225</x>
-     <y>467</y>
+     <x>768</x>
+     <y>478</y>
     </hint>
     <hint type="destinationlabel">
-     <x>218</x>
-     <y>535</y>
+     <x>515</x>
+     <y>456</y>
     </hint>
    </hints>
   </connection>

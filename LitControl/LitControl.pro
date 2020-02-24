@@ -32,6 +32,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++17
 
+
 SOURCES += \
     src/camera.cpp \
     src/fileexplorer.cpp \
@@ -43,7 +44,10 @@ SOURCES += \
     src/vector3d.cpp \
     src/face.cpp \
     src/imagevoxelizer.cpp \
-    src/videovoxelizer.cpp
+    src/videovoxelizer.cpp \
+    src/FileListModel.cpp \
+    src/FileListView.cpp \
+    src/remotewindow.cpp
 
 HEADERS += \
     src/include/camera.h \
@@ -55,10 +59,14 @@ HEADERS += \
     src/include/objreader.h \
     src/include/face.h \
     src/include/imagevoxelizer.h \
-    src/include/videovoxelizer.h
+    src/include/videovoxelizer.h \
+    src/include/FileListModel.h \
+    src/include/FileListView.h \
+    src/include/remotewindow.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    remotewindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
