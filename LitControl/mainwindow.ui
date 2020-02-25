@@ -156,6 +156,16 @@
        </spacer>
       </item>
       <item>
+       <widget class="QPushButton" name="textButton">
+        <property name="text">
+         <string>Display</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit"/>
+      </item>
+      <item>
        <widget class="QPushButton" name="pushButton">
         <property name="text">
          <string>Exit</string>

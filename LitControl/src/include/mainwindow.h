@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QString>
+#include <QLineEdit>
 
 namespace Ui {
 class MainWindow;
@@ -32,6 +33,8 @@ private slots:
 
     void on_pushButton_3_clicked();
 
+    void on_textButton_clicked();
+
 signals:
     void file_transmit(QString path);
     void file_choice();
@@ -40,6 +43,7 @@ signals:
     void fps_changed(int fps);
     void center_mode_set(int mode);
     void resize_mode_set(int mode);
+    void print_text(QLineEdit * lineEdit);
 
 };
 

@@ -1,18 +1,42 @@
 from PIL import Image, ImageDraw, ImageFont
 
+HEIGHT = 19
+WIDTH = 10
+
 # credits: Alexis Polti
 def load_font():
-    im = Image.open("data/Sinclair_S.png")
-    chars = chars = """ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_§abcdefghijklmnopqrstuvwxyz{|}~"""
+    fout = open("char_map.bin", "wb")
+    im = Image.open("LitSpin.png")
+    out = bytearray(0)
+    chars = chars = """ !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_Zabcdefghijklmnopqrstuvwxyz{|}^~"""
     char_map = {}
     w, h = im.size
+    print("w: " + str(w) + " h: " + str(h))
     for i, c in enumerate(chars):
-        xmin = (i*8)%w
-        xmax = xmin+8
-        ymin = ((i*8)//w)*8
-        ymax = ymin+8
+        print("i: " + str(i) + " char: " + c)
+        #out.append(ord(c))
+        xmin = (i%16)*WIDTH
+        xmax = xmin+WIDTH
+        ymin = (i//16)*HEIGHT
+        ymax = ymin+HEIGHT
+        if (c=="§"):
+            print("truc bizarre: " + str(ord("§")))
+            out_test = im.crop((xmin, ymin, xmax, ymax))
+            out_test.save("out_test.png")
+        test = im.crop((xmin, ymin, xmax, ymax))
         # Get subimage
         char_map[c] = im.crop((xmin, ymin, xmax, ymax))
+        w, h = test.size
+        for j in range(h):
+            for k in range(w):
+                r, g, b = test.getpixel((k,j))
+                if c == "!":
+                    print("r: " + str(r) + " g: " + str(g) + " b: " + str(b))
+                out.append(r)
+                out.append(g)
+                out.append(b)
+    fout.write(out)
+    fout.close()
     return char_map
 
 def build_ppm(char):
@@ -21,15 +45,16 @@ def build_ppm(char):
     for i, c in enumerate(char):
         im = char_map[c]
         w, h = im.size
+        print("lettre, w: " + str(w) + " h: " + str(h))
         #print("i: " + str(i))
         for j in range(h):
             for k in range(w):
-                #print(im.getpixel((j,k)))
-                #sprint("j: " + str(j) + " k: " + str(k))
-                if (im.getpixel((j,k))!=(0,0,0)):
-                    out.putpixel((i*8+j,k),(255,255,255))
+                print("j :" + str(j) + "k :" + str(k));
+                print(im.getpixel((k,j)))
+                if (im.getpixel((k,j))==(0,0,0)):
+                    out.putpixel((i*10+k,j),(255,255,255))
     out.save("out.png");
 
 
 char_map = load_font()
-build_ppm("LitSpinnnn")
+#build_ppm("LitSpinnnn")

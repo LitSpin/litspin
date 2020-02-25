@@ -7,6 +7,10 @@
 #include "vector3d.h"
 #include "face.h"
 
+#define NB_CIRCLES 20
+#define ANG_SUBDIVISIONS 128
+#define NB_LEDS_VERTICAL 32
+
 class Voxelizer : public QRunnable{
 
 public:
