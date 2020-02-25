@@ -45,9 +45,10 @@ SOURCES += \
     src/face.cpp \
     src/imagevoxelizer.cpp \
     src/videovoxelizer.cpp \
+    src/remotewindow.cpp \
     src/FileListModel.cpp \
     src/FileListView.cpp \
-    src/remotewindow.cpp
+    src/textprinter.cpp
 
 HEADERS += \
     src/include/camera.h \
@@ -62,7 +63,8 @@ HEADERS += \
     src/include/videovoxelizer.h \
     src/include/FileListModel.h \
     src/include/FileListView.h \
-    src/include/remotewindow.h
+    src/include/remotewindow.h \
+    src/include/textprinter.h
 
 FORMS += \
         mainwindow.ui \

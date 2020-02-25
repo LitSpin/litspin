@@ -13,9 +13,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QPushButton * fileExplorer = this->findChild<QWidget *>()->findChild<FileExplorer *>();
     connect(fileExplorer, SIGNAL(file_chosen(QString)), this, SLOT(receive_file(QString)));
     connect(fileExplorer, SIGNAL(file_choice()), this, SLOT(file_explore()));
-
-    //QPushButton * remoteFilePicker = this->findChild<QWidget *>()->findChild<RemoteFileButton *>();
-    //connect(remoteFilePicker, SIGNAL(clicked()), this, SLOT(open_remote()));
 }
 
 MainWindow::~MainWindow()
@@ -59,4 +56,11 @@ void MainWindow::on_pushButton_3_clicked()
     RemoteWindow * w = new RemoteWindow(this);
     std::cerr << "remote windowd created" << std::endl;
     w->show();
+}
+
+void MainWindow::on_textButton_clicked()
+{
+    std::cerr << "text button pushed" << std::endl;
+    QLineEdit * lineEdit = this->findChild<QWidget *>()->findChild<QLineEdit *>("lineEdit");
+    emit print_text(lineEdit);
 }

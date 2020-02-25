@@ -17,7 +17,7 @@ int VideoVoxelizer::voxelize(std::string folder, int center, int resize){
     int out = 0;
     std::vector<ObjReader *> readers;
     //find obj files in given folder
-    for(const auto& file : std::filesystem::directory_iterator(folder)){
+    for(const auto& file : fs::directory_iterator(folder)){
         std::string path = file.path();
         //see if found file are obj files.
         if(path.substr(path.size()-4, 4) == ".obj")

@@ -6,6 +6,7 @@
 #include <iostream>
 #include <cmath>
 #include <QPoint>
+#include <QLineEdit>
 #include <opencv2/opencv.hpp>
 #include <vector>
 #include <string>
@@ -61,11 +62,11 @@ private slots:
     void change_fps(int fps);
     void change_center_mode(int mode);
     void change_resize_mode(int mode);
-
-
+    void on_textButton_clicked(QLineEdit * lineEdit);
 
 signals:
     void refresh();
+    void mode_changed(int mode);
 
 
 };
