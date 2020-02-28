@@ -5,7 +5,7 @@ module led_band_controller #(
     parameter BIT_PER_COLOR = 8,
     parameter NB_0_LSB = 1,
     parameter NB_ANGLES = 128,
-    parameter ANGLE_PCB = 0,
+    parameter PCB_ANGLE = 0,
 
     parameter W_DATA_WIDTH = 128,
 
@@ -60,7 +60,7 @@ input wire [W_ADDR_WIDTH-2:0] w_addr_input;
 input wire [W_DATA_WIDTH-1:0] w_data;
 input wire write;
 
-output wire SOUT;
+output logic SOUT;
 input wire new_frame;
 
 input wire hps_override, hps_SOUT, hps_fc_write;
@@ -79,8 +79,15 @@ wire  read;
  * the LED driver is not configured
 */ 
 wire en;
-assign SOUT = (en) ? ((hps_override) ? hps_SOUT : SOUT_GS) : SOUT_FC;
-
+always_comb
+begin
+    if(hps_override)
+        SOUT <= hps_SOUT;
+    else if(~en)
+        SOUT <= SOUT_FC;
+    else
+        SOUT <= SOUT_GS;
+end
 
 /*
  * This signal is used to choose the good buffer
@@ -146,7 +153,7 @@ led_band_FC_setter#
 );
 
 address_computer #(
-    .PCB_ANGLE(ANGLE_PCB),
+    .PCB_ANGLE(PCB_ANGLE),
     .ADDR_WIDTH(R_ADDR_WIDTH-1),
     .ROW_WIDTH(ROW_WIDTH),
     .NB_ANGLES(NB_ANGLES)

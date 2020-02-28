@@ -6,11 +6,13 @@
  */ 
 
 module tlc5957(rst        ,
+               clk        ,
                SCLK       ,
                SIN        ,
                SOUT       ,
                LAT         );
 
+input  clk;
 input  rst        ; // Not an actual input on the chip.
                     // Simulates a powering on.
 input  SCLK       ;
@@ -18,31 +20,42 @@ input  SIN        ;
 output SOUT       ;
 input  LAT        ;
 
+logic previous_SCLK;
+wire posedge_SCLK = ~previous_SCLK & SCLK;
+always_ff@(posedge clk)
+    previous_SCLK <= SCLK;
+
 // Common shift register
 logic [47:0] shift_reg;
 wire  [ 15:0 ][ 2:0 ]  shift_reg_poker = shift_reg;
 /*    [output][B/G/R] */
 
 assign SOUT = shift_reg[47];
-always_ff@(posedge SCLK)
+always_ff@(posedge clk)
     if(rst)
         shift_reg = '0;
     else
     begin
-        shift_reg[47:1] <= shift_reg[46:0];
-        shift_reg[0] <= SIN;
+        if(posedge_SCLK) 
+        begin
+            shift_reg[47:1] <= shift_reg[46:0];
+            shift_reg[0] <= SIN;
+        end
     end
 
 // Counts the number of SCLK rising edge while lat is high
 logic [3:0] lat_high_sclk_counter;
-always_ff@(posedge SCLK)
+always_ff@(posedge clk)
     if(rst)
         lat_high_sclk_counter <= 0;
     else
-        if(LAT)
-            lat_high_sclk_counter <= lat_high_sclk_counter + 1;
-        else
-            lat_high_sclk_counter <= 0;
+        if(posedge_SCLK) 
+        begin
+            if(LAT)
+                lat_high_sclk_counter <= lat_high_sclk_counter + 1;
+            else 
+                lat_high_sclk_counter <= 0;
+        end
 
 // Function Control register
 logic [1:0] LODVTH    ;       
@@ -86,7 +99,7 @@ wire WRTFC   = ~LAT & (lat_high_sclk_counter == 4'd5);
 wire FCWRTEN = ~LAT & (lat_high_sclk_counter == 4'd15);
 
 logic fc_write_enabled;
-always_ff@(posedge SCLK)
+always_ff@(posedge clk)
     if(rst)
     begin
         fc_write_enabled <= 0;
@@ -109,19 +122,22 @@ always_ff@(posedge SCLK)
     end
     else
     begin
-        if(FCWRTEN)
-            fc_write_enabled <= 1;
-        if(fc_write_enabled && WRTFC)
+        if(posedge_SCLK) 
         begin
-            FC_data_latch <= shift_reg;
-            fc_write_enabled <= 0;
-        end
+            if(FCWRTEN)
+                fc_write_enabled <= 1;
+            if(fc_write_enabled && WRTFC)
+            begin
+                FC_data_latch <= shift_reg;
+                fc_write_enabled <= 0;
+            end
+       end
     end
 
  
 // greyscale data latch
-logic [ 15:0 ][ 2:0 ][15:0] GS_data_latch [0:1];
-/*    [output][R/G/B][bit ] */
+logic [ 15:0 ][ 2:0 ][8:0] GS_data_latch [0:1];
+/*    [output][R/G/B][bit] */
 
 // GreyScale data latch writing
 wire WRTGS = ~LAT & (lat_high_sclk_counter == 4'd1);
@@ -129,28 +145,27 @@ wire LATGS = ~LAT & (lat_high_sclk_counter == 4'd3);
 wire LINERESET = ~LAT & (lat_high_sclk_counter == 4'd7);
 
 logic [3:0] bit_counter;
-logic [3:0] bit_length;
 
-
-always_ff@(posedge SCLK)
+always_ff@(posedge clk)
     if(rst)
     begin
-        bit_counter <= 4'd15;
-        bit_length  <= '0;
+        bit_counter <= 4'd8;
     end
     else
     begin
-        if(WRTGS | LATGS | LINERESET)
+        if(posedge_SCLK) 
         begin
-            for(int led = 0; led < 16; led ++)
-                for(int color = 0; color < 3; color ++)
-                    GS_data_latch[0][led][color][bit_counter] <= shift_reg_poker[led][color];
-            bit_counter <= bit_counter - 1;
-        end
-        if(LATGS)
-        begin
-            bit_length  <= 4'd15 - bit_counter;
-            bit_counter <= 4'd15;
+            if(WRTGS | LATGS | LINERESET)
+            begin
+                for(int led = 0; led < 16; led ++)
+                    for(int color = 0; color < 3; color ++)
+                        GS_data_latch[0][led][color][bit_counter] <= shift_reg_poker[led][color];
+                    bit_counter <= bit_counter - 1;
+            end
+            if(LATGS)
+            begin
+                bit_counter <= 4'd8;
+            end
         end
     end
 
@@ -158,24 +173,29 @@ always_ff@(posedge SCLK)
 
 logic refresh;
 
-always_ff@(posedge SCLK)
+always_ff@(posedge clk)
     if(rst)
         refresh <= 1'b0;
     else
     begin
-        if(LATGS && XREFRESH)
-            refresh <= 1;
-        if(refresh)
+        if(posedge_SCLK)
         begin
-            GS_data_latch[1] = GS_data_latch[0];
-            $display("Led output\n");
-            for(integer led = 0; led < 15; led ++)
+            if(LATGS && XREFRESH)
+                refresh <= 1;
+            if(refresh)
             begin
-                $display("LED %d : ", led);
-                for(integer color = 0; color < 3; color ++)
-                    $display(" %h ", GS_data_latch[1][led][color][15:7]);
+                GS_data_latch[1] = GS_data_latch[0];
+                /*
+                $display("Led output\n");
+                for(integer led = 0; led < 15; led ++)
+                begin
+                    $display("LED %d : ", led);
+                    for(integer color = 0; color < 3; color ++)
+                        $display(" %h ", GS_data_latch[1][led][color][15:7]);
+                end
+                */
+                refresh <= 0;
             end
-            refresh <= 0;
         end
     end
 
