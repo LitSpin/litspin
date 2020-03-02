@@ -1,19 +1,18 @@
 `default_nettype none
 
-module led_band_FC_setter#(
-                            parameter [47:0] default_FC = 48'h5c0201008048
-                          )
-                          (   rst,
-                              clk,
-                              SCLK,
-                              en,
-                              SOUT,
-                              LAT,
+module led_band_FC_setter
+(   
+    rst,
+    clk,
+    SCLK,
+    en,
+    SOUT,
+    LAT,
 
-                              hps_fc_addr,
-                              hps_fc_data,
-                              hps_fc_write
-                          );
+    hps_fc_addr,
+    hps_fc_data,
+    hps_fc_write
+);
 
 input wire  rst;
 input wire  clk;
@@ -38,12 +37,9 @@ input wire  [47:0] hps_fc_data;
  logic [47:0] FC;
 
 
-always_ff@(posedge clk)
-    if(rst)
-        FC <= default_FC;
-    else
-        if(hps_fc_write)
-            FC <= hps_fc_data;
+ always_ff@(posedge clk)
+     if(hps_fc_write)
+         FC <= hps_fc_data;
 
 
 logic prev_SCLK;

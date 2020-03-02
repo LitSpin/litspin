@@ -1,41 +1,40 @@
 `default_nettype none
 
-module led_band_controller #(
+module led_band_controller 
+#(
     parameter NB_LED_COLUMN = 32,
     parameter BIT_PER_COLOR = 8,
     parameter NB_0_LSB = 1,
     parameter NB_ANGLES = 128,
     parameter PCB_ANGLE = 0,
 
-    parameter W_DATA_WIDTH = 128,
+    parameter W_DATA_WIDTH = 128
+)
+(
+    rst,
+    clk,
 
-    parameter [47:0] default_FC = 48'h5c0201008048
-    )
-    (
-        rst,
-        clk,
+    SCLK,
+    LAT,
+    angle,
+    row,
+    color,
+    bit_sel,
 
-        SCLK,
-        LAT,
-        angle,
-        row,
-        color,
-        bit_sel,
+    w_addr_input,
+    w_data,
+    write,
 
-        w_addr_input,
-        w_data,
-        write,
-        
-        SOUT,
-        new_frame,
+    SOUT,
+    new_frame,
 
-        hps_override,
-        hps_SOUT,
+    hps_override,
+    hps_SOUT,
 
-        hps_fc_addr,
-        hps_fc_data,
-        hps_fc_write
-    );
+    hps_fc_addr,
+    hps_fc_data,
+    hps_fc_write
+);
 
 localparam W_WORDS_NB = 2*3*BIT_PER_COLOR*NB_LED_COLUMN*NB_ANGLES/W_DATA_WIDTH;
 parameter W_ADDR_WIDTH = $clog2(W_WORDS_NB);
@@ -118,7 +117,8 @@ led_band_GS_controller#(
     );
 
 
-led_band_memory#(
+led_band_memory
+#(
     .W_ADDR_WIDTH(W_ADDR_WIDTH),
     .W_DATA_WIDTH(W_DATA_WIDTH),
     .R_ADDR_WIDTH(R_ADDR_WIDTH),
@@ -137,10 +137,8 @@ led_band_memory#(
     .write(write)
 );
 
-led_band_FC_setter#
+led_band_FC_setter f0
 (
-    .default_FC(default_FC)
-) f0(
     .rst(rst),
     .clk(clk),
     .SCLK(SCLK),
@@ -152,13 +150,15 @@ led_band_FC_setter#
     .hps_fc_write(hps_fc_write)
 );
 
-address_computer #(
+address_computer 
+#(
     .PCB_ANGLE(PCB_ANGLE),
     .ADDR_WIDTH(R_ADDR_WIDTH-1),
     .ROW_WIDTH(ROW_WIDTH),
     .NB_ANGLES(NB_ANGLES)
-
-)   addr_comput(
+)   
+addr_comput
+(
     .row(row),
     .angle(angle),
     .color(color),

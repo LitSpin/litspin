@@ -3,7 +3,7 @@ module FC_state_machine
     clk,
     rst,
     SCLK,
-    force_fc,
+    write_fc,
     LAT,
     en
 );
@@ -12,7 +12,7 @@ module FC_state_machine
  * The FC state machine generates the signals FCWRTEN and WRTFC
  * with the correct timing for the FC setters in the LED band controllers.
  *
- * It is triggered by rst or force_fc.
+ * It is triggered by write_fc.
  *
  * While the FC setter outputs, en is high. The writing cycle lasts for 65
  * SCLK cycles.
@@ -37,26 +37,23 @@ always@(posedge clk)
 
 // The counter counts from 0 to 64 (relevant values)
 // Increases at each posedge of SCLK
-// Is reset on force_fc and rst
-input wire force_fc;
+// Is reset on write_fc
+input wire write_fc;
 logic [6:0] counter;
 always@(posedge clk)
-    if(rst)
-        counter <= 0;
-    else
-    if(force_fc)
+    if(write_fc)
         counter <= 0;
     else if(posedge_SCLK)
         counter <= counter + 1;
 
-// en is set high on reset and force_fc
+// en is set high and write_fc
 //           low on 65th SCLK cycle
 output logic en;
 always@(posedge clk)
     if(rst)
-        en <= 1;
+        en <= 0;
     else
-        if(force_fc)
+        if(write_fc)
             en <= 1;
         else if(posedge_SCLK && counter == 7'd64)
             en <= 0;

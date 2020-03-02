@@ -13,11 +13,10 @@ localparam NB_LED_ROWS = 32;
 localparam W_DATA_WIDTH = 128;
 localparam default_FC = 48'h5c0201008048;
 
-
 logic clk;
 logic rst;
 logic turn_tick;
-logic force_fc;
+logic write_fc;
 logic hps_override;
 logic hps_SCLK;
 logic hps_LAT;
@@ -80,7 +79,7 @@ sync
     .hps_override(hps_override),
     .hps_SCLK(hps_SCLK),
     .hps_LAT(hps_LAT),
-    .force_fc(force_fc)
+    .write_fc(write_fc)
 );
 
 led_band_controller
@@ -88,8 +87,7 @@ led_band_controller
     .NB_LED_COLUMN(NB_LED_COLUMN),
     .NB_ANGLES(NB_ANGLES),
     .PCB_ANGLE(0),
-    .W_DATA_WIDTH(W_DATA_WIDTH),
-    .default_FC(default_FC)
+    .W_DATA_WIDTH(W_DATA_WIDTH)
 )
 lbc
 (
@@ -129,24 +127,31 @@ static int i;
 
 initial begin: TESTBENCH
     turn_tick = 0;
-    force_fc = 0;
+    write_fc = 0;
     clk = 0;
     rst = 1;
     hps_override = 0;
     hps_SCLK = 0;
     hps_LAT = 0;
     hps_SOUT = 0;
-    hps_fc_data = 0;
+    hps_fc_data = default_FC;
     hps_fc_addr = 0;
-    hps_fc_write = 0;
+    hps_fc_write = 1;
     w_addr_input = 0;
     w_data = 0;
     write = 0;
     new_frame = 0;
     hps_sout = 0;
 
-    @(posedge clk)
+    @(posedge clk);
     rst = 0;
+    write_fc = 1;
+    hps_fc_write = 0;
+
+    @(posedge clk);
+    write_fc = 0;
+
+    repeat(100) @(posedge clk);
 
     std::randomize(memory);
 

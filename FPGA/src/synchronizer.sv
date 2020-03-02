@@ -13,7 +13,7 @@ module synchronizer
     clk,
     rst,
     turn_tick,
-    force_fc,
+    write_fc,
     GCLK,
     SCLK,
     LAT,
@@ -69,7 +69,7 @@ angle_computer_i
 );
 
 // Function control state machine
-input wire force_fc;
+input wire write_fc;
 wire FC_LAT;
 wire FC_en;
 FC_state_machine FC_state_machine_i
@@ -77,7 +77,7 @@ FC_state_machine FC_state_machine_i
     .clk(clk),
     .rst(rst),
     .SCLK(SCLK),
-    .force_fc(force_fc),
+    .write_fc(write_fc),
     .LAT(FC_LAT),
     .en(FC_en)
 );
