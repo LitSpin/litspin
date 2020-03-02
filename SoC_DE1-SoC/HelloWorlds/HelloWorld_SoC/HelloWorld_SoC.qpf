@@ -1,0 +1,6 @@
+DATE = "16:50:34 January 13, 2020"
+QUARTUS_VERSION = "15.1.0"
+
+# Revisions
+
+PROJECT_REVISION = "HelloWorld_SoC"
