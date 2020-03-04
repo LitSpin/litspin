@@ -1,0 +1,33 @@
+#
+# Copyright (C) 2016-2017 ARIES Embedded GmbH
+#
+
+set_global_assignment -name DEVICE 5CSXFC6C6U23C7
+source litspin.qsf
+set_global_assignment -name TOP_LEVEL_ENTITY litspin
+
+set_location_assignment PIN_Y24 -to iob5b[0]
+set_location_assignment PIN_W24 -to iob5b[1]
+set_location_assignment PIN_AB26 -to iob5b[2]
+set_location_assignment PIN_AA26 -to iob5b[3]
+set_location_assignment PIN_W21 -to iob5b[4]
+set_location_assignment PIN_W20 -to iob5b[5]
+
+set_location_assignment PIN_AB25 -to nrst
+
+set_global_assignment -name LAST_QUARTUS_VERSION "18.1.0 Standard Edition"
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name SOURCE_FILE c6.qsf
+set_global_assignment -name SOURCE_FILE c2.qsf
+set_global_assignment -name SOURCE_FILE litspin.qsf
+set_global_assignment -name QSYS_FILE mcv_hps.qsys
+set_global_assignment -name SDC_FILE litspin.sdc
+set_global_assignment -name SYSTEMVERILOG_FILE litspin.sv
+
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
