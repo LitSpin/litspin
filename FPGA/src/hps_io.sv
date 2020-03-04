@@ -1,3 +1,5 @@
+`default_nettype none
+
 module hps_io
 #(
     parameter W_ADDR_WIDTH = 1,
@@ -8,6 +10,7 @@ module hps_io
 (
     clk,
     rst_in,
+    turn_tick,
 
     // avalon slave interface
     w_addr,
@@ -35,13 +38,15 @@ module hps_io
     turn_tick_IRQ
 );
 
-input wire clk, rst_in;
+input wire clk, rst_in, turn_tick;
 // Unused address
 input wire [W_ADDR_WIDTH - 1 : 0] w_addr;
 input wire [W_DATA_WIDTH - 1 : 0] w_data;
 input wire write;
 
+localparam RST_BIT = 0;
 output wire rst_out;
+localparam NEW_FRAME_BIT = 1;
 output wire new_frame;
 localparam WRITE_FC_BIT = 2;
 output wire write_fc;
@@ -50,8 +55,11 @@ output wire hps_override_sync;
 output wire hps_override_lbc = hps_override_sync;
 localparam HPS_SOUT_BIT = 8;
 output wire [NB_LED_BAND - 1 : 0] hps_SOUT;
+localparam HPS_LAT_BIT = 4;
 output wire hps_LAT;
+localparam HPS_SCLK_BIT = 5;
 output wire hps_SCLK;
+localparam HPS_TURN_TICK_BIT = 6;
 output wire hps_turn_tick;
 localparam PD_BIT = 7;
 output wire PD;
