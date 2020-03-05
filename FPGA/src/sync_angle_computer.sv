@@ -1,6 +1,6 @@
 `default_nettype none
 
-module angle_computer
+module sync_angle_computer
 #(
     parameter COUNTER_WIDTH = 128, // sets the turn_turn_counter max value
     parameter NB_ANGLES     = 128  // number of angle, MUST be a power of 2
@@ -14,7 +14,13 @@ module angle_computer
 
 input wire clk;
 input wire rst;
+
+// from the sensor
 input wire turn_tick;
+
+// Output
+localparam ANGLE_WIDTH = $clog2(NB_ANGLES);
+output logic [ANGLE_WIDTH - 1 : 0] angle;
 
 logic previous_turn_tick;
 wire negedge_turn_tick = ~turn_tick && previous_turn_tick;
@@ -38,7 +44,6 @@ always_ff@(posedge clk)
  * angle_length = prev_turn_length / NB_ANGLES
  * It is reset on negedge turn_tick.
  */ 
-localparam ANGLE_WIDTH = $clog2(NB_ANGLES);
 logic [COUNTER_WIDTH - ANGLE_WIDTH - 1 : 0] angle_length;
 always_ff@(posedge clk)
     if(rst)
@@ -67,7 +72,6 @@ always@(posedge clk)
  * angle is increased by each time angle_counter reaches angle_length
  * It is reset on negedge turn_tick.
  */ 
-output logic [ANGLE_WIDTH - 1 : 0] angle;
 always@(posedge clk)
     if(rst)
         angle <= 0;

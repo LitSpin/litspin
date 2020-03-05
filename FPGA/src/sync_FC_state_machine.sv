@@ -1,4 +1,4 @@
-module FC_state_machine
+module sync_FC_state_machine
 (
     clk,
     rst,

@@ -2,12 +2,15 @@
 
 module synchronizer
 #(
-    parameter SCLK_FACTOR = 4,            //SCLK clock division factor (must be even)
-    parameter GCLK_FACTOR = 2,            //GCLK clock division factor (must be even)
-    parameter ANGLE_COUNTER_WIDTH = 128,  //Gives the angle computer its max counter value
-    parameter NB_ANGLES = 128,            //Angular precision (must be a power of 2)
-    parameter NB_LEDS_PER_GROUP = 16,     //Number of leds per multiplexing group
-    parameter NB_LED_ROWS = 32            //Number of leds in the vertical dimension
+    parameter SCLK_FACTOR = 4,           // SCLK clock division factor (must be even)
+    parameter GCLK_FACTOR = 2,           // GCLK clock division factor (must be even)
+    parameter ANGLE_COUNTER_WIDTH = 128, // Gives the angle computer its max counter value
+    parameter NB_ANGLES = 128,           // Angular precision (must be a power of 2)
+    parameter NB_LEDS_PER_GROUP = 16,    // Number of leds per multiplexing group
+    parameter NB_LED_ROWS = 32,          // Number of leds in the vertical dimension
+    parameter COLOR_DATA_WIDTH = 8,      // Number of bits per color in memory
+    parameter NB_ADDED_LSB_BITS = 1      // Number of supplementary bits
+                                         //  sent to the driver with value 0
 )
 (
     clk,
@@ -16,13 +19,15 @@ module synchronizer
     write_fc,
     GCLK,
     SCLK,
+    lbc_SCLK,
     LAT,
-    row_en,
+    lbc_LAT,
+    mux_en,
+    lbc_mux_en,
     led_row,
     color,
     bit_sel,
     angle,
-
     hps_override,
     hps_SCLK,
     hps_LAT
@@ -30,19 +35,47 @@ module synchronizer
 
 input wire clk;
 input wire rst;
+
+// from HPS
 input wire hps_override;
+input wire hps_SCLK;
+input wire hps_LAT;
+input wire write_fc;
+
+// from sensor
+input wire turn_tick;
+
+// output to driver
+output wire SCLK;
+output wire GCLK;
+output wire LAT;
+output wire [3:0] mux_en;
+
+// ouput to led band controller
+localparam ANGLE_WIDTH = $clog2(NB_ANGLES);
+localparam LED_WIDTH = $clog2(NB_LEDS_PER_GROUP);
+localparam LED_ROW_WIDTH = $clog2(NB_LED_ROWS);
+localparam BIT_SEL_WIDTH = $clog2(COLOR_DATA_WIDTH + NB_ADDED_LSB_BITS);
+output wire [ANGLE_WIDTH-1:0] angle;
+output wire [1:0] color;
+output wire [BIT_SEL_WIDTH-1:0] bit_sel;
+output wire [LED_ROW_WIDTH-1:0] led_row;
+output wire lbc_LAT;
+output wire lbc_SCLK;
+output wire [3:0] lbc_mux_en;
+assign lbc_LAT = LAT;
+assign lbc_SCLK = SCLK;
+assign lbc_mux_en = mux_en;
 
 // Clock generator
-input wire hps_SCLK;
 wire gen_SCLK;
-output wire SCLK, GCLK;
 assign SCLK = hps_override ? hps_SCLK : gen_SCLK;
-clkgen
+sync_clkgen
 #(
     .SCLK_FACTOR(SCLK_FACTOR),
     .GCLK_FACTOR(GCLK_FACTOR)
 )
-clkgen_i
+clkgen
 (
     .clk(clk),
     .rst(rst),
@@ -51,16 +84,13 @@ clkgen_i
 );
 
 // Angle computer
-localparam ANGLE_WIDTH = $clog2(NB_ANGLES);
-input wire turn_tick;
-output wire [ANGLE_WIDTH - 1 : 0] angle;
 
-angle_computer
+sync_angle_computer
 #(
     .COUNTER_WIDTH(ANGLE_COUNTER_WIDTH),
     .NB_ANGLES(NB_ANGLES)
 )
-angle_computer_i
+angle_computer
 (
     .clk(clk),
     .rst(rst),
@@ -69,10 +99,9 @@ angle_computer_i
 );
 
 // Function control state machine
-input wire write_fc;
 wire FC_LAT;
 wire FC_en;
-FC_state_machine FC_state_machine_i
+sync_FC_state_machine FC_state_machine
 (
     .clk(clk),
     .rst(rst),
@@ -83,24 +112,20 @@ FC_state_machine FC_state_machine_i
 );
 
 // GrayScale state machine
-localparam LED_WIDTH = $clog2(NB_LEDS_PER_GROUP);
-output wire [3:0] row_en;
-output wire [1:0] color;
-output wire [3:0] bit_sel;
 wire [LED_WIDTH - 1:0] led;
 wire GS_LAT;
-GS_state_machine
+sync_GS_state_machine
 #(
     .NB_ANGLES(NB_ANGLES),
     .NB_LEDS_PER_GROUP(NB_LEDS_PER_GROUP)
 )
-GS_state_machine_i
+GS_state_machine
 (
     .clk(clk),
     .rst(rst),
     .SCLK(SCLK),
     .angle(angle),
-    .row_en(row_en),
+    .mux_en(mux_en),
     .led(led),
     .color(color),
     .bit_sel(bit_sel),
@@ -109,23 +134,19 @@ GS_state_machine_i
 );
 
 // Multiplexing LookUp Table
-localparam LED_ROW_WIDTH = $clog2(NB_LED_ROWS);
-output wire [LED_ROW_WIDTH - 1 : 0] led_row;
-multiplexing_LUT
+sync_multiplexing_LUT
 #(
     .NB_LEDS_PER_GROUP(NB_LEDS_PER_GROUP),
     .NB_LED_ROWS(NB_LED_ROWS)
 )
-multiplexing_LUT_i
+multiplexing_LUT
 (
-    .row_en(row_en),
+    .mux_en(mux_en),
     .led(led),
     .led_row(led_row)
 );
 
 // LAT multiplexer
-input  wire hps_LAT;
-output wire LAT;
 assign LAT = hps_override ? hps_LAT : (FC_en ? FC_LAT : GS_LAT);
 
 endmodule

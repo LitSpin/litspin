@@ -1,44 +1,59 @@
 `default_nettype none
 
-module GS_state_machine
+module sync_GS_state_machine
 #(
     parameter NB_ANGLES = 128,
-    parameter NB_LEDS_PER_GROUP = 16 //number of leds per multiplexing group.
+    parameter NB_LEDS_PER_GROUP = 16, //number of leds per multiplexing group.
                                      //must be a power of 2.
+    parameter COLOR_DATA_WIDTH = 8,      // Number of bits per color in memory
+    parameter NB_ADDED_LSB_BITS = 1      // Number of supplementary bits
+                                         //  sent to the driver with value 0
 )
 (
     clk     ,
     rst     ,
     SCLK    ,
     angle   ,
-    row_en  ,
+    mux_en  ,
     led     ,
     color   ,
     bit_sel ,
-    LAT,
+    LAT     ,
     FC_en
 );
 
 input wire clk;
 input wire rst;
-input wire FC_en;
 
+// Inputs
+localparam ANGLE_WIDTH = $clog2(NB_ANGLES);
+input wire FC_en;
+input wire [ANGLE_WIDTH - 1 : 0] angle;
 input wire SCLK;
+
+// Outputs
+localparam LED_WIDTH = $clog2(NB_LEDS_PER_GROUP);
+localparam BIT_SEL_NB = COLOR_DATA_WIDTH + NB_ADDED_LSB_BITS;
+localparam BIT_SEL_WIDTH = $clog2(BIT_SEL_NB);
+output enum logic [1:0] {R, G, B} color;
+output logic [LED_WIDTH-1:0] led;
+output logic [BIT_SEL_WIDTH-1:0] bit_sel; 
+output logic [3:0] mux_en;
+output wire LAT;
+
+// SCLK posedge detection
 logic prev_SCLK;
 wire  posedge_SCLK = SCLK & ~prev_SCLK;
 always_ff@(posedge clk)
     prev_SCLK <= SCLK;
 
 // New angle detection
-localparam ANGLE_WIDTH = $clog2(NB_ANGLES);
-input wire [ANGLE_WIDTH - 1 : 0] angle;
 logic [ANGLE_WIDTH - 1 : 0] prev_angle;
 wire new_angle = angle != prev_angle;
 always_ff@(posedge clk)
     prev_angle <= angle;
 
 // color goes B, G, R at every posedge of SCLK. 
-output enum logic [1:0] {R, G, B} color;
 wire end_color = color == R;
 always@(posedge clk)
     if(rst)
@@ -50,12 +65,10 @@ always@(posedge clk)
             case(color)
                 B: color <= G;
                 G: color <= R;
-                R: color <= B;
+                default: color <= B;
             endcase
 
 // Led goes from 15 to 0 each time color has completed a B,G,R cycle
-localparam LED_WIDTH = $clog2(NB_LEDS_PER_GROUP);
-output logic [LED_WIDTH - 1 : 0] led;
 wire end_led = led == '0;
 always@(posedge clk)
     if(rst)
@@ -67,11 +80,10 @@ always@(posedge clk)
             led <= led - 1;
 
 
-output logic [3:0] bit_sel; 
 wire end_bit_sel = bit_sel == 0;
 always@(posedge clk)
     if(rst)
-        bit_sel <= 4'h8;
+        bit_sel <= BIT_SEL_NB - 1;
     else
         if(FC_en | new_angle)
             bit_sel <= 4'h8;
@@ -98,23 +110,20 @@ always@(posedge clk)
                     display0: multiplex_state <= display1;
                     display1: multiplex_state <= display2;
                     display2: multiplex_state <= display3;
-                    display3: multiplex_state <= finish;
-                    finish  : multiplex_state <= finish;
+                    default : multiplex_state <= finish;
                 endcase
 
-output logic [3:0] row_en;
 always_comb
 begin
     case(multiplex_state)
-        display0: row_en <= 4'b0001;
-        display1: row_en <= 4'b0010;
-        display2: row_en <= 4'b0100;
-        display3: row_en <= 4'b1000;
-        default : row_en <= 4'b0000;
+        display0: mux_en <= 4'b0001;
+        display1: mux_en <= 4'b0010;
+        display2: mux_en <= 4'b0100;
+        display3: mux_en <= 4'b1000;
+        default : mux_en <= 4'b0000;
     endcase
 end
 
-output wire LAT;
 wire LAT_WRTGS = end_led & end_color;
 wire LAT_LATGS = end_led & end_bit_sel;
 assign LAT = LAT_WRTGS | LAT_LATGS;

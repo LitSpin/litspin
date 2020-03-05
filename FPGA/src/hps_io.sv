@@ -15,14 +15,14 @@ module hps_io
     // avalon slave interface
     w_addr,
     w_data,
-    write,
+    w_enable,
 
     // reset for all modules
     rst_out,
 
     // signals to the synchronizer
     new_frame,
-    write_fc,
+    w_enable_fc,
     hps_override_sync,
     hps_LAT,
     hps_SCLK,
@@ -42,17 +42,18 @@ input wire clk, rst_in, turn_tick;
 // Unused address
 input wire [W_ADDR_WIDTH - 1 : 0] w_addr;
 input wire [W_DATA_WIDTH - 1 : 0] w_data;
-input wire write;
+input wire w_enable;
 
 localparam RST_BIT = 0;
 output wire rst_out;
 localparam NEW_FRAME_BIT = 1;
 output wire new_frame;
 localparam WRITE_FC_BIT = 2;
-output wire write_fc;
+output wire w_enable_fc;
 localparam HPS_OVERRIDE_BIT = 3;
 output wire hps_override_sync;
-output wire hps_override_lbc = hps_override_sync;
+output wire hps_override_lbc;
+assign hps_override_lbc = hps_override_sync;
 localparam HPS_SOUT_BIT = 8;
 output wire [NB_LED_BAND - 1 : 0] hps_SOUT;
 localparam HPS_LAT_BIT = 4;
@@ -78,11 +79,11 @@ always@(posedge clk)
     if(rst_in)
         register <= default_register;
     else
-        if(write)
+        if(w_enable)
             register <= w_data;
 
 assign rst_out = register[RST_BIT];
-assign write_fc = register[WRITE_FC_BIT];
+assign w_enable_fc = register[WRITE_FC_BIT];
 assign new_frame = register[NEW_FRAME_BIT];
 assign hps_override_sync = register[HPS_OVERRIDE_BIT];
 assign hps_LAT = register[HPS_LAT_BIT];

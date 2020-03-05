@@ -4,7 +4,7 @@
 // Generates a clock of period o_clk = i_clk / PARAMETER.
 // PARAMETER can only be a multiple of 2.
 
-module clk_divider
+module sync_clk_divider
 #(
     parameter FACTOR = 2 // division factor.
 )

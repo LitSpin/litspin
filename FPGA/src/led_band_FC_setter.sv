@@ -9,18 +9,26 @@ module led_band_FC_setter
     SOUT,
     LAT,
 
-    hps_fc_addr,
-    hps_fc_data,
-    hps_fc_write
+    w_addr,
+    w_data,
+    w_enable
 );
+
+localparam FC_WIDTH = 48;
 
 input wire  rst;
 input wire  clk;
 input wire  SCLK;
-output wire SOUT;
 input wire  LAT;
-input wire  hps_fc_addr, hps_fc_write;
-input wire  [47:0] hps_fc_data;
+
+// Avalon slave
+input wire  w_addr;
+input wire  [FC_WIDTH-1:0] w_data;
+input wire  w_enable;
+
+// Ouput
+output wire SOUT;
+output logic en;
 
 /* Initialization: writing the settings in the driver.
  * This module detects the FCWRTEN signal and initiates
@@ -34,12 +42,11 @@ input wire  [47:0] hps_fc_data;
  *       <  15 cycles  ><     48 cycles     >
  */
 
- logic [47:0] FC;
+logic [FC_WIDTH-1:0] FC;
 
-
- always_ff@(posedge clk)
-     if(hps_fc_write)
-         FC <= hps_fc_data;
+always_ff@(posedge clk)
+    if(w_enable)
+        FC <= w_data;
 
 
 logic prev_SCLK;
@@ -65,8 +72,7 @@ always_ff@(posedge clk)
     end
 
 
-// en is high while the FC setter is writing
-output logic en;
+// en is low while the FC setter is writing
 always_ff@(posedge clk)
     if(rst)
         en <= 1;
@@ -79,11 +85,12 @@ always_ff@(posedge clk)
     end
 
 // Counter goes from 47 to 0 while the FC is being written 
-logic [5:0] counter;
+localparam COUNTER_WIDTH = $clog2(FC_WIDTH);
+logic [COUNTER_WIDTH-1:0] counter;
 assign SOUT = FC[counter];
 always_ff@(posedge clk)
     if(rst)
-        counter <= 6'h2f;
+        counter <= FC_WIDTH-1;
     else
         if(posedge_SCLK && ~en)
             counter <= counter - 1;

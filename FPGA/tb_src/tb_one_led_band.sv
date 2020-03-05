@@ -8,7 +8,6 @@ localparam ANGLE_COUNTER_WIDTH = 128;
 localparam BIT_PER_COLOR = 8;
 localparam NB_ANGLES = 128;
 localparam NB_LEDS_PER_GROUP = 16;
-localparam NB_LED_COLUMN = 32;
 localparam NB_LED_ROWS = 32;
 localparam W_DATA_WIDTH = 128;
 localparam default_FC = 48'h5c0201008048;
@@ -21,22 +20,22 @@ logic hps_override;
 logic hps_SCLK;
 logic hps_LAT;
 logic hps_SOUT;
-logic [47:0] hps_fc_data;
-logic hps_fc_addr;
-logic hps_fc_write;
+logic [47:0] fc_w_data;
+logic fc_w_addr;
+logic fc_w_enable;
 
-localparam W_WORDS_NB = 2*3*BIT_PER_COLOR*NB_LED_COLUMN*NB_ANGLES/W_DATA_WIDTH;
+localparam W_WORDS_NB = 2*3*BIT_PER_COLOR*NB_LED_ROWS*NB_ANGLES/W_DATA_WIDTH;
 parameter W_ADDR_WIDTH = $clog2(W_WORDS_NB);
-logic [W_ADDR_WIDTH - 2 : 0] w_addr_input;
-logic [W_DATA_WIDTH - 1 : 0] w_data; 
-logic write;
+logic [W_ADDR_WIDTH - 2 : 0] color_w_addr;
+logic [W_DATA_WIDTH - 1 : 0] color_w_data; 
+logic color_w_enable;
 logic new_frame;
 logic hps_sout;
 wire SOUT;
 wire GCLK;
 wire SCLK;
 wire LAT;
-wire [3:0] row_en;
+wire [3:0] mux_en;
 localparam LED_ROW_WIDTH = $clog2(NB_LED_ROWS);
 wire [LED_ROW_WIDTH - 1 : 0] led_row;
 wire [1:0] color;
@@ -71,7 +70,7 @@ sync
     .GCLK(GCLK),
     .SCLK(SCLK),
     .LAT(LAT),
-    .row_en(row_en),
+    .mux_en(mux_en),
     .led_row(led_row),
     .color(color),
     .angle(angle),
@@ -84,10 +83,10 @@ sync
 
 led_band_controller
 #(
-    .NB_LED_COLUMN(NB_LED_COLUMN),
+    .NB_LED_ROWS(NB_LED_ROWS),
     .NB_ANGLES(NB_ANGLES),
     .PCB_ANGLE(0),
-    .W_DATA_WIDTH(W_DATA_WIDTH)
+    .COLOR_W_DATA_WIDTH(W_DATA_WIDTH)
 )
 lbc
 (
@@ -96,19 +95,19 @@ lbc
     .SCLK(SCLK),
     .LAT(LAT),
     .angle(angle),
-    .row(led_row),
+    .led_row(led_row),
     .color(color),
     .bit_sel(bit_sel),
-    .w_addr_input(w_addr_input),
-    .w_data(w_data),
-    .write(write),
+    .color_w_addr(color_w_addr),
+    .color_w_data(color_w_data),
+    .color_w_enable(color_w_enable),
     .SOUT(SOUT),
     .new_frame(new_frame),
     .hps_override(hps_override),
     .hps_SOUT(hps_sout),
-    .hps_fc_addr(hps_fc_addr),
-    .hps_fc_data(hps_fc_data),
-    .hps_fc_write(hps_fc_write)
+    .fc_w_addr(fc_w_addr),
+    .fc_w_data(fc_w_data),
+    .fc_w_enable(fc_w_enable)
 );
 
 tlc5957 driver
@@ -134,19 +133,19 @@ initial begin: TESTBENCH
     hps_SCLK = 0;
     hps_LAT = 0;
     hps_SOUT = 0;
-    hps_fc_data = default_FC;
-    hps_fc_addr = 0;
-    hps_fc_write = 1;
-    w_addr_input = 0;
-    w_data = 0;
-    write = 0;
+    fc_w_data = default_FC;
+    fc_w_addr = 0;
+    fc_w_enable = 1;
+    color_w_addr = 0;
+    color_w_data = 0;
+    color_w_enable = 0;
     new_frame = 0;
     hps_sout = 0;
 
     @(posedge clk);
     rst = 0;
     write_fc = 1;
-    hps_fc_write = 0;
+    fc_w_enable = 0;
 
     @(posedge clk);
     write_fc = 0;
@@ -158,18 +157,18 @@ initial begin: TESTBENCH
     i = 0;
     repeat(W_WORDS_NB/2)
     begin
-        w_addr_input = i;
-        w_data = memory[i];
-        write = 1;
+        color_w_addr = i;
+        color_w_data = memory[i];
+        color_w_enable = 1;
         @(posedge clk);
-        write = 0;
+        color_w_enable = 0;
         @(posedge clk);
         i = i+1;
     end
 
     for(int w = 0; w < W_WORDS_NB/2; w++)
     begin
-        assert(memory[w] == lbc.m0.mem[w])
+        assert(memory[w] == lbc.memory.mem[w])
         else $display("Memory content is incorrect");
     end
 
@@ -177,7 +176,7 @@ initial begin: TESTBENCH
     @(posedge clk)
     new_frame = 0;
     
-    @(posedge row_en[0]);
+    @(posedge mux_en[0]);
     //need to wait for a while for the value to be put in the second data latch
     repeat(3)
         @(posedge SCLK);
@@ -185,15 +184,15 @@ initial begin: TESTBENCH
         for(int c = 0; c < 3; c++)
         begin
             assert(driver.GS_data_latch[1][led][c][8:1] == 
-                memory_alias[sync.multiplexing_LUT_i.mux_table[0][led]][angle][c])
+                memory_alias[sync.multiplexing_LUT.mux_table[0][led]][angle][c])
             else $error("Bad value on driver : \n
                 color %d of led %d on mux row 0, led row %d\n
-                %h instead of %h", c, led, sync.multiplexing_LUT_i.mux_table[0][led], 
+                %h instead of %h", c, led, sync.multiplexing_LUT.mux_table[0][led], 
                 driver.GS_data_latch[1][led][c][8:1], 
-                memory_alias[sync.multiplexing_LUT_i.mux_table[0][led]][angle][c]);
+                memory_alias[sync.multiplexing_LUT.mux_table[0][led]][angle][c]);
         end
 
-    @(posedge row_en[1]);
+    @(posedge mux_en[1]);
     //need to wait for a while for the value to be put in the second data latch
     repeat(3)
         @(posedge SCLK);
@@ -201,15 +200,15 @@ initial begin: TESTBENCH
         for(int c = 0; c < 3; c++)
         begin
             assert(driver.GS_data_latch[1][led][c][8:1] == 
-                memory_alias[sync.multiplexing_LUT_i.mux_table[1][led]][angle][c])
+                memory_alias[sync.multiplexing_LUT.mux_table[1][led]][angle][c])
             else $error("Bad value on driver : \n
                 color %d of led %d on mux row 0, led row %d\n
-                %h instead of %h", c, led, sync.multiplexing_LUT_i.mux_table[1][led], 
+                %h instead of %h", c, led, sync.multiplexing_LUT.mux_table[1][led], 
                 driver.GS_data_latch[1][led][c][8:1], 
-                memory_alias[sync.multiplexing_LUT_i.mux_table[1][led]][angle][c]);
+                memory_alias[sync.multiplexing_LUT.mux_table[1][led]][angle][c]);
         end
 
-    @(posedge row_en[2]);
+    @(posedge mux_en[2]);
     //need to wait for a while for the value to be put in the second data latch
     repeat(3)
         @(posedge SCLK);
@@ -217,16 +216,16 @@ initial begin: TESTBENCH
         for(int c = 0; c < 3; c++)
         begin
             assert(driver.GS_data_latch[1][led][c][8:1] == 
-                memory_alias[sync.multiplexing_LUT_i.mux_table[2][led]][angle][c])
+                memory_alias[sync.multiplexing_LUT.mux_table[2][led]][angle][c])
             else $error("Bad value on driver : \n
                 color %d of led %d on mux row 0, led row %d\n
-                %h instead of %h", c, led, sync.multiplexing_LUT_i.mux_table[2][led], 
+                %h instead of %h", c, led, sync.multiplexing_LUT.mux_table[2][led], 
                 driver.GS_data_latch[1][led][c][8:1], 
-                memory_alias[sync.multiplexing_LUT_i.mux_table[2][led]][angle][c]);
+                memory_alias[sync.multiplexing_LUT.mux_table[2][led]][angle][c]);
         end
 
 
-    @(posedge row_en[3]);
+    @(posedge mux_en[3]);
     //need to wait for a while for the value to be put in the second data latch
     repeat(3)
         @(posedge SCLK);
@@ -234,12 +233,12 @@ initial begin: TESTBENCH
         for(int c = 0; c < 3; c++)
         begin
             assert(driver.GS_data_latch[1][led][c][8:1] == 
-                memory_alias[sync.multiplexing_LUT_i.mux_table[3][led]][angle][c])
+                memory_alias[sync.multiplexing_LUT.mux_table[3][led]][angle][c])
             else $error("Bad value on driver : \n
                 color %d of led %d on mux row 0, led row %d\n
-                %h instead of %h", c, led, sync.multiplexing_LUT_i.mux_table[3][led], 
+                %h instead of %h", c, led, sync.multiplexing_LUT.mux_table[3][led], 
                 driver.GS_data_latch[1][led][c][8:1], 
-                memory_alias[sync.multiplexing_LUT_i.mux_table[3][led]][angle][c]);
+                memory_alias[sync.multiplexing_LUT.mux_table[3][led]][angle][c]);
         end
 
     $display("All tests done");

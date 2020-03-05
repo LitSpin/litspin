@@ -1,6 +1,6 @@
 `default_nettype none
 
-module clkgen
+module sync_clkgen
 #(
     parameter SCLK_FACTOR = 8, // SCLK division factor TODO choose value
     parameter GCLK_FACTOR = 4  // GCLK division factor  TODO choose value
@@ -12,7 +12,7 @@ module clkgen
     output wire GCLK
 );
 
-clk_divider
+sync_clk_divider
 #(
     .FACTOR(SCLK_FACTOR)
 )
@@ -23,7 +23,7 @@ SCLK_divider
     .o_clk(SCLK)
 );
 
-clk_divider 
+sync_clk_divider 
 #(
     .FACTOR(GCLK_FACTOR)
 )
