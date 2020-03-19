@@ -1,0 +1,25 @@
+From 90f4f5be7bafe7368ffbdcd17d7ce374240d2878 Mon Sep 17 00:00:00 2001
+From: "romain.guilloteau" <romain.guilloteau@telecom-paris.fr>
+Date: Tue, 17 Mar 2020 17:58:34 +0100
+Subject: [PATCH] Change KERNEL_DEVICETREE value to litspin devicetree
+
+---
+ conf/machine/mcvevk.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/conf/machine/mcvevk.conf b/conf/machine/mcvevk.conf
+index 10f1aba..c8ccc1b 100644
+--- a/conf/machine/mcvevk.conf
++++ b/conf/machine/mcvevk.conf
+@@ -28,7 +28,7 @@ PREFERRED_VERSION_u-boot-mkimage ?= "2018.11%"
+ # Linux kernel
+ KERNEL_IMAGETYPE = "fitImage"
+ KERNEL_CLASSES += " kernel-fitimage "
+-KERNEL_DEVICETREE = "socfpga_cyclone5_mcvevk.dtb socfpga_cyclone5_mcvevp_rev2_fb.dtb"
++KERNEL_DEVICETREE = "socfpga_cyclone5_litspin.dtb"
+ 
+ PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
+ PREFERRED_VERSION_linux-yocto = "4.18%"
+-- 
+2.17.1
+
