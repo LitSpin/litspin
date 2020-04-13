@@ -32,7 +32,7 @@ the SoM). For our MCV it is Recovery-C6.sof
 (depending on the SoM)
 6. Click ‘Start’ in the left hand panel
 Note
-Please contact ARIES Embedded to obtain your version of the correct rescue image for MCV. You will the rescue image for the Aries MCV A5/A6
+Please contact ARIES Embedded to obtain your version of the correct rescue image for MCV. The present image is for the Aries MCV A5/A6.
 ## Use USB Mass Storage
 After the programming finished, the board comes up and immediately starts USB Mass Storage mode. The USB Mass
 Storage is backed by the eMMC integrated on the MCV SoM. You can see it on the serial console.
