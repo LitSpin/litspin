@@ -1,0 +1,8 @@
+*~
+*.swp
+*.o
+
+# Yocto .gitignore
+yocto/meta-aries
+yocto/meta-openembedded
+yocto/poky

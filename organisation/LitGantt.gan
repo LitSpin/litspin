@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2020-01-12" view-index="0" gantt-divider-location="685" resource-divider-location="300" version="2.8.10" locale="fr">
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2019-12-22" view-index="0" gantt-divider-location="504" resource-divider-location="300" version="2.8.10" locale="fr">
     <description/>
     <view zooming-state="default:6" id="gantt-chart">
-        <field id="tpd3" name="Nom" width="153" order="0"/>
-        <field id="tpd4" name="Date de début" width="73" order="1"/>
-        <field id="tpd5" name="Date de fin" width="91" order="2"/>
-        <field id="tpd8" name="Responsable" width="59" order="3"/>
-        <field id="tpd13" name="Ressources" width="290" order="4"/>
+        <field id="tpd3" name="Nom" width="111" order="0"/>
+        <field id="tpd4" name="Date de début" width="55" order="1"/>
+        <field id="tpd5" name="Date de fin" width="68" order="2"/>
+        <field id="tpd8" name="Responsable" width="45" order="3"/>
+        <field id="tpd13" name="Ressources" width="206" order="4"/>
         <option id="color.recent">
             <![CDATA[#00cccc #ff00ff #cc33ff #009999 #33ffff #ccff00 #ffff33 #cccc00 #cc9900 #ffff00]]>
         </option>
@@ -53,12 +53,8 @@
         <task id="295" name="Le principe et l'architecture de la transmission de puissance sont définis" color="#00cccc" meeting="false" start="2019-12-09" duration="5" complete="0" thirdDate="2019-11-17" thirdDate-constraint="0" expand="true">
             <depend id="61" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="16" name="On peut démarrer le moteur" color="#3399ff" meeting="false" start="2019-11-30" duration="16" complete="0" thirdDate="2019-11-18" thirdDate-constraint="0" expand="true">
-            <depend id="20" type="2" difference="0" hardness="Strong"/>
-        </task>
-        <task id="20" name="Envoi consigne de rotation moteur" color="#0066ff" meeting="false" start="2019-12-16" duration="7" complete="0" thirdDate="2019-11-18" thirdDate-constraint="0" expand="true">
+        <task id="16" name="On peut démarrer le moteur" color="#3399ff" meeting="false" start="2019-11-30" duration="47" complete="0" thirdDate="2019-11-18" thirdDate-constraint="0" expand="true">
             <depend id="31" type="2" difference="0" hardness="Strong"/>
-            <depend id="221" type="2" difference="0" hardness="Strong"/>
         </task>
         <task id="24" name="La partie mobile est montée" color="#0033cc" meeting="false" start="2020-03-31" duration="1" complete="0" thirdDate="2019-11-18" thirdDate-constraint="0" expand="true">
             <depend id="31" type="2" difference="0" hardness="Strong"/>
@@ -158,7 +154,6 @@
         <allocation task-id="0" resource-id="0" function="Default:1" responsible="false" load="100.0"/>
         <allocation task-id="3" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="16" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
-        <allocation task-id="20" resource-id="0" function="Default:1" responsible="false" load="100.0"/>
         <allocation task-id="24" resource-id="0" function="Default:1" responsible="false" load="100.0"/>
         <allocation task-id="31" resource-id="0" function="Default:1" responsible="false" load="100.0"/>
         <allocation task-id="42" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
@@ -201,7 +196,6 @@
         <allocation task-id="0" resource-id="3" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="3" resource-id="3" function="Default:1" responsible="false" load="100.0"/>
         <allocation task-id="16" resource-id="3" function="Default:1" responsible="false" load="100.0"/>
-        <allocation task-id="20" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="24" resource-id="3" function="Default:1" responsible="true" load="100.0"/>
         <allocation task-id="31" resource-id="3" function="Default:1" responsible="false" load="100.0"/>
         <allocation task-id="37" resource-id="3" function="Default:1" responsible="false" load="100.0"/>

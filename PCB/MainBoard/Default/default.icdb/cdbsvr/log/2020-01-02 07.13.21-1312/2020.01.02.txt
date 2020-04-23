@@ -1,0 +1,119 @@
+[2020.01.02 07:13:22] [0000m.00s.140ms] [0] WELCOME
+[2020.01.02 07:13:22] [0000m.00s.140ms] [1] iCDB Server ver.2.205, p7PHx1plG7hopcdzjfjJnA, build:14468353 created 2019-08-02 06:04:01, sources stamp:p7PHx1plG7hopcdzjfjJnA
+[2020.01.02 07:13:22] [0000m.00s.140ms] [1] Copyright 2019 Mentor Graphics Corporation.  All Rights Reserved.
+[2020.01.02 07:13:22] [0000m.00s.140ms] [1] Base flow version [VX.2.5]
+[2020.01.02 07:13:22] [0000m.00s.140ms] [1] Install Id [1935766], Flow Id [X-ENTP VX.2.5], Full Flow Name [Xpedition Enterprise X-ENTP VX.2.5], Exact Access Date [2019/02/01]
+[2020.01.02 07:13:22] [0000m.00s.140ms] [1] Install Id [1935757], Flow Id [X-ENTP DCVX.2.5], Full Flow Name [Xpedition Enterprise X-ENTP VX.2.5], Exact Access Date [2019/02/01]
+[2020.01.02 07:13:22] [0000m.00s.140ms] [1] UPDATE Install Info, Install Id [2051161], UPDATE Name [Xpedition Enterprise X-ENTP VX.2.5 - Update 9]
+[2020.01.02 07:13:22] [0000m.00s.156ms] [1] Machine [DESKTOP-D6MOGOB]  IP [10.0.2.15,127.0.0.1,192.168.56.4]  User [alexis]  PID [1312]
+[2020.01.02 07:13:22] [0000m.00s.156ms] [1] Operating system [Microsoft Windows 10 Business Edition, 64-bit (build 18362)]
+[2020.01.02 07:13:22] [0000m.00s.156ms] [1] Current working dir [F:\Project_template]
+[2020.01.02 07:13:22] [0000m.00s.156ms] [1] PATH [C:\MentorGraphics\EEVX.2.5\SDD_HOME\wg\help;C:\MentorGraphics\EEVX.2.5\SDD_HOME\common\win32\bin;C:\MentorGraphics\EEVX.2.5\SDD_HOME\common\win32\lib;C:\MentorGraphics\EEVX.2.5\MGC_HOME.ixn\bin;C:\MentorGraphics\EEVX.2.5\MGC_HOME.ixn\lib;C:\MentorGraphics\EEVX.2.5\SDD_HOME\wg\win32\lib;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Users\alexi\AppData\Local\Microsoft\WindowsApps]
+[2020.01.02 07:13:22] [0000m.00s.156ms] [1] SDD_HOME [C:\MentorGraphics\EEVX.2.5\SDD_HOME] on file system [NTFS]
+[2020.01.02 07:13:22] [0000m.00s.156ms] [1] SDD_PLATFORM [win32]
+[2020.01.02 07:13:22] [0000m.00s.156ms] [1] WDIR [C:\Users\alexi\Documents\WDIR;C:\MentorGraphics\EEVX.2.5\SDD_HOME\standard;]
+[2020.01.02 07:13:22] [0000m.00s.156ms] [1] Local iCDB working dir [C:\Users\alexi\Documents\WDIR\iCDB] on file system [NTFS]
+[2020.01.02 07:13:22] [0000m.00s.156ms] [1] S: Config file name [ServerWG.cfg]
+[2020.01.02 07:13:22] [0000m.00s.156ms] [2] S: Loading config files
+[2020.01.02 07:13:22] [0000m.00s.156ms] [1] Config file [F:\Project_template\Default\default.icdb\cdbsvr\ServerWG.cfg] not found
+[2020.01.02 07:13:22] [0000m.00s.156ms] [1] Config: Non-default value [System.SingleUserMode] = [no]
+[2020.01.02 07:13:22] [0000m.00s.156ms] [3] S: Config loaded
+[2020.01.02 07:13:22] [0000m.00s.172ms] [0] S: Project path [F:\Project_template\Default\default.icdb] on file system [VBoxSharedFolderFS]
+[2020.01.02 07:13:22] [0000m.00s.172ms] [0] S: Project global path [\\vboxsvr\mentor\Project_template\Default\default.icdb] on file system [UNKNOWN]
+[2020.01.02 07:13:22] [0000m.00s.172ms] [1] S: WARNING: No project file (.prj) path specified
+[2020.01.02 07:13:22] [0000m.00s.172ms] [1] S: WARNING: Database auto-repair support DISABLED
+[2020.01.02 07:13:22] [0000m.00s.172ms] [0] S: Multi-user mode (config)
+[2020.01.02 07:13:22] [0000m.00s.172ms] [0] S: Event polling mode autodetection
+[2020.01.02 07:13:22] [0000m.00s.172ms] [0] S: Started up automatically by iCDB Client: DESKTOP-D6MOGOB:alexis:7604
+[2020.01.02 07:13:22] [0000m.00s.172ms] [0] S: Auto close mode
+[2020.01.02 07:13:22] [0000m.00s.172ms] [0] S: Database ID [3eb4-1a55-b5e0-788e-2a2f-0bd7-a2f0-bd50-a5b6-66b5-b253-92bb]
+[2020.01.02 07:13:22] [0000m.00s.172ms] [0] PathTranslator: BEGIN dumping
+[2020.01.02 07:13:22] [0000m.00s.172ms] [0] PathTranslator: Local -> global path prefix list
+[2020.01.02 07:13:22] [0000m.00s.172ms] [0] PathTranslator: [F:\] -> [\\vboxsvr\mentor\]
+[2020.01.02 07:13:22] [0000m.00s.172ms] [0] PathTranslator: [U:\] -> [\\vboxsvr\2019\]
+[2020.01.02 07:13:22] [0000m.00s.172ms] [0] PathTranslator: [X:\] -> [\\vboxsvr\windows\]
+[2020.01.02 07:13:22] [0000m.00s.172ms] [0] PathTranslator: [Z:\] -> [\\VBoxSvr\2020\]
+[2020.01.02 07:13:22] [0000m.00s.172ms] [0] PathTranslator: Global -> local path prefix list
+[2020.01.02 07:13:22] [0000m.00s.172ms] [0] PathTranslator: [\\vboxsvr\windows\] -> [X:\]
+[2020.01.02 07:13:22] [0000m.00s.172ms] [0] PathTranslator: [\\vboxsvr\mentor\] -> [F:\]
+[2020.01.02 07:13:22] [0000m.00s.172ms] [0] PathTranslator: [\\vboxsvr\2019\] -> [U:\]
+[2020.01.02 07:13:22] [0000m.00s.172ms] [0] PathTranslator: [\\VBoxSvr\2020\] -> [Z:\]
+[2020.01.02 07:13:22] [0000m.00s.172ms] [0] PathTranslator: END dumping
+[2020.01.02 07:13:22] [0000m.00s.172ms] [0] S: START
+[2020.01.02 07:13:22] [0000m.00s.187ms] [0] S: Server startup lock file created
+[2020.01.02 07:13:22] [0000m.00s.187ms] [0] S: Listening for client connections on port [10001]
+[2020.01.02 07:13:22] [0000m.00s.187ms] [0] S: Server network ID [DESKTOP-D6MOGOB:10.0.2.15,192.168.56.4,DESKTOP-D6MOGOB:10001]
+[2020.01.02 07:13:22] [0000m.00s.187ms] [0] S: Server GUID [25c2-3320-b9c2-ab9d-20a8-d0e7-0a8d-0e50-61d5-66b5-b253-92bb]
+[2020.01.02 07:13:22] [0000m.00s.187ms] [0] S: Project GUID [3eb4-1a55-b5e0-788e-2a2f-0bd7-a2f0-bd50-a5b6-66b5-b253-92bb]
+[2020.01.02 07:13:22] [0000m.00s.187ms] [0] S: Wrote data to server address file
+[2020.01.02 07:13:22] [0000m.00s.187ms] [0] S: Server startup lock file removed
+[2020.01.02 07:13:22] [0000m.00s.187ms] [0] ProjectBackupManager: WARNING: Could not create Project Backup - functionality not initialized
+[2020.01.02 07:13:22] [0000m.00s.219ms] [0] S: Plugins loaded: [PIM] [ENetGen70] 
+[2020.01.02 07:13:22] [0000m.00s.219ms] [1] ServerToolkit: INFO: Plugin not found in SDD_ICDB_BIN [C:\MentorGraphics\EEVX.2.5\SDD_HOME\iCDB\win32\bin]
+[2020.01.02 07:13:22] [0000m.00s.219ms] [1] ServerToolkit: INFO: Plugin not found in SDD_COMMON_BIN [C:\MentorGraphics\EEVX.2.5\SDD_HOME\common\win32\bin]
+[2020.01.02 07:13:22] [0000m.00s.234ms] [1] ServerToolkit: INFO: Plugin not found in PATH
+[2020.01.02 07:13:22] [0000m.00s.234ms] [1] ServerToolkit: INFO: Plugin not found in CWD
+[2020.01.02 07:13:22] [0000m.00s.234ms] [1] ServerToolkit: INFO: returning just plugin exe name!
+[2020.01.02 07:13:22] [0000m.00s.234ms] [0] S: Local disc access time: 55 us
+[2020.01.02 07:13:22] [0000m.00s.234ms] [0] S: File server access time: 308 us
+[2020.01.02 07:13:22] [0000m.00s.234ms] [0] S: Server will not release in-memory storage after read (memory usage overhead) - for better performance
+[2020.01.02 07:13:22] [0000m.00s.234ms] [0] Single file [F:\Project_template\Default\default.icdb\icdb.dat] size [277656 (271.1 kB)]
+[2020.01.02 07:13:22] [0000m.00s.234ms] [1] Single file [F:\Project_template\Default\default.icdb\icdb.dat] opened in read-write mode
+[2020.01.02 07:13:22] [0000m.00s.234ms] [0] SingleFile: [0000-0000-0000-0000] SFI header version check [1009] [1009]
+[2020.01.02 07:13:22] [0000m.00s.234ms] [0] Database GUARD OK: [277656]
+[2020.01.02 07:13:22] [0000m.00s.234ms] [0] SingleFile: [0000-0000-0000-0000] SFI header version check [1009] [1009]
+[2020.01.02 07:13:22] [0000m.00s.234ms] [0] Database GUARD OK: [277656]
+[2020.01.02 07:13:22] [0000m.00s.265ms] [0] SingleFile: [0000-0000-0000-0000] SFI header version check [1009] [1009]
+[2020.01.02 07:13:22] [0000m.00s.265ms] [0] Database GUARD OK: [277656]
+[2020.01.02 07:13:22] [0000m.00s.265ms] [0] SingleFile: [0000-0000-0000-0000] SFI header version check [1009] [1009]
+[2020.01.02 07:13:22] [0000m.00s.265ms] [0] Database GUARD OK: [277656]
+[2020.01.02 07:13:22] [0000m.00s.265ms] [0] SingleFile: [0000-0000-0000-0000] SFI header version check [1009] [1009]
+[2020.01.02 07:13:22] [0000m.00s.265ms] [0] Database GUARD OK: [277656]
+[2020.01.02 07:13:22] [0000m.00s.265ms] [0] SingleFile: [fd9a-8be2-1b25-b89a] SFI version check [1009] [1009]
+[2020.01.02 07:13:22] [0000m.00s.312ms] [0] SingleFile: [fd9a-8be2-1b25-b89a] Database SFI header has been read in [36ms 733us]
+[2020.01.02 07:13:22] [0000m.00s.312ms] [0] iCDB Server PI: Server & plugin session [4099]
+[2020.01.02 07:13:22] [0000m.00s.312ms] [0] iCDB Server PI: Opening database [F:\Project_template\Default\default.icdb]
+[2020.01.02 07:13:22] [0000m.00s.312ms] [0] iCDB Server PI: Database [F:\Project_template\Default\default.icdb] opened
+[2020.01.02 07:13:22] [0000m.00s.344ms] [0] iCDB Database: Checking existence of constraint definitions
+[2020.01.02 07:13:22] [0000m.00s.344ms] [0] iCDB Database: Checking constraint definitions version
+[2020.01.02 07:13:22] [0000m.00s.391ms] [1] iCDB Database: Constraint definitions version [ce_ee.cns=7.10.65;user.cns=d800-5cda-426e-d2d6-9809-35de-8093-5d50-abe5-66b5-b253-92bb] up to date
+[2020.01.02 07:13:22] [0000m.00s.704ms] [0] iCDB Server PI: Initializing plugins
+[2020.01.02 07:13:22] [0000m.00s.718ms] [0] iCDB Server PI: Plugins initialized
+[2020.01.02 07:13:22] [0000m.00s.718ms] [0] S: iCDB database loaded
+[2020.01.02 07:13:22] [0000m.00s.718ms] [0] S: Starting threads
+[2020.01.02 07:13:22] [0000m.00s.718ms] [0] BT: Listening for broadcast messages on port [10000]
+[2020.01.02 07:13:22] [0000m.00s.718ms] [1] CMT: There are no clients - waiting [10 seconds]
+[2020.01.02 07:13:22] [0000m.00s.718ms] [0] ProjectBackupManager: WARNING: Could not startup Project Backup engine - functionality not initialized
+[2020.01.02 07:13:22] [0000m.00s.718ms] [0] IT: Session [4100] for host [DESKTOP-D6MOGOB] user [alexis] client type[0] clsvrPluginID[0] with process ID [7604] created
+[2020.01.02 07:13:22] [0000m.00s.718ms] [0] MWT: WindowProc: WM_NCCREATE
+[2020.01.02 07:13:22] [0000m.00s.718ms] [1] SC[4100]: Registered sub-client [DCDV] with ID [1] for session ID [4100] host [DESKTOP-D6MOGOB] user [alexis] process ID [7604]
+[2020.01.02 07:13:22] [0000m.00s.734ms] [1] SC[4100]: UnRegistered sub-client [DCDV] with ID [1] for session ID [4100] host [DESKTOP-D6MOGOB] user [alexis] process ID [7604]
+[2020.01.02 07:13:22] [0000m.00s.734ms] [0] IT: iCDB Server Monitor session [1] for host [DESKTOP-D6MOGOB] user [alexis] with process ID [7260] created
+[2020.01.02 07:13:22] [0000m.00s.734ms] [1] DMT: There are [1] iCDB Server Monitor connected now
+[2020.01.02 07:13:22] [0000m.00s.829ms] [1] CMT: There are [1] clients now: 4100
+[2020.01.02 07:13:22] [0000m.00s.829ms] [1] CMT: Removed client [4100]
+[2020.01.02 07:13:22] [0000m.00s.829ms] [1] CMT: There are no clients left - waiting [1 seconds]
+[2020.01.02 07:13:23] [0000m.01s.267ms] [1] SDL: The last connected iCDB Server Monitor [1] is waiting for server close
+[2020.01.02 07:13:24] [0000m.02s.173ms] [0] CMT: Starting server auto-close
+[2020.01.02 07:13:24] [0000m.02s.189ms] [0] S: Closing server
+[2020.01.02 07:13:24] [0000m.02s.220ms] [0] ProjectBackupManager: WARNING: Could not shutdown Project Backup engine - not started yet
+[2020.01.02 07:13:24] [0000m.02s.328ms] [0] iCDB Server PI: Closing plugins
+[2020.01.02 07:13:24] [0000m.02s.328ms] [0] iCDB Server PI: Plugins closed
+[2020.01.02 07:13:24] [0000m.02s.328ms] [0] iCDB Server PI: Unloading database
+[2020.01.02 07:13:24] [0000m.02s.563ms] [0] iCDB Server PI: Saving storage
+[2020.01.02 07:13:24] [0000m.02s.563ms] [0] iCDB Server PI: Closing database
+[2020.01.02 07:13:24] [0000m.02s.627ms] [1] iCDB Server PI: Stats: Database defragmentation: max[3] avg[1] holes[5%] data[76%]
+[2020.01.02 07:13:24] [0000m.02s.627ms] [1] iCDB Server PI: Stats: Database file size [277656 (271.1 kB)]
+[2020.01.02 07:13:24] [0000m.02s.703ms] [0] iCDB Server PI: Database closed
+[2020.01.02 07:13:24] [0000m.02s.703ms] [1] iCDB Server PI: Stats: Total iCDB execution time: [204] ticks
+[2020.01.02 07:13:24] [0000m.02s.703ms] [1] iCDB Server PI: Stats: Total iCDB execution time: [20] microseconds
+[2020.01.02 07:13:24] [0000m.02s.703ms] [1] iCDB Server PI: Stats: Total iCDB commands count: [1]
+[2020.01.02 07:13:24] [0000m.02s.703ms] [1] iCDB Server PI: Stats: Average iCDB speed:        [49019] commands per second
+[2020.01.02 07:13:24] [0000m.02s.703ms] [1] iCDB Server PI: Stats: Mem[31789056]
+[2020.01.02 07:13:24] [0000m.02s.703ms] [1] iCDB Server PI: Stats: MemPeak[37224448]
+[2020.01.02 07:13:24] [0000m.02s.703ms] [0] Single file [F:\Project_template\Default\default.icdb\icdb.dat] closed with size [277656 (271.1 kB)]
+[2020.01.02 07:13:24] [0000m.02s.814ms] [1] SD[1]: Removing the last connected iCDB Server Monitor [1]
+[2020.01.02 07:13:24] [0000m.02s.829ms] [0] ProjectBackupManager: WARNING: Could not create Project Backup - functionality not initialized
+[2020.01.02 07:13:24] [0000m.02s.954ms] [0] MWT: Destroy the shutdown block reason.
+[2020.01.02 07:13:24] [0000m.02s.954ms] [0] MWT: STOP
+[2020.01.02 07:13:24] [0000m.02s.954ms] [0] S: STOP

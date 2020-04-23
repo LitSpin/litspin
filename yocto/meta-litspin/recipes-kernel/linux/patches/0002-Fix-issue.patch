@@ -1,0 +1,38 @@
+From a5d86a3cb01f3fabe54534464a85536132e3e343 Mon Sep 17 00:00:00 2001
+From: "romain.guilloteau" <romain.guilloteau@telecom-paris.fr>
+Date: Tue, 17 Mar 2020 19:14:57 +0100
+Subject: [PATCH 2/2] Fix issue
+
+---
+ arch/arm/boot/dts/socfpga_cyclone5_litspin.dts | 8 --------
+ 1 file changed, 8 deletions(-)
+
+diff --git a/arch/arm/boot/dts/socfpga_cyclone5_litspin.dts b/arch/arm/boot/dts/socfpga_cyclone5_litspin.dts
+index 3de81d8b1233..9f89f2990fa1 100644
+--- a/arch/arm/boot/dts/socfpga_cyclone5_litspin.dts
++++ b/arch/arm/boot/dts/socfpga_cyclone5_litspin.dts
+@@ -4,11 +4,6 @@
+ 	model = "LitSpin";
+ 	compatible = "denx,mcvevk", "altr,socfpga-cyclone5", "altr,socfpga";
+ 
+-	aliases {
+-		ethernet0 = &gmac0;
+-		stmpe-i2c0 = &stmpe1;
+-	};
+-
+ 	chosen {
+ 		stdout-path = "serial0:115200n8";
+ 	};
+@@ -26,9 +21,6 @@
+ 	status = "okay";
+ };
+ 
+-	status = "okay";
+-};
+-
+ &usb1 {
+ 	status = "okay";
+     disable-over-current;
+-- 
+2.17.1
+

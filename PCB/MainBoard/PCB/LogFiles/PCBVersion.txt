@@ -1,0 +1,16 @@
+Xpedition Layout Version: 119.0.1459.9478
+
+
+
+Environment Variables:
+----------------------
+VALOR_ENV_FILE = "C:\MentorGraphics\EEVX.2.5\SDD_HOME\Valor_NPI\env"
+HOMEDRIVE = "C:"
+HOMEPATH = "\Users\alexi"
+LM_LICENSE_FILE = "@flexlm.comelec.enst.fr"
+MGC_HOME = "C:\MentorGraphics\EEVX.2.5\MGC_HOME.ixn"
+OS = "Windows_NT"
+PATH = "C:\MentorGraphics\EEVX.2.5\SDD_HOME\xe\win32\lib;C:\MentorGraphics\EEVX.2.5\SDD_HOME\common\win32\bin;C:\MentorGraphics\EEVX.2.5\SDD_HOME\common\win32\lib;C:\MentorGraphics\EEVX.2.5\MGC_HOME.ixn\bin;C:\MentorGraphics\EEVX.2.5\MGC_HOME.ixn\lib;C:\MentorGraphics\EEVX.2.5\SDD_HOME\wg\win32\lib;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Users\alexi\AppData\Local\Microsoft\WindowsApps;C:\MentorGraphics\EEVX.2.5\SDD_HOME\common3D\win32\lib"
+SDD_HOME = "C:\MentorGraphics\EEVX.2.5\SDD_HOME"
+TEMP = "C:\Users\alexi\AppData\Local\Temp"
+TMP = "C:\Users\alexi\AppData\Local\Temp"

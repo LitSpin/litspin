@@ -1,0 +1,61 @@
+
+/* Sym: 03C52390  Path 1: Schematic1  Page 1: Schematic1(1) */
+CHANGE 'Schematic1(1)' 	INSTANCE
+  SELECT COMP XCMP550                 /* Reference Desig is C3 */
+    PARAM 'Part Name' = 'CAPCERAM0603' 
+    PARAM 'Value' = '100nF' 
+    PARAM 'Tolerance' = '10%' 
+    PARAM 'Description' = 'Capacitor Ceramic X7R / 100nF / 16V / ±10% / case 0603' 
+    PARAM 'Part Label' = 'CAP C0603 100nF X7R 16V' 
+    PARAM 'Code Fournisseur' = 'Fa : 1414027' 
+    PARAM 'Cout HT' = '0.014' 
+    PARAM 23 = DELETE                    /* Component Fix flag */
+    PARAM 15 = 'C3'         /* Reference Desig was (null) */
+  SELECT COMP XCMP548                 /* Reference Desig is C2 */
+    PARAM 'Part Name' = 'CAPCERAM0603' 
+    PARAM 'Value' = '100nF' 
+    PARAM 'Tolerance' = '10%' 
+    PARAM 'Description' = 'Capacitor Ceramic X7R / 100nF / 16V / ±10% / case 0603' 
+    PARAM 'Part Label' = 'CAP C0603 100nF X7R 16V' 
+    PARAM 'Code Fournisseur' = 'Fa : 1414027' 
+    PARAM 'Cout HT' = '0.014' 
+    PARAM 23 = DELETE                    /* Component Fix flag */
+    PARAM 15 = 'C2'         /* Reference Desig was (null) */
+  SELECT COMP XCMP547                 /* Reference Desig is C1 */
+    PARAM 'Part Name' = 'CAPCERAM0603' 
+    PARAM 'Value' = '100nF' 
+    PARAM 'Tolerance' = '10%' 
+    PARAM 'Description' = 'Capacitor Ceramic X7R / 100nF / 16V / ±10% / case 0603' 
+    PARAM 'Part Label' = 'CAP C0603 100nF X7R 16V' 
+    PARAM 'Code Fournisseur' = 'Fa : 1414027' 
+    PARAM 'Cout HT' = '0.014' 
+    PARAM 23 = DELETE                    /* Component Fix flag */
+    PARAM 15 = 'C1'         /* Reference Desig was (null) */
+  SELECT COMP XCMP544                 /* Reference Desig is C5 */
+    PARAM 'Part Name' = 'CAPCERAM0603' 
+    PARAM 'Value' = '10uF' 
+    PARAM 'Tolerance' = '20%' 
+    PARAM 'Description' = 'Capacitor Ceramic X5R / 10uF / 6.3V / ±20% / case 0603' 
+    PARAM 'Part Label' = 'CAP C0603 10uF X5R 6.3V' 
+    PARAM 'Code Fournisseur' = 'Fa : 1759393 ' 
+    PARAM 'Cout HT' = '0.117' 
+    PARAM 23 = DELETE                    /* Component Fix flag */
+    PARAM 15 = 'C5'         /* Reference Desig was (null) */
+  SELECT EXT XCMP681                  /* Reference Desig is J1 */
+    PARAM 'Part Name' = 'MINI_SWD_CONNECTOR' 
+    PARAM 'Description' = 'Dual row 1.27 CMS 2x5 points connector, Samtec FTSH-105-01-L-DV ' 
+    PARAM 'Part Label' = 'FTSH-105-01-L-DV' 
+    PARAM 'Code Fournisseur' = 'Fa : 1667759' 
+    PARAM 'Cout HT' = '1.96' 
+    PARAM 23 = DELETE                    /* Component Fix flag */
+    PARAM 15 = 'J1'         /* Reference Desig was (null) */
+  SELECT COMP XCMP670                 /* Reference Desig is C4 */
+    PARAM 'Part Name' = 'CAPCERAM0603' 
+    PARAM 'Value' = '100nF' 
+    PARAM 'Tolerance' = '10%' 
+    PARAM 'Description' = 'Capacitor Ceramic X7R / 100nF / 16V / ±10% / case 0603' 
+    PARAM 'Part Label' = 'CAP C0603 100nF X7R 16V' 
+    PARAM 'Code Fournisseur' = 'Fa : 1414027' 
+    PARAM 'Cout HT' = '0.014' 
+    PARAM 23 = DELETE                    /* Component Fix flag */
+    PARAM 15 = 'C4'         /* Reference Desig was (null) */

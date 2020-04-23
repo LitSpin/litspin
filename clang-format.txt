@@ -1,0 +1,7 @@
+﻿---
+BasedOnStyle: Chromium
+AlignConsecutiveAssignments: 'true'
+IndentWidth: '4'
+TabWidth: '4'
+
+...

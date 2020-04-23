@@ -4,8 +4,12 @@
 #include <QString>
 #include <cmath>
 
-MyGLView::MyGLView(QWidget * parent) : QOpenGLWidget(parent), camera(glm::vec3(0, 0, h/2))
+#define DELTA_VOXEL_Z 0.3
+#define DELTA_VOXEL_R 0.641
+
+MyGLView::MyGLView(QWidget * parent) : QOpenGLWidget(parent), camera(glm::vec3(0, 0, DELTA_VOXEL_Z * h/2))
 {
+    std::cerr << parent->parentWidget()->accessibleName().toStdString() << std::endl;
     connect(parent->parentWidget(), SIGNAL(file_choice()), this, SLOT(file_explore()));
     connect(parent->parentWidget(), SIGNAL(file_transmit(QString)), this, SLOT(get_file(QString)));
     connect(parent->parentWidget(), SIGNAL(new_h(int)), this, SLOT(h_changed(int)));
@@ -28,7 +32,7 @@ void MyGLView::initializeGL(){
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    camera.setPosition(0,50,h/2);
+    camera.setPosition(0,50*float(DELTA_VOXEL_R),float(DELTA_VOXEL_Z) * h/2);
     camera.update(m_width, m_height);
 }
 
@@ -41,14 +45,16 @@ void MyGLView::paintGL()
         camera.update(m_width, m_height);
 
         glBegin(GL_POINTS);
-        glPointSize(5);
+        glPointSize(1);
         for (int i=0; i<image.width(); i++)
         {
             for (int j=0; j<image.height(); j++)
             {
                 QRgb pixel = image.pixel(i,j);
+                if (qRed(pixel)!=0 || qBlue(pixel)!=0 || qGreen(pixel)!=0){
                 glColor3d(double(qRed(pixel))/255.0,double(qGreen(pixel))/255.0,double(qBlue(pixel))/255.0);
-                glVertex3d((r-(j/h))*cos(i*theta), (r-(j/h))*sin(i*theta), h-j%h);
+                glVertex3d(DELTA_VOXEL_R*(r-(j/h)-0.5)*cos(i*theta), DELTA_VOXEL_R*(r-(j/h)-0.5)*sin(i*theta), (h-j%h)*DELTA_VOXEL_Z);
+                }
             }
         }
         glEnd();
@@ -165,7 +171,7 @@ void MyGLView::wheelEvent(QWheelEvent *event)
 QImage Mat2QImage(cv::Mat const& src)
 {
      cv::Mat temp; // make the same cv::Mat
-     cvtColor(src, temp,CV_BGR2RGB); // cvtColor Makes a copt, that what i need
+     cvtColor(src, temp,cv::COLOR_BGR2RGB); // cvtColor Makes a copt, that what i need
      QImage dest((const uchar *) temp.data, temp.cols, temp.rows, temp.step, QImage::Format_RGB888);
      dest.bits(); // enforce deep copy, see documentation
      // of QImage::QImage ( const uchar * data, int width, int height, Format format )
@@ -181,12 +187,12 @@ void MyGLView::extract_frames(const std::string &videoFilePath){
         //open the video file
     cv::VideoCapture cap(videoFilePath); // open the video file
     if(!cap.isOpened())  // check if we succeeded
-        CV_Error(CV_StsError, "Can not open Video file");
+        CV_Error(cv::Error::StsError, "Can not open Video file");
 
     frames = std::vector<QImage>();
 
     //cap.get(CV_CAP_PROP_FRAME_COUNT) contains the number of frames in the video;
-    for(int frameNum = 0; frameNum < cap.get(CV_CAP_PROP_FRAME_COUNT);frameNum++)
+    for(int frameNum = 0; frameNum < cap.get(cv::CAP_PROP_FRAME_COUNT);frameNum++)
     {
         cv::Mat frame;
         cap >> frame; // get the next frame from video

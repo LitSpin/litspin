@@ -1,0 +1,33 @@
+This README file contains information on the contents of the meta-litspin layer.
+
+Please see the corresponding sections below for details.
+
+Dependencies
+============
+
+  URI: https://github.com/ARIES-Embedded/meta-aries.git
+  branch: master
+
+  URI: git://git.yoctoproject.org/poky.git
+  branch: thud
+
+  URI: https://github.com/openembedded/meta-openembedded.git
+  branch: thud
+
+
+Table of Contents
+=================
+
+  I. Adding the meta-litspin layer to your build
+ II. Misc
+
+
+I. Adding the meta-litspin layer to your build
+=================================================
+
+Run 'bitbake-layers add-layer meta-litspin'
+
+II. Misc
+========
+
+This layer adds a driver for a USB Wifi Dongle, the RTL8188EU and fixes wifi issues. It also contains the DTS for the project, a new default SSH server configuration file and the build recipe for the image. Moreover, there is also a script that are executed at boot, to connect automatically the board to the WiFi network if a network is configured.

@@ -1,0 +1,14 @@
+
+                                Autosave Log File
+                                -----------------
+
+                       02:39 AM Thursday, October 24, 2019
+                    Job Name: F:\Project_template\PCB\PCB.pcb
+
+
+                               Autosave log closed
+                               -------------------
+
+                       02:46 AM Thursday, October 24, 2019
+                    Job Name: F:\Project_template\PCB\PCB.pcb
+

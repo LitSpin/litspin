@@ -1,0 +1,8 @@
+.qsys_edit
+*.chg
+*.rpt
+*.summary
+*.qws
+db
+*.sopcinfo
+mcv_hps

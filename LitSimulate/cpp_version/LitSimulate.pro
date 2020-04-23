@@ -6,7 +6,7 @@
 
 QT       += core gui opengl
 
-INCLUDEPATH += -I/usr/local/include/opencv
+INCLUDEPATH += /usr/include/opencv4
 
 LIBS     += -lglut -lGLU -lm -lopencv_core -lopencv_imgproc -lopencv_videoio
 

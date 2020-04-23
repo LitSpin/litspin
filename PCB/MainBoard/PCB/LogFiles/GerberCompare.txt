@@ -1,0 +1,11 @@
+
+                                 GERBER COMPARE
+                                 --------------
+
+                       02:42 AM Thursday, October 24, 2019
+                    Job Name: F:\Project_template\PCB\PCB.pcb
+
+
+
+
+    *** ERROR -Gerber Compare Definition HKP file "F:\Project_template\PCB\Config\Default.cmp" not found in Local Config Directory.
