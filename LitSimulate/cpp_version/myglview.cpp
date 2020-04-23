@@ -171,7 +171,7 @@ void MyGLView::wheelEvent(QWheelEvent *event)
 QImage Mat2QImage(cv::Mat const& src)
 {
      cv::Mat temp; // make the same cv::Mat
-     cvtColor(src, temp,CV_BGR2RGB); // cvtColor Makes a copt, that what i need
+     cvtColor(src, temp,cv::COLOR_BGR2RGB); // cvtColor Makes a copt, that what i need
      QImage dest((const uchar *) temp.data, temp.cols, temp.rows, temp.step, QImage::Format_RGB888);
      dest.bits(); // enforce deep copy, see documentation
      // of QImage::QImage ( const uchar * data, int width, int height, Format format )
@@ -187,12 +187,12 @@ void MyGLView::extract_frames(const std::string &videoFilePath){
         //open the video file
     cv::VideoCapture cap(videoFilePath); // open the video file
     if(!cap.isOpened())  // check if we succeeded
-        CV_Error(CV_StsError, "Can not open Video file");
+        CV_Error(cv::Error::StsError, "Can not open Video file");
 
     frames = std::vector<QImage>();
 
     //cap.get(CV_CAP_PROP_FRAME_COUNT) contains the number of frames in the video;
-    for(int frameNum = 0; frameNum < cap.get(CV_CAP_PROP_FRAME_COUNT);frameNum++)
+    for(int frameNum = 0; frameNum < cap.get(cv::CAP_PROP_FRAME_COUNT);frameNum++)
     {
         cv::Mat frame;
         cap >> frame; // get the next frame from video
